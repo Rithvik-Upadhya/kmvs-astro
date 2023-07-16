@@ -1,0 +1,280 @@
+---
+import singleGQL from '../../api/singleGQL';
+import { Picture } from '@astrojs/image/components';
+import { strapi_url } from '../../../variables';
+import { focusAreasQuery } from '../../../variables';
+import PlaceholderImage from '../PlaceholderImage.astro';
+
+const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
+---
+
+<section id='focusAreas'>
+	<div class='container'>
+		<div class='title-bar'>
+			<h2>Focus Areas</h2>
+			{
+				focusAreasData.length > 3 && (
+					<div class='controls'>
+						<button
+							class='scroll'
+							data-dir='left'
+							data-target='focusAreas'>
+							<img
+								src='/images/components/nav_button.png'
+								alt='scroll left'
+							/>
+						</button>
+						<button
+							class='scroll'
+							data-dir='right'
+							data-target='focusAreas'>
+							<img
+								src='/images/components/nav_button.png'
+								alt='scroll right'
+							/>
+						</button>
+					</div>
+				)
+			}
+		</div>
+		<div class='focusAreas'>
+			{
+				focusAreasData.map(focusArea => {
+					const {
+						id,
+						attributes: {
+							name,
+							excerpt,
+							featuredImage: { data: imageData },
+						},
+					} = focusArea;
+					const post_link = `/focus-areas/${id}`;
+					return (
+						<a class='focusArea' href={post_link}>
+							<img
+								class='border'
+								src='/images/decor/border_1.png'
+								alt=''
+							/>
+							<div class='card'>
+								{imageData ? (
+									<Picture
+										src={
+											strapi_url +
+											imageData.attributes.url
+										}
+										alt={
+											imageData.attributes.alternativeText
+										}
+										widths={[375]}
+										aspectRatio={3 / 2}
+										formats={['webp', 'avif']}
+									/>
+								) : (
+									<PlaceholderImage />
+								)}
+								<div class='content'>
+									<h3 title={name} class='lc_2'>
+										{name}
+									</h3>
+									<hr />
+									<p class='excerpt lc_4'>{excerpt}</p>
+									<p class='read-more'>Read More</p>
+								</div>
+							</div>
+						</a>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	// get all scroll buttons
+	const scrollBtns = document.querySelectorAll(
+		'.scroll'
+	) as NodeListOf<HTMLElement>;
+
+	// define scroll function
+	function scroll(dir, selector) {
+		// get target element
+		const container = document.querySelector(`.${selector}`);
+		// get computed styles
+		const properties = window.getComputedStyle(container);
+		// get card width from css variable
+		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
+		// scroll based on button clicked
+		if (dir === 'left') {
+			container.scrollLeft += -cardWidth;
+		} else if (dir === 'right') {
+			container.scrollLeft += cardWidth;
+		}
+	}
+
+	// add event listener to all scroll buttons
+	scrollBtns.forEach(scrollBtn => {
+		scrollBtn.addEventListener('click', () =>
+			scroll(scrollBtn.dataset.dir, scrollBtn.dataset.target)
+		);
+	});
+</script>
+
+<style lang='less'>
+	section#focusAreas {
+		overflow: hidden;
+		background-color: var(--accentC3);
+		position: relative;
+		&::before {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_2.png');
+			background-repeat: repeat-x;
+			background-size: 25px;
+			filter: var(--accentC1Filter);
+			width: 100%;
+			height: 30px;
+			top: 4px;
+		}
+		&::after {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_1.png');
+			background-repeat: repeat-x;
+			background-size: 25px;
+			filter: var(--accentC2Filter);
+			width: 100%;
+			height: 20px;
+			bottom: 3px;
+		}
+		.container {
+			padding-top: 100px;
+			padding-bottom: 100px;
+			.title-bar {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				h2 {
+					color: var(--primaryC);
+					margin-bottom: 50px;
+					font-size: 2em;
+				}
+				.controls {
+					margin-left: auto;
+					margin-right: auto;
+					button[class*='scroll'] {
+						background-color: transparent;
+						border: none;
+						margin: 0 25px;
+						padding: 0;
+						cursor: pointer;
+						img {
+							filter: var(--primaryFilter);
+							display: block;
+							width: 55px;
+							opacity: 0.5;
+							transition: opacity 0.2s ease;
+						}
+						&.scroll[data-dir='right'] {
+							img {
+								transform: scaleX(-1);
+							}
+						}
+						&:hover,
+						&:focus {
+							img {
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+			.focusAreas {
+				scroll-behavior: smooth;
+				display: grid;
+				grid-template-columns: repeat(
+					auto-fit,
+					var(--cardWidth)
+				) !important;
+				grid-template-rows: 1fr;
+				grid-auto-flow: column !important;
+				--cardWidth: 320px;
+				gap: calc(var(--cardWidth) / 10);
+				height: calc(var(--cardWidth) * 1.64 + 25px);
+				overflow-x: auto;
+				overflow-y: hidden;
+				padding-left: 150px;
+				padding-right: 150px;
+				width: calc(100% + 300px);
+				transform: translateX(-150px);
+				.focusArea {
+					display: block;
+					width: var(--cardWidth);
+					height: max-content;
+					position: relative;
+					padding: 27px;
+					.border {
+						position: absolute;
+						display: block;
+						width: 100%;
+						top: 0;
+						left: 0;
+						filter: var(--primaryFilter);
+					}
+					.card {
+						width: 100%;
+						border-radius: var(--bdRadius);
+						overflow: hidden;
+						position: relative;
+						img {
+							display: block;
+							width: 100%;
+							position: absolute;
+						}
+						.content {
+							position: relative;
+							padding: 20px;
+							margin-top: 66.66%;
+							color: var(--accentC1);
+							background-color: var(--primaryC);
+							transition: margin-top 0.3s ease;
+							hr {
+								height: 2px;
+								background-color: var(--accentC1);
+								opacity: 0.3;
+								border: none;
+								margin: 20px 0;
+							}
+							.excerpt {
+								margin-bottom: 30px;
+								transition: height 0.3s ease;
+							}
+							.read-more {
+								font-weight: 500;
+								&::after {
+									content: '❯';
+									margin-left: 10px;
+									transition: 0.3s var(--cubicTransition);
+									font-size: 0.9em;
+								}
+							}
+						}
+					}
+					&:hover,
+					&:focus {
+						.card {
+							.content {
+								margin-top: calc(
+									66.66% - 2 * var(--lineHeight)
+								);
+								.excerpt {
+									height: calc(6 * var(--lineHeight));
+									-webkit-line-clamp: 6;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+</style>

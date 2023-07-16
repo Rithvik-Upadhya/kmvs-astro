@@ -1,0 +1,220 @@
+---
+export interface Props {
+	featured: Array<any>;
+}
+
+const { featured } = Astro.props;
+
+import { Picture } from '@astrojs/image/components';
+import { strapi_url } from '../../../variables';
+import PlaceholderImage from '../PlaceholderImage.astro';
+---
+
+<section id='featured'>
+	<div class='container'>
+		<!--?xml version="1.0" encoding="UTF-8"?-->
+		<svg
+			class='shape_divider_1'
+			xmlns='http://www.w3.org/2000/svg'
+			viewBox='0 0 841.9 35.4'>
+			<path d='m0,.5c136.4,22.9,276.6,34.9,419.5,34.9S704.6,23.2,841.9,0'
+			></path>
+		</svg>
+		<img class='streamer_1' src='/images/decor/streamer_1.png' alt='' />
+		<div class='streamer_2'>
+			<img
+				class='streamer_2A'
+				src='/images/decor/streamer_2.png'
+				alt=''
+			/>
+			<img
+				class='streamer_2B'
+				src='/images/decor/streamer_2.png'
+				alt=''
+			/>
+		</div>
+		<div class='featured'>
+			{
+				featured.map(item => {
+					return (
+						<a
+							class='featured_item'
+							href={item.link}
+							target='_blank'>
+							<img
+								class='flourish_2 top'
+								src='/images/decor/flourish_2.png'
+								alt=''
+							/>
+							<div>
+								{item.image.data ? (
+									<Picture
+										class='featured_img'
+										src={
+											strapi_url +
+											item.image.data.attributes.url
+										}
+										alt={
+											item.image.data.attributes
+												.alternativeText
+										}
+										aspectRatio={3 / 2}
+										widths={[600]}
+										sizes='(max-width: 599px) calc(100vw - 50px), (max-width: 1199px) calc((100vw - 300px) / 2)'
+										formats={['avif', 'webp']}
+									/>
+								) : (
+									<PlaceholderImage class='featured_img' />
+								)}
+								<div>
+									<h2>{item.title}</h2>
+									<p class='subtitle'>{item.subtitle}</p>
+									<p class='description lc_4'>
+										{item.description}
+									</p>
+								</div>
+							</div>
+							<img
+								class='flourish_2 bottom'
+								src='/images/decor/flourish_2.png'
+								alt=''
+							/>
+						</a>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>
+<style lang='less'>
+	section#featured {
+		overflow: hidden;
+		background-color: var(--accentC1);
+		position: relative;
+		&::after {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_1.png');
+			background-repeat: repeat-x;
+			background-size: 25px;
+			filter: var(--accentC3Filter);
+			width: 100%;
+			height: 20px;
+			bottom: 3px;
+		}
+		.container {
+			position: relative;
+			.shape_divider_1 {
+				position: absolute;
+				width: 116.66%;
+				left: -8.33%;
+				top: -1px;
+				> path {
+					fill: var(--primaryC);
+				}
+			}
+			.streamer_1 {
+				width: 116.66%;
+				position: absolute;
+				top: 2%;
+				left: -8.33%;
+				filter: var(--primaryFilter);
+			}
+			.streamer_2 {
+				position: relative;
+				.streamer_2A,
+				.streamer_2B {
+					position: absolute;
+					top: 200px;
+					width: clamp(40px, 4.2vw, 50px);
+					filter: var(--primaryFilter);
+				}
+				.streamer_2A {
+					left: 0;
+				}
+				.streamer_2B {
+					right: 0;
+					transform: scaleX(-1);
+				}
+			}
+			.featured {
+				width: 100%;
+				padding: 30% 90px 200px 90px;
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+				gap: 20px;
+				> .featured_item {
+					position: relative;
+					.flourish_2.top {
+						position: absolute;
+						width: 50%;
+						top: -50px;
+						left: 25%;
+					}
+					.flourish_2.bottom {
+						transform: scaleY(-1);
+						position: absolute;
+						width: 50%;
+						bottom: -50px;
+						left: 25%;
+					}
+					> div {
+						border-radius: var(--bdRadius);
+						overflow: hidden;
+						height: 100%;
+						position: relative;
+						img {
+							position: absolute;
+							width: 100%;
+							display: block;
+							top: 0;
+							left: 0;
+						}
+						> div {
+							text-align: center;
+							background-color: var(--primaryC);
+							color: var(--accentC1);
+							padding: 25px 25px;
+							height: 100%;
+							position: relative;
+							margin-top: 66.66%;
+							padding-bottom: 25px;
+							transition:
+								padding-bottom 0.6s ease,
+								margin-top 0.6s ease;
+							h2 {
+								font-size: 1.3em;
+								margin-bottom: 10px;
+							}
+							p.subtitle {
+								text-transform: uppercase;
+								font-weight: 500;
+								margin-bottom: 25px;
+							}
+							p.description {
+								visibility: hidden;
+								position: absolute;
+								margin: 0 auto;
+								left: 25px;
+								right: 25px;
+								opacity: 0;
+								transition: opacity 0.4s ease 0.4s;
+							}
+						}
+					}
+					&:hover,
+					&:focus {
+						div > div {
+							padding-bottom: calc(30px + 5.6em);
+							margin-top: calc(66.66% - 5.6em);
+							.description {
+								visibility: visible;
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+</style>

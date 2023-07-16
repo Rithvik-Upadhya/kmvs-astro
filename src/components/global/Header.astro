@@ -1,0 +1,147 @@
+---
+import { strapi_url, headerQuery } from '../../../variables';
+import singleGQL from '../../api/singleGQL';
+
+const headerData = await singleGQL('headerMenu', headerQuery);
+const {
+	attributes: { submenus },
+} = headerData;
+---
+
+<header>
+	<nav aria-label='Main Navigation'>
+		<ul class='h-nav'>
+			{
+				submenus.map((submenu, index) => {
+					const hasMenuItems = submenu.menuItems.length > 0;
+					return (
+						<>
+							<li class:list={[{ 'has-submenu': hasMenuItems }]}>
+								<a href='#' aria-expanded='false'>
+									{submenu.title}
+								</a>
+								{hasMenuItems && (
+									<ul class='submenu'>
+										{submenu.menuItems.map(menuItem => (
+											<li>
+												<a href={menuItem.link}>
+													{menuItem.text}
+												</a>
+											</li>
+										))}
+									</ul>
+								)}
+							</li>
+							{index === 1 && (
+								<li class='h-logo'>
+									<a href='/'>
+										<img
+											src='/images/header/logo.png'
+											width='120'
+											alt='Home Page'
+											loading='eager'
+										/>
+									</a>
+								</li>
+							)}
+						</>
+					);
+				})
+			}
+		</ul>
+	</nav>
+</header>
+
+<style lang='less'>
+	header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		nav {
+			width: 100%;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			margin: 30px 0;
+			> ul.h-nav {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				max-width: 800px;
+				width: 100%;
+				> li:not(.h-logo) {
+					> a {
+						display: block;
+						padding: 15px 0;
+					}
+				}
+				> li:first-child,
+				> li:nth-child(4) {
+					margin-right: 76px;
+					position: relative;
+					&:after {
+						position: absolute;
+						content: '';
+						width: 16px;
+						height: 16px;
+						right: -46px;
+						background-image: url(/images/header/flower.png);
+						background-size: contain;
+						filter: var(--accentC3Filter);
+						top: 0;
+						bottom: 0;
+						margin: auto 0;
+					}
+				}
+				> li.has-submenu {
+					position: relative;
+					> ul.submenu {
+						list-style: none;
+						position: absolute;
+						max-width: 240px;
+						width: max-content;
+						background-color: var(--primaryC);
+						z-index: 1000;
+						padding: 0;
+						margin: 0;
+						border-radius: var(--bdRadius2);
+						overflow: hidden;
+						box-shadow: var(--shadow1);
+						font-size: 0.9em;
+						> li {
+							// border-bottom: 1px solid var(--darkTint);
+							> a {
+								padding: 12px 12px;
+								width: 100%;
+								display: block;
+								&:hover,
+								&:focus {
+									background-color: var(--darkTint);
+								}
+							}
+						}
+					}
+				}
+				> li.h-logo {
+					a {
+						display: block;
+					}
+					margin: 0 30px;
+				}
+			}
+			a {
+				font-size: 1.2em;
+				font-weight: 500;
+				text-decoration: none;
+				color: var(--accentC1);
+			}
+			.h-logo img {
+				width: 120px;
+			}
+		}
+	}
+</style>

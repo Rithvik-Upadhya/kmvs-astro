@@ -1,0 +1,25 @@
+---
+
+---
+<p class='js-perf'></p>
+<script>
+	const perf = () => {
+		const $perf = document.querySelector(".js-perf");
+
+		if ($perf) {
+			// Wait for the page to finish loading
+			window.addEventListener("load", () => {
+				const pageEnd = performance.mark("pageEnd");
+				const loadTime = pageEnd.startTime / 1000;
+
+				$perf.innerHTML += `Page loaded in ${loadTime}s.`;
+			});
+		}
+	};
+	perf();
+</script>
+<style>
+    .js-perf {
+        text-align: center;
+    }
+</style>

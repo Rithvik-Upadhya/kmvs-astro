@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import singleGQL from '../api/singleGQL';
+import Featured from '../components/home/Featured.astro';
+import FocusAreas from '../components/home/FocusAreas.astro';
+import Mural from '../components/home/Mural.astro';
+import Timeline from '../components/global/Timeline.astro';
+import { homepageQuery } from '../../variables';
+
+const homepageData = await singleGQL('homepage', homepageQuery);
+
+const {
+	attributes: { tagline, metrics, featured, timeline },
+} = homepageData;
+---
+
+<Layout title='KMVS' classes={['home']}>
+	<Mural {tagline} {metrics} />
+	<Featured {featured} />
+	<FocusAreas />
+	<Timeline title='The Genesis, and the Journey' {timeline} />
+</Layout>

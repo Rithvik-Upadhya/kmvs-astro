@@ -1,0 +1,19 @@
+---
+export interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<img
+	src='/images/components/placeholder_1.png'
+	alt=''
+	class={className + ' placeholder'}
+/>
+
+<style>
+	.placeholder {
+		background-color: var(--primaryC);
+	}
+</style>

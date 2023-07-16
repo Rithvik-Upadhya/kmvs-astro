@@ -1,0 +1,96 @@
+---
+export interface Props {
+	tagline: string;
+	metrics: Array<any>;
+}
+
+const { tagline, metrics } = Astro.props;
+---
+
+<section id='mural'>
+	<div class='container'>
+		<div class='image-wrapper'>
+			<img
+				alt=''
+				src='/images/home/mural-1200w.png 1200w'
+				srcset='/images/home/mural-500w.png 500w,
+            /images/home/mural-850w.png 850w,
+            /images/home/mural-1200w.png 1200w,
+            /images/home/mural-1600w.png 1600w,'
+				sizes='(max-width: 599px) calc(100vw - 50px),
+            (max-width: 1199px) calc(100vw - 100px),
+            1100px'
+			/>
+		</div>
+		<h1>{tagline}</h1>
+		<div class='metrics'>
+			{
+				metrics.map(item => {
+					return (
+						<div>
+							<p>{item.metric}</p>
+							<p>{item.description}</p>
+						</div>
+					);
+				})
+			}
+		</div>
+		<img class='flourish_1' src='/images/decor/flourish_1.png' alt='' />
+	</div>
+</section>
+
+<style lang='less'>
+	section#mural {
+		padding-top: 10px;
+		.container {
+			.image-wrapper {
+				position: relative;
+				padding-top: 88%;
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+			h1 {
+				color: var(--accentC1);
+				text-align: center;
+				font-size: 2em;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+			.metrics {
+				max-width: 900px;
+				margin: 50px auto;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				text-align: center;
+				color: var(--accentC1);
+
+				> div {
+					width: 250px;
+					> p:first-child {
+						font-size: 1.5em;
+						font-weight: 600;
+						margin-bottom: 10px;
+					}
+					> p:last-child {
+						margin-top: 10px;
+						font-size: 1.25em;
+						font-weight: 500;
+					}
+				}
+			}
+			.flourish_1 {
+				width: 40px;
+				margin: 25px auto;
+				display: block;
+				filter: var(--accentC2Filter);
+			}
+		}
+	}
+</style>

@@ -1,0 +1,63 @@
+---
+import Performance from './Performance.astro';
+import camel from '../../assets/images/camel-footer.png';
+import { Picture } from '@astrojs/image/components';
+---
+
+<footer>
+	<section id='footer-top'>
+		<div class='container'>
+			<div class='footer-menu'></div>
+			<div class='footer-menu'></div>
+			<div class='footer-menu'></div>
+			<div class='footer-decor'>
+				<Picture src={camel} widths={[400, 600, 800]} alt='Camel' />
+			</div>
+		</div>
+	</section>
+	<section id='footer-bottom'>
+		<div class='container'>
+			<Performance />
+		</div>
+	</section>
+	<style lang='less'>
+		footer {
+			background-color: var(--secondaryC);
+			position: relative;
+			color: var(--primaryC);
+			padding-top: 100px;
+			padding-bottom: clamp(0px, calc(100vw * 0.55), 770px);
+			&::before {
+				position: absolute;
+				content: '';
+				background-image: url('/images/decor/separator_2.png');
+				background-repeat: repeat-x;
+				background-size: 25px;
+				filter: var(--accentC2Filter);
+				width: 100%;
+				height: 30px;
+				top: 4px;
+			}
+			&::after {
+				position: absolute;
+				content: '';
+				background-image: url('/images/footer/bg_pattern_1.png');
+				background-repeat: no-repeat;
+				background-position: center bottom;
+				background-size: contain;
+				filter: var(--accentC1Filter);
+				width: 100%;
+				height: clamp(0px, calc(100vw * 0.61), 850px);
+				bottom: 0;
+			}
+		}
+		#footer-top .container {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr minmax(0, 2fr);
+			gap: 50px;
+		}
+		.footer-decor img {
+			width: 100%;
+		}
+	</style>
+</footer>

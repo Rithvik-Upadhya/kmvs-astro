@@ -1,0 +1,230 @@
+// out: false
+/*************************************
+Variables
+**************************************/
+:root {
+    --fontFamily1: "Baloo Bhai 2", Verdana, sans-serif;
+    --fontFamily2: "Merriweather", Garamond, serif;
+    --fontSize: 18px;
+    --primaryC: #f7EBE8;
+    --secondaryC: #26274D;
+    --accentC1: #CC3971;
+    --accentC2: #3C8C65;
+    --accentC3: #FF744F;
+    --bdRadius: 20px;
+    --bdRadius2: 5px;
+    --shadow1: 0 0 5px 2px #1a1a1a15;
+    --darkTint: #1a1a1a09;
+    --lineHeight: 1.4em;
+    --cubicTransition: cubic-bezier(0.39, 0.575, 0.565, 1);
+    --primaryFilter: invert(94%) sepia(6%) saturate(315%) hue-rotate(323deg) brightness(102%) contrast(94%);
+    --secondaryFilter: invert(12%) sepia(32%) saturate(1478%) hue-rotate(204deg) brightness(101%) contrast(92%);
+    --accentC1Filter: invert(35%) sepia(74%) saturate(3089%) hue-rotate(316deg) brightness(85%) contrast(86%);
+    --accentC2Filter: invert(50%) sepia(12%) saturate(1731%) hue-rotate(98deg) brightness(90%) contrast(86%);
+    --accentC3Filter: invert(55%) sepia(15%) saturate(3553%) hue-rotate(328deg) brightness(106%) contrast(101%);
+    --fadedPrimaryFilter: invert(84%) sepia(11%) saturate(5151%) hue-rotate(304deg) brightness(105%) contrast(100%);
+}
+
+/*************************************
+Basic Styling
+**************************************/
+
+:root {
+    font-size: 18px;
+    font-size: var(--fontSize);
+    transition: font-size 0.3s ease;
+}
+
+body {
+    font-family: var(--fontFamily1);
+    background-color: var(--primaryC);
+    position: relative;
+
+    >.wrapper {
+        max-width: 1400px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url("/images/bg_pattern_1.png");
+        background-size: 40px;
+        background-repeat: repeat;
+        background-position: center;
+        filter: var(--fadedPrimaryFilter);
+        z-index: -1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        max-width: 1400px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        background-color: var(--primaryC);
+        background-position: center;
+        z-index: -1;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+body:not(.home) section {
+    padding: 50px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+each(range(6), {
+    h@{value} {
+        font-family: var(--fontFamily2);
+        font-weight: 700;
+        font-style: italic;
+        line-height: 1.4;
+        margin: 0;
+    }
+});
+
+p {
+    margin: 0;
+}
+
+/*************************************
+Pre-defined classes
+**************************************/
+
+body {
+    each(range(9), {
+        @weight: (@value*100);
+
+        .w-@{weight} {
+            font-weight: @weight;
+        }
+    });
+}
+
+.sub-head {
+    font-size: 1.15em;
+}
+
+body {
+    each(range(6), {
+        .lc_@{value} {
+            line-height: var(--lineHeight);
+            height: calc(var(--lineHeight) * @value);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: @value;
+            -webkit-box-orient: vertical;
+        }
+    });
+}
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    width: 1px;
+    word-wrap: normal !important;
+
+    &:focus {
+        clip: auto !important;
+        clip-path: none;
+        height: auto;
+        width: auto;
+        z-index: 100000;
+    }
+}
+
+/*************************************
+Fonts
+**************************************/
+
+// Merriweather
+@font-face {
+    font-display: swap;
+    font-family: "Merriweather";
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url("/fonts/merriweather-v30-latin-regular.woff2") format("woff2"),
+        url("/fonts/merriweather-v30-latin-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Merriweather";
+    font-style: italic;
+    font-weight: 400;
+    src:
+        url("/fonts/merriweather-v30-latin-italic.woff2") format("woff2"),
+        url("/fonts/merriweather-v30-latin-italic.ttf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Merriweather";
+    font-style: normal;
+    font-weight: 700;
+    src:
+        url("/fonts/merriweather-v30-latin-700.woff2") format("woff2"),
+        url("/fonts/merriweather-v30-latin-700.ttf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Merriweather";
+    font-style: italic;
+    font-weight: 700;
+    src:
+        url("/fonts/merriweather-v30-latin-700italic.woff2") format("woff2"),
+        url("/fonts/merriweather-v30-latin-700italic.ttf") format("truetype");
+}
+
+// Baloo 2
+@font-face {
+    font-display: swap;
+    font-family: "Baloo Bhai 2";
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url("/fonts/baloo-bhai-2-v22-latin-regular.woff2") format("woff2"),
+        url("/fonts/baloo-bhai-2-v22-latin-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Baloo Bhai 2";
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url("/fonts/baloo-bhai-2-v22-latin-500.woff2") format("woff2"),
+        url("/fonts/baloo-bhai-2-v22-latin-500.ttf") format("truetype");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Baloo Bhai 2";
+    font-style: normal;
+    font-weight: 600;
+    src:
+        url("/fonts/baloo-bhai-2-v22-latin-600.woff2") format("woff2"),
+        url("/fonts/baloo-bhai-2-v22-latin-600.ttf") format("truetype");
+}

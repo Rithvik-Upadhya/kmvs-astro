@@ -1,0 +1,288 @@
+---
+import { Picture } from '@astrojs/image/components';
+import { strapi_url } from '../../../variables';
+import PlaceholderImage from '../PlaceholderImage.astro';
+
+export interface Props {
+	title: string;
+	timeline: Array<any>;
+}
+
+const { title, timeline } = Astro.props;
+---
+
+<section id='timeline'>
+	<div class='container'>
+		<div class='title-bar'>
+			<h2>{title}</h2>
+			{
+				timeline.length > 3 && (
+					<div class='controls'>
+						<button
+							class='scroll'
+							data-dir='left'
+							data-target='timeline'>
+							<img
+								src='/images/components/nav_button.png'
+								alt='scroll left'
+							/>
+						</button>
+						<button
+							class='scroll'
+							data-dir='right'
+							data-target='timeline'>
+							<img
+								src='/images/components/nav_button.png'
+								alt='scroll right'
+							/>
+						</button>
+					</div>
+				)
+			}
+		</div>
+		<div class='timeline'>
+			{
+				timeline.map(event => {
+					const {
+						year,
+						title,
+						description,
+						image: { data: imageData },
+					} = event;
+					return (
+						<div class='event'>
+							<div class='card'>
+								<div class='image'>
+									<img
+										class='border'
+										src='/images/decor/border_2.png'
+										alt=''
+									/>
+									{imageData ? (
+										<Picture
+											class='featured-image'
+											src={
+												strapi_url +
+												imageData.attributes.url
+											}
+											alt={
+												imageData.attributes
+													.alternativeText
+											}
+											widths={[375]}
+											aspectRatio={3 / 2}
+											formats={['webp', 'avif']}
+										/>
+									) : (
+										<PlaceholderImage class='featured-image' />
+									)}
+								</div>
+								<div class='content'>
+									<p class='year'>{year}</p>
+									<h3 {title}>{title}</h3>
+									<p class='description'>{description}</p>
+									{event.button && (
+										<a
+											class='button'
+											href={event.button.link}
+											target='_blank'>
+											{event.button.label}
+										</a>
+									)}
+								</div>
+							</div>
+						</div>
+					);
+				})
+			}
+		</div>
+	</div>
+	<img class='foliage_1' src='/images/decor/foliage_1.png' alt='' />
+</section>
+
+<script>
+	// get all scroll buttons
+	const scrollBtns = document.querySelectorAll(
+		'.scroll'
+	) as NodeListOf<HTMLElement>;
+
+	// define scroll function
+	function scroll(dir, selector) {
+		// get target element
+		const container = document.querySelector(`.${selector}`);
+		// get computed styles
+		const properties = window.getComputedStyle(container);
+		// get card width from css variable
+		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
+		// scroll based on button clicked
+		if (dir === 'left') {
+			container.scrollLeft += -cardWidth;
+		} else if (dir === 'right') {
+			container.scrollLeft += cardWidth;
+		}
+	}
+
+	// add event listener to all scroll buttons
+	scrollBtns.forEach(scrollBtn => {
+		scrollBtn.addEventListener('click', () =>
+			scroll(scrollBtn.dataset.dir, scrollBtn.dataset.target)
+		);
+	});
+</script>
+
+<style lang='less'>
+	section#timeline {
+		overflow: hidden;
+		background-color: var(--accentC2);
+		position: relative;
+		padding-bottom: 10%;
+		&::before {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_2.png');
+			background-repeat: repeat-x;
+			background-size: 25px;
+			filter: var(--accentC3Filter);
+			width: 100%;
+			height: 30px;
+			top: 4px;
+		}
+		&::after {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_1.png');
+			background-repeat: repeat-x;
+			background-size: 25px;
+			filter: var(--secondaryFilter);
+			width: 100%;
+			height: 20px;
+			bottom: 3px;
+		}
+		.container {
+			padding-top: 100px;
+			padding-bottom: 100px;
+			.title-bar {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				h2 {
+					color: var(--primaryC);
+					margin-bottom: 50px;
+					font-size: 2em;
+				}
+				.controls {
+					margin-left: auto;
+					margin-right: auto;
+					button[class*='scroll'] {
+						background-color: transparent;
+						border: none;
+						margin: 0 25px;
+						padding: 0;
+						cursor: pointer;
+						img {
+							filter: var(--primaryFilter);
+							display: block;
+							width: 55px;
+							opacity: 0.5;
+							transition: opacity 0.2s ease;
+						}
+						&.scroll[data-dir='right'] {
+							img {
+								transform: scaleX(-1);
+							}
+						}
+						&:hover,
+						&:focus {
+							img {
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+			.timeline {
+				scroll-behavior: smooth;
+				--cardWidth: 320px;
+				display: grid;
+				grid-template-columns: repeat(
+					auto-fit,
+					var(--cardWidth)
+				) !important;
+				grid-template-rows: 1fr;
+				grid-auto-flow: column !important;
+				gap: calc(var(--cardWidth) / 5);
+				overflow-x: auto;
+				overflow-y: hidden;
+				padding-left: 150px;
+				padding-right: 150px;
+				width: calc(100% + 300px);
+				transform: translateX(-150px);
+				.event {
+					display: block;
+					width: var(--cardWidth);
+					.card {
+						width: 100%;
+						overflow: hidden;
+						.image {
+							position: relative;
+							padding: 0 27px 27px 0;
+							margin-bottom: 25px;
+							.featured-image {
+								display: block;
+								width: 100%;
+								border-radius: var(--bdRadius);
+							}
+							.border {
+								position: absolute;
+								bottom: 0;
+								right: 0;
+								filter: var(--primaryFilter);
+								width: 100%;
+							}
+						}
+						.content {
+							position: relative;
+							color: var(--primaryC);
+							display: flex;
+							flex-direction: column;
+							gap: 15px;
+							margin-bottom: 25px;
+							.year {
+								font-size: 1.15em;
+							}
+							h3 {
+								font-size: 1.3em;
+							}
+							.description {
+								line-height: 1.4em;
+							}
+							.button {
+								display: block;
+								width: max-content;
+								color: var(--primaryC);
+								border: 2px solid var(--primaryC);
+								padding: 10px 15px;
+								border-radius: 10px;
+								font-weight: 500;
+								transition: 0.3s ease;
+								&:hover,
+								&:focus {
+									background-color: var(--primaryC);
+									color: var(--accentC2);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.foliage_1 {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			max-width: 1100px;
+			filter: var(--primaryFilter);
+		}
+	}
+</style>
