@@ -1,15 +1,16 @@
 ---
 
 ---
+
 <p class='js-perf'></p>
 <script>
 	const perf = () => {
-		const $perf = document.querySelector(".js-perf");
+		const $perf = document.querySelector('.js-perf');
 
 		if ($perf) {
 			// Wait for the page to finish loading
-			window.addEventListener("load", () => {
-				const pageEnd = performance.mark("pageEnd");
+			window.addEventListener('load', () => {
+				const pageEnd = performance.mark('pageEnd');
 				const loadTime = pageEnd.startTime / 1000;
 
 				$perf.innerHTML += `Page loaded in ${loadTime}s.`;
@@ -18,8 +19,22 @@
 	};
 	perf();
 </script>
-<style>
-    .js-perf {
-        text-align: center;
-    }
+<style lang='less'>
+	.js-perf {
+		text-align: center;
+		opacity: 0.6;
+		padding-top: 15px;
+		position: relative;
+		&::before {
+			position: absolute;
+			content: '';
+			width: 50px;
+			height: 2px;
+			background-color: var(--lightTint);
+			top: 0;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+		}
+	}
 </style>

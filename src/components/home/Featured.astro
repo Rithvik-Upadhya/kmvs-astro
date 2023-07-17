@@ -11,16 +11,16 @@ import PlaceholderImage from '../PlaceholderImage.astro';
 ---
 
 <section id='featured'>
+	<!--?xml version="1.0" encoding="UTF-8"?-->
+	<svg
+		class='shape_divider_1'
+		xmlns='http://www.w3.org/2000/svg'
+		viewBox='0 0 841.9 35.4'>
+		<path d='m0,.5c136.4,22.9,276.6,34.9,419.5,34.9S704.6,23.2,841.9,0'
+		></path>
+	</svg>
+	<img class='streamer_1' src='/images/decor/streamer_1.png' alt='' />
 	<div class='container'>
-		<!--?xml version="1.0" encoding="UTF-8"?-->
-		<svg
-			class='shape_divider_1'
-			xmlns='http://www.w3.org/2000/svg'
-			viewBox='0 0 841.9 35.4'>
-			<path d='m0,.5c136.4,22.9,276.6,34.9,419.5,34.9S704.6,23.2,841.9,0'
-			></path>
-		</svg>
-		<img class='streamer_1' src='/images/decor/streamer_1.png' alt='' />
 		<div class='streamer_2'>
 			<img
 				class='streamer_2A'
@@ -56,7 +56,7 @@ import PlaceholderImage from '../PlaceholderImage.astro';
 										}
 										alt={
 											item.image.data.attributes
-												.alternativeText
+												.alternativeText || ''
 										}
 										aspectRatio={3 / 2}
 										widths={[600]}
@@ -87,6 +87,7 @@ import PlaceholderImage from '../PlaceholderImage.astro';
 	</div>
 </section>
 <style lang='less'>
+	@import '../../styles/variables.less';
 	section#featured {
 		overflow: hidden;
 		background-color: var(--accentC1);
@@ -102,49 +103,85 @@ import PlaceholderImage from '../PlaceholderImage.astro';
 			height: 20px;
 			bottom: 3px;
 		}
+		.shape_divider_1 {
+			position: absolute;
+			top: -2px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 1420px;
+			> path {
+				fill: var(--primaryC);
+			}
+		}
+		.streamer_1 {
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 1350px;
+			filter: var(--primaryFilter);
+		}
 		.container {
-			position: relative;
-			.shape_divider_1 {
-				position: absolute;
-				width: 116.66%;
-				left: -8.33%;
-				top: -1px;
-				> path {
-					fill: var(--primaryC);
-				}
-			}
-			.streamer_1 {
-				width: 116.66%;
-				position: absolute;
-				top: 2%;
-				left: -8.33%;
-				filter: var(--primaryFilter);
-			}
+			width: 100%;
+
 			.streamer_2 {
 				position: relative;
+				@media @s-nd {
+					display: none;
+				}
 				.streamer_2A,
 				.streamer_2B {
 					position: absolute;
 					top: 200px;
-					width: clamp(40px, 4.2vw, 50px);
+					width: 50px;
 					filter: var(--primaryFilter);
 				}
 				.streamer_2A {
-					left: 0;
+					left: -25px;
 				}
 				.streamer_2B {
-					right: 0;
+					right: -25px;
 					transform: scaleX(-1);
 				}
 			}
 			.featured {
 				width: 100%;
-				padding: 30% 90px 200px 90px;
+				padding: 350px 60px 200px 60px;
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+				grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 				gap: 20px;
+				@media @s-nd {
+					padding: 350px 0 200px 0;
+					position: relative;
+					.flourish_2 {
+						display: none;
+					}
+					&::before,
+					&::after {
+						position: absolute;
+						content: '';
+						width: 250px;
+						height: 40px;
+						left: 0;
+						right: 0;
+						margin: 0 auto;
+						background-image: url('/images/decor/flourish_2.png');
+						background-size: contain;
+						background-repeat: no-repeat;
+					}
+					&::before {
+						top: 285px;
+					}
+					&::after {
+						transform: scale(-1);
+						bottom: 135px;
+					}
+				}
 				> .featured_item {
 					position: relative;
+					max-width: 450px;
+					width: 100%;
+					margin: 0 auto;
 					.flourish_2.top {
 						position: absolute;
 						width: 50%;

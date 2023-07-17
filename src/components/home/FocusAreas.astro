@@ -64,7 +64,8 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 											imageData.attributes.url
 										}
 										alt={
-											imageData.attributes.alternativeText
+											imageData.attributes
+												.alternativeText || ''
 										}
 										widths={[375]}
 										aspectRatio={3 / 2}
@@ -121,10 +122,13 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 </script>
 
 <style lang='less'>
+	@import '../../styles/variables.less';
 	section#focusAreas {
 		overflow: hidden;
 		background-color: var(--accentC3);
 		position: relative;
+		padding-top: 100px;
+		padding-bottom: 100px;
 		&::before {
 			position: absolute;
 			content: '';
@@ -148,11 +152,15 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 			bottom: 3px;
 		}
 		.container {
-			padding-top: 100px;
-			padding-bottom: 100px;
 			.title-bar {
 				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
+				grid-template-columns: repeat(2, auto);
+				@media @s-nd {
+					display: block;
+					.controls {
+						display: none;
+					}
+				}
 				h2 {
 					color: var(--primaryC);
 					margin-bottom: 50px;

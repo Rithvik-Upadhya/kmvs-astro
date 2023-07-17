@@ -40,6 +40,7 @@ const { tagline, metrics } = Astro.props;
 </section>
 
 <style lang='less'>
+	@import '../../styles/variables.less';
 	section#mural {
 		padding-top: 10px;
 		.container {
@@ -61,6 +62,10 @@ const { tagline, metrics } = Astro.props;
 				font-size: 2em;
 				max-width: 800px;
 				margin: 0 auto;
+				@media @s-nd {
+					font-size: 1.6em;
+					margin-top: 25px;
+				}
 			}
 			.metrics {
 				max-width: 900px;
@@ -68,6 +73,7 @@ const { tagline, metrics } = Astro.props;
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-around;
+				gap: 50px;
 				text-align: center;
 				color: var(--accentC1);
 

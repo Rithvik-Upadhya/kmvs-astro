@@ -91,3 +91,20 @@ export const headerQuery = `
       }
     }
 `;
+export const footerQuery = `
+    query {
+      footerMenu {
+        data {
+          attributes {
+            submenus {
+              title
+              menuItems {
+                text
+                link
+              }
+            }
+          }
+        }
+      }
+    }
+`;

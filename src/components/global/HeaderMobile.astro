@@ -55,50 +55,7 @@ const {
 	</nav>
 </header>
 
-<script>
-	document.addEventListener('DOMContentLoaded', event => {
-		// get all the submenu buttons
-		const submenuButtons = document.querySelectorAll('.submenu-btn');
-
-		// loop through each button
-		submenuButtons.forEach(button => {
-			// get the parent list item
-			const parent = button.parentElement;
-
-			// add an event listener for mouse hover
-			button.addEventListener('mouseenter', function () {
-				this.setAttribute('aria-expanded', 'true');
-				parent.classList.add('open');
-			});
-
-			// add an event listener for focus
-			button.addEventListener('click', function () {
-				this.setAttribute('aria-expanded', 'true');
-				parent.classList.add('open');
-			});
-
-			// add an event listener for mouse leaving
-			parent.addEventListener('mouseleave', function () {
-				button.setAttribute('aria-expanded', 'false');
-				this.classList.remove('open');
-			});
-
-			// add an event listener for loss of focus
-			parent.addEventListener('focusout', function () {
-				// delay the changing of attribute to check if focus shifted within the submenu or outside
-				setTimeout(function () {
-					if (!parent.contains(document.activeElement)) {
-						button.setAttribute('aria-expanded', 'false');
-						parent.classList.remove('open');
-					}
-				}, 0);
-			});
-		});
-	});
-</script>
-
 <style lang='less'>
-	@import '../../styles/variables.less';
 	header {
 		width: 100%;
 		nav {
@@ -129,9 +86,6 @@ const {
 					display: block;
 					img {
 						width: 120px;
-						@media @s-nd {
-							width: 80px;
-						}
 					}
 				}
 			}
@@ -170,9 +124,6 @@ const {
 				// submenu styling
 				> li.has-submenu {
 					position: relative;
-					@media @s-nd {
-						display: none;
-					}
 					> ul.submenu {
 						display: none;
 						position: absolute;
@@ -198,7 +149,8 @@ const {
 					}
 					// reveal submenu on hover or focus
 					&:hover,
-					&.open {
+					&.open,
+					&:focus-within {
 						> ul.submenu {
 							display: block;
 						}

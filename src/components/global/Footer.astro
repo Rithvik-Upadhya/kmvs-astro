@@ -1,32 +1,77 @@
 ---
 import Performance from './Performance.astro';
-import camel from '../../assets/images/camel-footer.png';
-import { Picture } from '@astrojs/image/components';
+import singleGQL from '../../api/singleGQL';
+import { footerQuery } from '../../../variables';
+
+const footerData = await singleGQL('footerMenu', footerQuery);
+
+const {
+	attributes: { submenus },
+} = footerData;
+const hasQuickLinks = submenus.length > 0 && submenus[0].menuItems.length > 0;
+const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 ---
 
 <footer>
 	<section id='footer-top'>
 		<div class='container'>
-			<div class='footer-menu'></div>
-			<div class='footer-menu'></div>
-			<div class='footer-menu'></div>
+			<div class='footer-menu'>
+				{
+					hasQuickLinks && (
+						<>
+							<p class='menu-title'>{submenus[0].title}</p>
+							{submenus[0].menuItems.map(menuItem => (
+								<p class='menu-item'>
+									<a href={menuItem.link}>{menuItem.text}</a>
+								</p>
+							))}
+						</>
+					)
+				}
+			</div>
+			<div class='footer-nl'>
+				<p class='nl-title'>Subscribe to our newsletter</p>
+				<form action='POST' action='http://localhost:3000/'>
+					<input type='text' name='name' id='name' />
+					<input type='email' name='email' id='email' />
+					<input
+						onclick="return confirm('By submitting this form, you consent to receiving our email newsletter periodically.')"
+						type='submit'
+						name='submit'
+						value='Submit'
+					/>
+				</form>
+			</div>
 			<div class='footer-decor'>
-				<Picture src={camel} widths={[400, 600, 800]} alt='Camel' />
+				<img src='/images/decor/camel.png' alt='Illustrated Camel' />
 			</div>
 		</div>
 	</section>
 	<section id='footer-bottom'>
 		<div class='container'>
+			<p class='footer-end-links'>
+				{
+					hasEndLinks && (
+						<>
+							{submenus[1].menuItems.map(menuItem => (
+								<a href={menuItem.link}>{menuItem.text}</a>
+							))}
+						</>
+					)
+				}
+			</p>
 			<Performance />
 		</div>
 	</section>
 	<style lang='less'>
+		@import '../../styles/variables.less';
 		footer {
 			background-color: var(--secondaryC);
 			position: relative;
-			color: var(--primaryC);
+			color: var(--textC2);
 			padding-top: 100px;
-			padding-bottom: clamp(0px, calc(100vw * 0.55), 770px);
+			padding-bottom: clamp(0px, calc(100vw * 0.4), 650px);
+			z-index: 0;
 			&::before {
 				position: absolute;
 				content: '';
@@ -49,15 +94,144 @@ import { Picture } from '@astrojs/image/components';
 				width: 100%;
 				height: clamp(0px, calc(100vw * 0.61), 850px);
 				bottom: 0;
+				z-index: -1;
 			}
-		}
-		#footer-top .container {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr minmax(0, 2fr);
-			gap: 50px;
-		}
-		.footer-decor img {
-			width: 100%;
+			#footer-top .container {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 50px;
+				padding-bottom: 50px;
+				@media @s-t {
+					grid-template-columns: repeat(2, 1fr);
+					.footer-decor {
+						display: none;
+					}
+				}
+				@media @s-m {
+					grid-template-columns: 1fr;
+				}
+				.footer-menu,
+				.footer-nl,
+				.footer-decor {
+					text-align: center;
+				}
+				.footer-menu {
+					.menu-title {
+						&::before {
+							filter: var(--accentC3Filter);
+						}
+					}
+					.menu-item {
+						margin-bottom: 10px;
+						a {
+							color: var(--textC2);
+							opacity: 0.6;
+							transition: opacity 0.2s ease;
+							&:hover,
+							&:focus {
+								opacity: 1;
+							}
+						}
+					}
+				}
+				.footer-nl {
+					.nl-title {
+						&::before {
+							filter: var(--accentC1Filter);
+						}
+					}
+					form {
+						display: flex;
+						flex-direction: column;
+						gap: 15px;
+						align-items: center;
+						input[type='text'],
+						input[type='email'] {
+							max-width: 250px;
+							width: 250px;
+							background-color: var(--lightTint);
+							border-radius: var(--bdRadius2);
+							border: none;
+							padding: 8px 12px;
+							color: var(--textC2);
+							font-size: 1em;
+							&:focus {
+								outline: 2px solid var(--accentC3);
+							}
+						}
+						input[type='submit'] {
+							width: max-content;
+							background-color: var(--lightTint);
+							border-radius: var(--bdRadius2);
+							border: none;
+							padding: 8px 12px;
+							color: var(--textC2);
+							font-size: 1em;
+							&:focus {
+								outline: 2px solid var(--accentC3);
+							}
+						}
+					}
+				}
+				.menu-title,
+				.nl-title {
+					font-size: 1.25em;
+					font-family: var(--fontFamily2);
+					font-style: italic;
+					position: relative;
+					margin-top: 50px;
+					margin-bottom: 25px;
+					&::before {
+						position: absolute;
+						content: '';
+						width: 30px;
+						height: 30px;
+						left: 0;
+						right: 0;
+						margin: 0 auto;
+						top: -40px;
+						background-image: url('/images/decor/flourish_1.png');
+						background-size: contain;
+						background-repeat: no-repeat;
+					}
+				}
+				.footer-decor {
+					img {
+						display: block;
+						width: clamp(200px, 100%, 300px);
+						margin: 0 auto;
+					}
+				}
+			}
+			#footer-bottom {
+				margin-top: 25px;
+				.footer-end-links {
+					display: flex;
+					flex-direction: row;
+					gap: 25px;
+					align-items: center;
+					justify-content: center;
+					padding: 15px 0;
+					border-top: 2px solid var(--lightTint);
+					a {
+						color: var(--textC2);
+						opacity: 0.6;
+						position: relative;
+						transition: opacity 0.2s ease;
+						&:not(:last-child) {
+							&::after {
+								position: absolute;
+								content: '|';
+								right: -13px;
+							}
+						}
+						&:hover,
+						&:focus {
+							opacity: 1;
+						}
+					}
+				}
+			}
 		}
 	</style>
 </footer>

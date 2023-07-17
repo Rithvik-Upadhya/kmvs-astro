@@ -11,10 +11,13 @@ Variables
     --accentC1: #CC3971;
     --accentC2: #3C8C65;
     --accentC3: #FF744F;
+    --textC1: var(--secondaryC);
+    --textC2: var(--primaryC);
     --bdRadius: 20px;
     --bdRadius2: 5px;
     --shadow1: 0 0 5px 2px #1a1a1a15;
     --darkTint: #1a1a1a09;
+    --lightTint: #f9f9f910;
     --lineHeight: 1.4em;
     --cubicTransition: cubic-bezier(0.39, 0.575, 0.565, 1);
     --primaryFilter: invert(94%) sepia(6%) saturate(315%) hue-rotate(323deg) brightness(102%) contrast(94%);
@@ -24,6 +27,8 @@ Variables
     --accentC3Filter: invert(55%) sepia(15%) saturate(3553%) hue-rotate(328deg) brightness(106%) contrast(101%);
     --fadedPrimaryFilter: invert(84%) sepia(11%) saturate(5151%) hue-rotate(304deg) brightness(105%) contrast(100%);
 }
+
+@import './variables.less';
 
 /*************************************
 Basic Styling
@@ -44,6 +49,7 @@ body {
         max-width: 1400px;
         width: 100%;
         margin: 0 auto;
+        overflow: hidden;
     }
 
     &::before {
@@ -51,7 +57,7 @@ body {
         position: absolute;
         width: 100%;
         height: 100%;
-        background-image: url("/images/bg_pattern_1.png");
+        background-image: url("/images/bg_pattern_3.png");
         background-size: 40px;
         background-repeat: repeat;
         background-position: center;
@@ -78,14 +84,14 @@ a {
     text-decoration: none;
 }
 
-body:not(.home) section {
-    padding: 50px 0;
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 50px;
+
+    @media @s-m {
+        padding: 0 25px;
+    }
 }
 
 each(range(6), {
@@ -100,6 +106,7 @@ each(range(6), {
 
 p {
     margin: 0;
+    line-height: 1.4;
 }
 
 /*************************************
