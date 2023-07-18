@@ -1,28 +1,69 @@
 ---
 export interface Props {
 	title: string;
+	image?: string;
 	classes?: string[];
 }
 
-const { title, classes } = Astro.props;
-import '../styles/global.less';
+const { title, image, classes } = Astro.props;
 import '../styles/normalize.css';
+import '../styles/global.less';
 import Header from '../components/global/Header.astro';
 import Footer from '../components/global/Footer.astro';
+import { siteDetailsQuery } from '../../variables';
+import singleGQL from '../api/singleGQL';
+import { SEO } from 'astro-seo';
+
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
+
+const siteDetails = await singleGQL('siteDetail', siteDetailsQuery);
+
+const {
+	attributes: {
+		name,
+		tagline,
+		logo: { data: logoData },
+	},
+} = siteDetails;
 ---
 
 <!DOCTYPE html>
 <html lang='en'>
 	<head>
-		<meta charset='UTF-8' />
-		<meta name='description' content='Astro description' />
-		<meta
-			name='keywords'
-			content='Rural, Women, India, Development, Collective'
+		<SEO
+			charset='UTF-8'
+			{title}
+			titleTemplate={`%s - ${name}`}
+			titleDefault={name}
+			description={tagline}
+			openGraph={{
+				basic: {
+					title: title,
+					type: 'website',
+					image: image || '/images/icons/og_image_600x600.png',
+				},
+			}}
+			extend={{
+				// extending the default link tags
+				link: [],
+				// extending the default meta tags
+				meta: [
+					{
+						name: 'viewport',
+						content: 'width=device-width',
+					},
+					{
+						name: 'keywords',
+						content: 'Rural, Women, India, Development, Collective',
+					},
+				],
+			}}
 		/>
-		<meta name='viewport' content='width=device-width' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<title>{title}</title>
+
+		<link rel='icon' href='/favicon.ico' sizes='48x48' />
+		<link rel='icon' href='/favicon.svg' sizes='any' type='image/svg+xml' />
+		<link rel='apple-touch-icon' href='/apple-touch-icon.png' />
+		<link rel='manifest' href='/site.webmanifest' />
 	</head>
 	<body class={'kmvs ' + classes.join(' ')}>
 		<div class='wrapper'>
@@ -33,54 +74,62 @@ import Footer from '../components/global/Footer.astro';
 				title='Skip to content'>
 				Skip to content</a
 			>
-			<Header />
+			<Header
+				logo={logoData
+					? strapi_url + logoData.attributes.url
+					: '/images/header/logo.svg'}
+			/>
 			<main id='content' tabindex='-1'>
 				<slot />
 			</main>
 			<Footer />
 		</div>
+		<script>
+			const skipLink = document.querySelector(
+				'.skip-link'
+			) as HTMLElement;
+			skipLink.addEventListener('click', scrollToContent);
+			function scrollToContent(event: Event) {
+				event.preventDefault();
+				const content = document.querySelector(
+					'#content'
+				) as HTMLElement;
+				const offset = content.offsetTop;
+
+				content.focus();
+
+				window.scrollTo({
+					top: offset,
+					behavior: 'smooth',
+				});
+			}
+		</script>
+		<style lang='less'>
+			body {
+				min-height: 200vh;
+				display: flex;
+				flex-direction: column;
+				.skip-link {
+					position: fixed;
+					width: max-content;
+					padding: 10px 15px;
+					background-color: var(--primaryC);
+					outline: 2px solid var(--accentC2);
+					color: var(--accentC2);
+					border-radius: var(--bdRadius2);
+					margin: 10px;
+					box-shadow: var(--shadow1);
+					font-weight: 500;
+					transition: 0.2s ease;
+					&:focus {
+					}
+					&:hover,
+					&:focus {
+						background-color: var(--accentC2);
+						color: var(--primaryC);
+					}
+				}
+			}
+		</style>
 	</body>
 </html>
-<script>
-	const skipLink = document.querySelector('.skip-link') as HTMLElement;
-	skipLink.addEventListener('click', scrollToContent);
-	function scrollToContent(event: Event) {
-		event.preventDefault();
-		const content = document.querySelector('#content') as HTMLElement;
-		const offset = content.offsetTop;
-
-		content.focus();
-
-		window.scrollTo({
-			top: offset,
-			behavior: 'smooth',
-		});
-	}
-</script>
-<style lang='less'>
-	body {
-		min-height: 200vh;
-		display: flex;
-		flex-direction: column;
-		.skip-link {
-			position: fixed;
-			width: max-content;
-			padding: 10px 15px;
-			background-color: var(--primaryC);
-			outline: 2px solid var(--accentC2);
-			color: var(--accentC2);
-			border-radius: var(--bdRadius2);
-			margin: 10px;
-			box-shadow: var(--shadow1);
-			font-weight: 500;
-			transition: 0.2s ease;
-			&:focus {
-			}
-			&:hover,
-			&:focus {
-				background-color: var(--accentC2);
-				color: var(--primaryC);
-			}
-		}
-	}
-</style>
