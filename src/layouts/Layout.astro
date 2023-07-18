@@ -36,6 +36,8 @@ const {
 			titleTemplate={`%s - ${name}`}
 			titleDefault={name}
 			description={tagline}
+			noindex='true'
+			nofollow='true'
 			openGraph={{
 				basic: {
 					title: title,
@@ -64,6 +66,31 @@ const {
 		<link rel='icon' href='/favicon.svg' sizes='any' type='image/svg+xml' />
 		<link rel='apple-touch-icon' href='/apple-touch-icon.png' />
 		<link rel='manifest' href='/site.webmanifest' />
+		<script type='application/ld+json'>
+			{
+				"@context": "https://schema.org",
+				"@type": "NGO",
+				"name": "Kutch Mahila Vikas Sangathan",
+				"alternateName": "KMVS",
+				"description": "Organising, mobilising and conscientizing women of Kutch in addressing gender inequities.",
+				"nonprofitStatus": "Registered",
+				"areaServed": {
+					"@type": "AdministrativeArea",
+					"name": "Gujarat, India"
+				},
+				"url": "https://kmvs.netlify.app",
+				"logo": "https://kmvs.netlify.app/favicon.svg",
+				"email": "kmvskutch@gmail.com",
+				"telephone": "+91 2832 223311",
+				"keywords": "Rural, Women, India, Development, Collective",
+				"sameAs": [
+					"https://www.facebook.com/KutchKMVS/",
+					"https://twitter.com/kmvskutch",
+					"https://www.instagram.com/kmvs_1989/",
+					"https://in.linkedin.com/company/kmvs"
+				]
+			}
+		</script>
 	</head>
 	<body class={'kmvs ' + classes.join(' ')}>
 		<div class='wrapper'>
