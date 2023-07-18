@@ -217,9 +217,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 							position: relative;
 							margin-top: 66.66%;
 							padding-bottom: 25px;
-							transition:
-								padding-bottom 0.6s ease,
-								margin-top 0.6s ease;
+							transition: transform 0.6s ease;
 							h2 {
 								font-size: 1.3em;
 								margin-bottom: 10px;
@@ -243,8 +241,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 					&:hover,
 					&:focus {
 						div > div {
-							padding-bottom: calc(30px + 5.6em);
-							margin-top: calc(66.66% - 5.6em);
+							transform: translateY(-105px);
 							.description {
 								visibility: visible;
 								opacity: 1;

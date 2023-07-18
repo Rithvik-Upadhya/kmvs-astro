@@ -75,13 +75,13 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 								) : (
 									<PlaceholderImage />
 								)}
+								<p class='read-more'>Read More</p>
 								<div class='content'>
 									<h3 title={name} class='lc_2'>
 										{name}
 									</h3>
 									<hr />
 									<p class='excerpt lc_4'>{excerpt}</p>
-									<p class='read-more'>Read More</p>
 								</div>
 							</div>
 						</a>
@@ -220,7 +220,7 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 				.focusArea {
 					display: block;
 					width: var(--cardWidth);
-					height: max-content;
+					height: calc(var(--cardWidth) * 1.638);
 					position: relative;
 					padding: 27px;
 					.border {
@@ -233,6 +233,7 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 					}
 					.card {
 						width: 100%;
+						height: 100%;
 						border-radius: var(--bdRadius);
 						overflow: hidden;
 						position: relative;
@@ -241,13 +242,28 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 							width: 100%;
 							position: absolute;
 						}
+						.read-more {
+							font-weight: 500;
+							position: absolute;
+							bottom: 20px;
+							left: 20px;
+							color: var(--accentC1);
+							z-index: 1;
+							&::after {
+								content: '❯';
+								margin-left: 10px;
+								transition: 0.3s var(--cubicTransition);
+								font-size: 0.9em;
+							}
+						}
 						.content {
-							position: relative;
 							padding: 20px;
 							margin-top: 66.66%;
 							color: var(--accentC1);
 							background-color: var(--primaryC);
-							transition: margin-top 0.3s ease;
+							transition: transform 0.3s ease;
+							height: 100%;
+							z-index: 0;
 							hr {
 								height: 2px;
 								background-color: var(--accentC1);
@@ -259,23 +275,14 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 								margin-bottom: 30px;
 								transition: height 0.3s ease;
 							}
-							.read-more {
-								font-weight: 500;
-								&::after {
-									content: '❯';
-									margin-left: 10px;
-									transition: 0.3s var(--cubicTransition);
-									font-size: 0.9em;
-								}
-							}
 						}
 					}
 					&:hover,
 					&:focus {
 						.card {
 							.content {
-								margin-top: calc(
-									66.66% - 2 * var(--lineHeight)
+								transform: translateY(
+									calc(-2 * var(--lineHeight))
 								);
 								.excerpt {
 									height: calc(6 * var(--lineHeight));
