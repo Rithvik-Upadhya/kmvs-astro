@@ -38,7 +38,7 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 				)
 			}
 		</div>
-		<div class='focusAreas'>
+		<div class='focusAreas scroll-container'>
 			{
 				focusAreasData.map(focusArea => {
 					const {
@@ -106,11 +106,13 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 		const properties = window.getComputedStyle(container);
 		// get card width from css variable
 		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
+		// set scroll width including margin
+		const scrollWidth = cardWidth * (6 / 5);
 		// scroll based on button clicked
 		if (dir === 'left') {
-			container.scrollLeft += -cardWidth;
+			container.scrollLeft += -scrollWidth;
 		} else if (dir === 'right') {
-			container.scrollLeft += cardWidth;
+			container.scrollLeft += scrollWidth;
 		}
 	}
 

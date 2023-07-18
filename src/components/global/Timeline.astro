@@ -41,7 +41,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 				)
 			}
 		</div>
-		<div class='timeline'>
+		<div class='timeline scroll-container'>
 			{
 				timeline.map(event => {
 					const {
@@ -115,11 +115,13 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 		const properties = window.getComputedStyle(container);
 		// get card width from css variable
 		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
+		// set scroll width including margin
+		const scrollWidth = cardWidth * (6 / 5);
 		// scroll based on button clicked
 		if (dir === 'left') {
-			container.scrollLeft += -cardWidth;
+			container.scrollLeft += -scrollWidth;
 		} else if (dir === 'right') {
-			container.scrollLeft += cardWidth;
+			container.scrollLeft += scrollWidth;
 		}
 	}
 
@@ -233,6 +235,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 							position: relative;
 							padding: 0 27px 27px 0;
 							margin-bottom: 25px;
+							height: calc(var(--cardWidth) * 0.7);
 							.featured-image {
 								display: block;
 								width: 100%;
