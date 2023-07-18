@@ -5,9 +5,7 @@ export const sbp = 499;
 export const mbp = 899;
 export const lbp = 1299;
 export const strapi_url = import.meta.env.STRAPI_URL;
-export const homepageQuery = `
-    query {
-      homepage {
+export const h
         data {
           attributes {
             tagline
