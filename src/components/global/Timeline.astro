@@ -1,6 +1,5 @@
 ---
 import { Picture } from '@astrojs/image/components';
-import { strapi_url } from '../../../variables';
 import PlaceholderImage from '../PlaceholderImage.astro';
 
 export interface Props {
@@ -9,6 +8,8 @@ export interface Props {
 }
 
 const { title, timeline } = Astro.props;
+
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
 ---
 
 <section id='timeline'>

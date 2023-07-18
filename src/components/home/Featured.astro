@@ -1,13 +1,14 @@
 ---
+import { Picture } from '@astrojs/image/components';
+import PlaceholderImage from '../PlaceholderImage.astro';
+
 export interface Props {
 	featured: Array<any>;
 }
 
 const { featured } = Astro.props;
 
-import { Picture } from '@astrojs/image/components';
-import { strapi_url } from '../../../variables';
-import PlaceholderImage from '../PlaceholderImage.astro';
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
 ---
 
 <section id='featured'>

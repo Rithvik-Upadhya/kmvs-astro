@@ -1,10 +1,3 @@
-export const sw = 500;
-export const mw = 900;
-export const lw = 1300;
-export const sbp = 499;
-export const mbp = 899;
-export const lbp = 1299;
-export const strapi_url = import.meta.env.STRAPI_URL;
 export const homepageQuery = `
     query {
       homepage {
@@ -101,6 +94,25 @@ export const footerQuery = `
               menuItems {
                 text
                 link
+              }
+            }
+          }
+        }
+      }
+    }
+`;
+export const siteDetailsQuery = `
+    query {
+      siteDetail {
+        data {
+          attributes {
+            name
+            tagline
+            logo {
+              data {
+                attributes {
+                  url
+                }
               }
             }
           }

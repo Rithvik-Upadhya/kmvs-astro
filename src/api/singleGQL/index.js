@@ -1,6 +1,6 @@
 export default async function (postType, query) {
   try {
-    const response = await fetch(`${import.meta.env.STRAPI_URL}/graphql`, {
+    const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
