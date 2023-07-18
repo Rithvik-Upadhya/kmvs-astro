@@ -182,7 +182,7 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 							filter: var(--primaryFilter);
 							display: block;
 							width: 55px;
-							opacity: 0.5;
+							opacity: 0.7;
 							transition: opacity 0.2s ease;
 						}
 						&.scroll[data-dir='right'] {
@@ -210,11 +210,11 @@ const focusAreasData = await singleGQL('focusAreas', focusAreasQuery);
 				grid-auto-flow: column !important;
 				--cardWidth: 320px;
 				gap: calc(var(--cardWidth) / 10);
-				height: calc(var(--cardWidth) * 1.64 + 25px);
 				overflow-x: auto;
 				overflow-y: hidden;
 				padding-left: 150px;
 				padding-right: 150px;
+				padding-bottom: 25px;
 				width: calc(100% + 300px);
 				transform: translateX(-150px);
 				.focusArea {
