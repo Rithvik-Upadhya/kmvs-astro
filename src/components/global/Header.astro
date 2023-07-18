@@ -1,5 +1,11 @@
 ---
-import { strapi_url, headerQuery } from '../../../variables';
+export interface Props {
+	logo: string;
+}
+
+const { logo } = Astro.props;
+
+import { headerQuery } from '../../../variables';
 import singleGQL from '../../api/singleGQL';
 
 const headerData = await singleGQL('headerMenu', headerQuery);
@@ -39,7 +45,7 @@ const {
 								<li class='h-logo'>
 									<a href='/'>
 										<img
-											src='/images/header/logo.png'
+											src={logo}
 											width='120'
 											alt='Home Page'
 											loading='eager'
