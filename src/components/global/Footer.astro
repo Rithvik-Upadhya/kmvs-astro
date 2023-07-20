@@ -55,9 +55,20 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 				{
 					hasEndLinks && (
 						<>
-							{submenus[1].menuItems.map(menuItem => (
-								<a href={menuItem.link}>{menuItem.text}</a>
-							))}
+							{submenus[1].menuItems.map(
+								(menuItem, index, array) => {
+									const isLastIndex =
+										index === array.length - 1;
+									return (
+										<>
+											<a href={menuItem.link}>
+												{menuItem.text}
+											</a>
+											{!isLastIndex && <span> | </span>}
+										</>
+									);
+								}
+							)}
 						</>
 					)
 				}
@@ -211,7 +222,7 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 				.footer-end-links {
 					display: flex;
 					flex-direction: row;
-					gap: 25px;
+					gap: 10px;
 					align-items: center;
 					justify-content: center;
 					padding: 15px 0;
@@ -224,17 +235,14 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 						opacity: 0.6;
 						position: relative;
 						transition: opacity 0.2s ease;
-						&:not(:last-child) {
-							&::after {
-								position: absolute;
-								content: '|';
-								right: -13px;
-							}
-						}
 						&:hover,
 						&:focus {
 							opacity: 1;
 						}
+					}
+					span {
+						opacity: 0.6;
+						pointer-events: none;
 					}
 				}
 			}
