@@ -156,6 +156,8 @@ const isLimited = focusAreasData.length < 4;
 						img {
 							display: block;
 							width: 100%;
+							// ie. (cardWidth - 2x padding) * 2/3
+							height: calc(var(--cardWidth) * 0.67 - 36px);
 							position: absolute;
 						}
 						.read-more {
