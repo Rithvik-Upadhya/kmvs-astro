@@ -21,14 +21,11 @@ const {
 				return (
 					<>
 						<li class:list={[{ 'has-submenu': hasMenuItems }]}>
-							<button
-								class='submenu-btn'
-								aria-controls={`submenu-${index}`}
-								aria-expanded='false'>
+							<button class='submenu-btn' aria-expanded='false'>
 								{submenu.title}
 							</button>
 							{hasMenuItems && (
-								<ul class='submenu' id={`submenu-${index}`}>
+								<ul class='submenu'>
 									{submenu.menuItems.map(menuItem => (
 										<li class='menu-item'>
 											<a href={menuItem.link}>
