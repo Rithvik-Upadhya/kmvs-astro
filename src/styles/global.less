@@ -21,6 +21,7 @@ Variables
     --scrollbarBG: transparent;
     --thumbBG: rgba(0, 0, 0, 0.361);
     --lineHeight: 1.4em;
+    --headerH: 150px;
     --cubicTransition: cubic-bezier(0.39, 0.575, 0.565, 1);
     --primaryFilter: invert(94%) sepia(6%) saturate(315%) hue-rotate(323deg) brightness(102%) contrast(94%);
     --secondaryFilter: invert(12%) sepia(32%) saturate(1478%) hue-rotate(204deg) brightness(101%) contrast(92%);
@@ -186,6 +187,12 @@ body {
         background: var(--scrollbarBG);
     }
 
+}
+
+@media @s-d {
+    body.kmvs .d-hide {
+        display: none;
+    }
 }
 
 /*************************************
