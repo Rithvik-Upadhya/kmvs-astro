@@ -14,16 +14,10 @@ import { siteDetailsQuery } from '../../variables';
 import singleGQL from '../api/singleGQL';
 import { SEO } from 'astro-seo';
 
-const strapi_url = import.meta.env.VITE_STRAPI_URL;
-
 const siteDetails = await singleGQL('siteDetail', siteDetailsQuery);
 
 const {
-	attributes: {
-		name,
-		tagline,
-		logo: { data: logoData },
-	},
+	attributes: { name, tagline },
 } = siteDetails;
 ---
 
@@ -101,11 +95,7 @@ const {
 				title='Skip to content'>
 				Skip to content</a
 			>
-			<Header
-				logo={logoData
-					? strapi_url + logoData.attributes.url
-					: '/images/header/logo.svg'}
-			/>
+			<Header />
 			<main id='content' tabindex='-1'>
 				<slot />
 			</main>

@@ -1,125 +1,34 @@
 ---
-export interface Props {
-	logo: string;
-}
-
-const { logo } = Astro.props;
-
-import { headerQuery } from '../../../variables';
-import singleGQL from '../../api/singleGQL';
-
-const headerData = await singleGQL('headerMenu', headerQuery);
-const {
-	attributes: { submenus },
-} = headerData;
+import MainNav from './MainNav.astro';
+const logo = '/images/logo.svg';
 ---
 
 <header>
-	<div class='nav-wrapper'>
-		<nav aria-label='Main Navigation'>
-			<ul class='h-nav'>
-				{
-					submenus.map((submenu, index) => {
-						const hasMenuItems = submenu.menuItems.length > 0;
-						return (
-							<>
-								<li
-									class:list={[
-										{ 'has-submenu': hasMenuItems },
-									]}>
-									<button
-										class='submenu-btn'
-										aria-controls={`submenu-${index}`}
-										aria-expanded='false'>
-										{submenu.title}
-									</button>
-									{hasMenuItems && (
-										<ul
-											class='submenu'
-											id={`submenu-${index}`}>
-											{submenu.menuItems.map(menuItem => (
-												<li class='menu-item'>
-													<a href={menuItem.link}>
-														{menuItem.text}
-													</a>
-												</li>
-											))}
-										</ul>
-									)}
-								</li>
-								{index === 1 && (
-									<li class='h-logo'>
-										<a href='/'>
-											<img
-												src={logo}
-												width='120'
-												alt='Home Page'
-												loading='eager'
-											/>
-										</a>
-									</li>
-								)}
-							</>
-						);
-					})
-				}
-			</ul>
-		</nav>
+	<div class='nav-wrapper desktop'>
+		<MainNav {logo} />
+	</div>
+	<div class='nav-wrapper mobile'>
+		<div class='h-logo'>
+			<a href='/'>
+				<img src={logo} width='60' alt='Home Page' loading='eager' />
+			</a>
+		</div>
+		<button
+			class='open-flyout'
+			aria-controls={`flyout`}
+			aria-expanded='false'>
+			☰
+		</button>
+		<div id='flyout' tabindex='-1'>
+			<button class='close-flyout' aria-label='close menu'>✕</button>
+			<MainNav />
+		</div>
 	</div>
 </header>
 
 <script>
-	// scroll button functions //
-	document.addEventListener('DOMContentLoaded', event => {
-		// get all the submenu buttons
-		const submenuButtons = document.querySelectorAll('.submenu-btn');
-
-		// loop through each button
-		submenuButtons.forEach(button => {
-			// get the parent list item
-			const parent = button.parentElement;
-
-			// add an event listener for mouse hover
-			button.addEventListener('mouseenter', function () {
-				this.setAttribute('aria-expanded', 'true');
-				parent.classList.add('open');
-			});
-
-			// add an event listener for focus
-			button.addEventListener('click', function () {
-				this.setAttribute('aria-expanded', 'true');
-				parent.classList.add('open');
-			});
-
-			// add an event listener for mouse leaving
-			parent.addEventListener('mouseleave', function () {
-				button.setAttribute('aria-expanded', 'false');
-				this.classList.remove('open');
-			});
-
-			// add an event listener for loss of focus
-			parent.addEventListener('focusout', function () {
-				// delay the changing of attribute to check if focus shifted within the submenu or outside
-				setTimeout(function () {
-					if (!parent.contains(document.activeElement)) {
-						button.setAttribute('aria-expanded', 'false');
-						parent.classList.remove('open');
-					}
-				}, 0);
-			});
-		});
-	});
-</script>
-
-<script>
 	// sticky header function //
 	let lastScrollTop = 0;
-	// set header height as css variable on load
-	document.addEventListener('DOMContentLoaded', event => {
-		const header = document.querySelector('header'),
-			headerHeight = header.offsetHeight;
-		header.style.setProperty('--headerH', `${headerHeight}px`);
-	});
 	// set classes on header based on scroll position and direction
 	window.addEventListener('scroll', () => {
 		let scrollTop = window.scrollY;
@@ -145,63 +54,60 @@ const {
 		}
 		lastScrollTop = scrollTop;
 	});
+
+	// mobile menu open and close //
+	const mobileNavWrapper = document.querySelector(
+			'.nav-wrapper.mobile'
+		) as HTMLElement,
+		flyout = mobileNavWrapper.querySelector('#flyout') as HTMLElement,
+		openFlyoutBtn = mobileNavWrapper.querySelector(
+			'.open-flyout'
+		) as HTMLElement,
+		closeFlyoutBtn = flyout.querySelector('.close-flyout') as HTMLElement;
+	// open and close buttons
+	openFlyoutBtn.addEventListener('click', event => {
+		event.preventDefault();
+		mobileNavWrapper.classList.add('open');
+		openFlyoutBtn.setAttribute('aria-expanded', 'true');
+		flyout.focus();
+	});
+	closeFlyoutBtn.addEventListener('click', event => {
+		event.preventDefault();
+		mobileNavWrapper.classList.remove('open');
+		openFlyoutBtn.setAttribute('aria-expanded', 'false');
+		openFlyoutBtn.focus();
+	});
+	// close on focus out
+	flyout.addEventListener('focusout', () => {
+		// delay the changing of attribute to check if focus shifted within the submenu or outside
+		setTimeout(function () {
+			if (!flyout.contains(document.activeElement)) {
+				openFlyoutBtn.setAttribute('aria-expanded', 'false');
+				mobileNavWrapper.classList.remove('open');
+			}
+		}, 0);
+	});
 </script>
 
-<style lang='less'>
+<style lang='less' is:global>
 	@import '../../styles/variables.less';
-	header {
-		&.scrolling {
-			.nav-wrapper {
-				position: fixed;
-				top: 0;
-				left: 0;
-				right: 0;
-				margin: 0 auto;
-				max-width: 1400px;
-				width: 100%;
-				background-color: var(--primaryC);
-				z-index: 1000;
-				border-bottom: 2px solid var(--darkTint);
-				nav {
-					padding: 10px 0;
-				}
-				.h-logo {
-					img {
-						width: 80px;
-						transition: 0.3s ease;
-					}
-				}
-			}
-		}
-		&.auto-hide.down:not(:hover):not(:focus-within) {
-			.nav-wrapper {
-				transform: translateY(calc(-1 * var(--headerH)));
-			}
-		}
-		&.auto-hide.up {
-			.nav-wrapper {
-				transform: translateY(0);
-				transition: 0.5s ease 0s;
-			}
-		}
-	}
+	/* general styles */
 	header {
 		width: 100%;
-		height: 150px;
-
+		height: var(--headerH);
 		.nav-wrapper {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			max-width: 1400px;
+			width: 100%;
+			background-color: var(--primaryC);
+			z-index: 1000;
 			border-bottom: 2px solid transparent;
-			transition:
-				border-bottom 0.2s ease,
-				transform 0.5s ease 2s;
+			transition: border-bottom 0.2s ease;
 			nav {
-				width: 100%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				padding: 20px 0;
-				transition: padding 0.3s ease;
 				ul {
 					list-style: none;
 					padding: 0;
@@ -217,87 +123,275 @@ const {
 					border: none;
 					cursor: pointer;
 				}
-				.h-logo {
-					margin: 0 30px;
-					a {
-						display: block;
-						img {
-							width: 120px;
-							transition: 0.3s ease;
-							@media @s-nd {
-								width: 80px;
+			}
+		}
+	}
+	/* sticky header & auto hide */
+	header {
+		&.scrolling {
+			.nav-wrapper {
+				border-bottom: 2px solid var(--darkTint);
+				@media @s-d {
+					padding: 10px 60px;
+					nav {
+						.nav-list {
+							.h-logo {
+								img {
+									width: 80px;
+									transition: 0.3s ease;
+								}
 							}
 						}
 					}
 				}
-				> ul.h-nav {
+				@media @s-t {
+					padding: 10px 60px;
+				}
+				@media @s-m {
+					padding: 10px 30px;
+				}
+			}
+		}
+		&.auto-hide {
+			.nav-wrapper {
+				transform: translateY(0);
+			}
+		}
+		&.auto-hide.down:not(:hover):not(:focus-within) {
+			.nav-wrapper {
+				transform: translateY(calc(-1 * var(--headerH)));
+				transition: transform 0.5s ease 2s;
+			}
+		}
+		&.auto-hide.up {
+			.nav-wrapper {
+				transform: translateY(0);
+				transition: transform 0.5s ease 0s;
+			}
+		}
+	}
+	/* responsive visibility */
+	@media @s-d {
+		header {
+			.nav-wrapper.mobile {
+				display: none;
+			}
+		}
+	}
+	@media @s-nd {
+		header {
+			.nav-wrapper.desktop {
+				display: none;
+			}
+		}
+	}
+	/* desktop styling */
+	@media @s-d {
+		header {
+			--headerH: 150px;
+			.nav-wrapper {
+				padding: 25px 60px;
+				transition: padding 0.3s ease;
+				nav {
+					width: 100%;
 					display: flex;
+					flex-direction: row;
 					align-items: center;
 					justify-content: center;
-					max-width: 800px;
-					width: 100%;
-					> li:not(.h-logo) {
-						> .submenu-btn {
-							display: block;
-							padding: 15px 0;
-						}
-					}
-					// pseudo element for decorative flower
-					> li:first-child,
-					> li:nth-child(4) {
-						margin-right: 76px;
-						position: relative;
-						&:after {
-							pointer-events: none;
-							position: absolute;
-							content: '';
-							width: 16px;
-							height: 16px;
-							right: -46px;
-							background-image: url(/images/decor/flower.png);
-							background-size: contain;
-							filter: var(--accentC3Filter);
-							top: 0;
-							bottom: 0;
-							margin: auto 0;
-						}
-					}
-					// submenu styling
-					> li.has-submenu {
-						position: relative;
-						@media @s-nd {
-							display: none;
-						}
-						> ul.submenu {
-							display: none;
-							position: absolute;
-							max-width: 240px;
-							width: max-content;
-							background-color: var(--primaryC);
-							z-index: 1000;
-							border-radius: var(--bdRadius2);
-							overflow: hidden;
-							box-shadow: var(--shadow1);
-							font-size: 0.9em;
-							> li {
-								> a {
-									padding: 12px 12px;
-									width: 100%;
+					.nav-list {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						max-width: 800px;
+						width: 100%;
+						li.h-logo {
+							margin: 0 30px;
+							a {
+								img {
 									display: block;
-									&:hover,
-									&:focus {
-										background-color: var(--darkTint);
+									width: 120px;
+									transition: 0.3s ease;
+								}
+							}
+						}
+						> li:not(.h-logo) {
+							> .submenu-btn {
+								display: block;
+								padding: 15px 0;
+							}
+						}
+						// pseudo element for decorative flower
+						> li:first-child,
+						> li:nth-child(4) {
+							margin-right: 76px;
+							position: relative;
+							&:after {
+								pointer-events: none;
+								position: absolute;
+								content: '';
+								width: 16px;
+								height: 16px;
+								right: -46px;
+								background-image: url(/images/decor/flower.png);
+								background-size: contain;
+								filter: var(--accentC3Filter);
+								top: 0;
+								bottom: 0;
+								margin: auto 0;
+							}
+						}
+						// submenu styling
+						> li.has-submenu {
+							position: relative;
+							> ul.submenu {
+								display: none;
+								position: absolute;
+								max-width: 240px;
+								width: max-content;
+								background-color: var(--primaryC);
+								z-index: 1000;
+								border-radius: var(--bdRadius2);
+								overflow: hidden;
+								box-shadow: var(--shadow1);
+								font-size: 0.9em;
+								> li {
+									> a {
+										padding: 12px 12px;
+										width: 100%;
+										display: block;
+										&:hover,
+										&:focus {
+											background-color: var(--darkTint);
+										}
+									}
+								}
+							}
+							// reveal submenu on hover or focus
+							&:hover,
+							&.open {
+								> ul.submenu {
+									display: block;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/* mobile styling */
+	@media @s-nd {
+		header {
+			--headerH: 100px;
+			.nav-wrapper {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+				transition: padding 0.3s ease;
+				@media @s-t {
+					padding: 25px 60px;
+				}
+				@media @s-m {
+					padding: 25px 30px;
+				}
+				.h-logo {
+					a {
+						img {
+							display: block;
+							width: 60px;
+						}
+					}
+				}
+				.open-flyout,
+				.close-flyout {
+					background-color: transparent;
+					border: none;
+					padding: 0;
+					cursor: pointer;
+					font-size: 30px;
+					color: var(--accentC1);
+				}
+				#flyout {
+					position: fixed;
+					width: 100vw;
+					height: 100vh;
+					top: 0;
+					left: 0;
+					z-index: 10000;
+					background-color: var(--primaryC);
+					padding: 100px 25px;
+					overflow-y: auto;
+					overflow-x: hidden;
+					transform: translateX(110vw);
+					transition:
+						transform 0.3s ease-out,
+						visibility 0s ease 0.3s;
+					visibility: hidden;
+					.close-flyout {
+						position: absolute;
+						top: 30px;
+						right: 30px;
+					}
+					nav {
+						.nav-list {
+							li.has-submenu {
+								border-bottom: 2px solid var(--darkTint);
+								.submenu-btn {
+									width: 100%;
+									height: 100%;
+									text-align: left;
+									position: relative;
+									padding: 12px 36px 12px 12px;
+									border-radius: var(--bdRadius2);
+									&::after {
+										position: absolute;
+										content: '⏷';
+										right: 12px;
+										top: 0;
+										height: 100%;
+										font-size: 25px;
+										display: flex;
+										align-items: center;
+									}
+								}
+								ul.submenu {
+									display: none;
+								}
+								&.open {
+									background-color: var(--darkTint);
+									border-radius: var(--bdRadius)
+										var(--bdRadius) 0 0;
+									.submenu-btn {
+										background-color: var(--accentC1);
+										color: var(--textC2);
+										&::after {
+											transform: scaleY(-1)
+												translateY(2px);
+										}
+									}
+									ul.submenu {
+										display: block;
+										li.menu-item {
+											a {
+												display: block;
+												padding: 12px;
+											}
+										}
 									}
 								}
 							}
 						}
-						// reveal submenu on hover or focus
-						&:hover,
-						&.open {
-							> ul.submenu {
-								display: block;
-							}
-						}
+					}
+				}
+				&.open {
+					#flyout {
+						visibility: visible;
+						transform: translateX(0);
+						transition:
+							transform 0.2s ease-out,
+							visibility 0s ease 0s;
 					}
 				}
 			}

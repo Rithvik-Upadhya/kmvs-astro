@@ -1,0 +1,115 @@
+---
+import { headerQuery } from '../../../variables';
+import singleGQL from '../../api/singleGQL';
+
+export interface Props {
+	logo?: string;
+}
+const { logo } = Astro.props;
+
+const headerData = await singleGQL('headerMenu', headerQuery);
+const {
+	attributes: { submenus },
+} = headerData;
+---
+
+<nav aria-label='Main Navigation'>
+	<ul class='nav-list'>
+		{
+			submenus.map((submenu, index) => {
+				const hasMenuItems = submenu.menuItems.length > 0;
+				return (
+					<>
+						<li class:list={[{ 'has-submenu': hasMenuItems }]}>
+							<button
+								class='submenu-btn'
+								aria-controls={`submenu-${index}`}
+								aria-expanded='false'>
+								{submenu.title}
+							</button>
+							{hasMenuItems && (
+								<ul class='submenu' id={`submenu-${index}`}>
+									{submenu.menuItems.map(menuItem => (
+										<li class='menu-item'>
+											<a href={menuItem.link}>
+												{menuItem.text}
+											</a>
+										</li>
+									))}
+								</ul>
+							)}
+						</li>
+						{index === 1 && logo && (
+							<li class='h-logo'>
+								<a href='/'>
+									<img
+										src={logo}
+										width='120'
+										alt='Home Page'
+										loading='eager'
+									/>
+								</a>
+							</li>
+						)}
+					</>
+				);
+			})
+		}
+	</ul>
+</nav>
+
+<script>
+	// accessibility functions //
+	document.addEventListener('DOMContentLoaded', event => {
+		// get all the submenu buttons
+		const submenuButtons = document.querySelectorAll('.submenu-btn');
+		const desktopMenu = document.querySelector('.nav-wrapper.desktop');
+
+		// loop through each button
+		submenuButtons.forEach(button => {
+			// get the parent list item
+			const parent = button.parentElement;
+			// check if button is part of desktop nav
+			const isDesktop = desktopMenu.contains(parent);
+			// apply separate event listeners for desktop and mobile
+			if (isDesktop) {
+				// add an event listener for mouse hover
+				button.addEventListener('mouseenter', function () {
+					this.setAttribute('aria-expanded', 'true');
+					parent.classList.add('open');
+				});
+
+				// add an event listener for mouse leaving
+				parent.addEventListener('mouseleave', function () {
+					button.setAttribute('aria-expanded', 'false');
+					this.classList.remove('open');
+				});
+
+				// add an event listener for focus
+				button.addEventListener('click', function () {
+					this.setAttribute('aria-expanded', 'true');
+					parent.classList.add('open');
+				});
+
+				// add an event listener for loss of focus
+				parent.addEventListener('focusout', function () {
+					// delay the changing of attribute to check if focus shifted within the submenu or outside
+					setTimeout(function () {
+						if (!parent.contains(document.activeElement)) {
+							button.setAttribute('aria-expanded', 'false');
+							parent.classList.remove('open');
+						}
+					}, 0);
+				});
+			} else {
+				// toggle class and attribute on click
+				button.addEventListener('click', function () {
+					this.getAttribute('aria-expanded') === 'true'
+						? this.setAttribute('aria-expanded', 'false')
+						: this.setAttribute('aria-expanded', 'true');
+					parent.classList.toggle('open');
+				});
+			}
+		});
+	});
+</script>

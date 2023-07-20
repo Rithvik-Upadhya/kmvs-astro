@@ -108,13 +108,6 @@ export const siteDetailsQuery = `
           attributes {
             name
             tagline
-            logo {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
           }
         }
       }
