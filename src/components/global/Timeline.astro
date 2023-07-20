@@ -1,6 +1,7 @@
 ---
 import { Picture } from '@astrojs/image/components';
 import PlaceholderImage from '../PlaceholderImage.astro';
+import ScrollButtons from '../ScrollButtons.astro';
 
 export interface Props {
 	title: string;
@@ -10,36 +11,16 @@ export interface Props {
 const { title, timeline } = Astro.props;
 
 const strapi_url = import.meta.env.VITE_STRAPI_URL;
+
+// used to ensure that scroll buttons only appear on tablet and mobile when there are less than 4 items
+const isLimited = timeline.length < 4;
 ---
 
 <section id='timeline'>
 	<div class='container'>
 		<div class='title-bar'>
 			<h2>{title}</h2>
-			{
-				timeline.length > 3 && (
-					<div class='controls'>
-						<button
-							class='scroll'
-							data-dir='left'
-							data-target='timeline'>
-							<img
-								src='/images/components/nav_button.png'
-								alt='scroll left'
-							/>
-						</button>
-						<button
-							class='scroll'
-							data-dir='right'
-							data-target='timeline'>
-							<img
-								src='/images/components/nav_button.png'
-								alt='scroll right'
-							/>
-						</button>
-					</div>
-				)
-			}
+			<ScrollButtons {isLimited} target='timeline' />
 		</div>
 		<div class='timeline scroll-container'>
 			{
@@ -101,38 +82,6 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 	<img class='foliage_1' src='/images/decor/foliage_1.png' alt='' />
 </section>
 
-<script>
-	// get all scroll buttons
-	const scrollBtns = document.querySelectorAll(
-		'.scroll'
-	) as NodeListOf<HTMLElement>;
-
-	// define scroll function
-	function scroll(dir, selector) {
-		// get target element
-		const container = document.querySelector(`.${selector}`);
-		// get computed styles
-		const properties = window.getComputedStyle(container);
-		// get card width from css variable
-		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
-		// set scroll width including margin
-		const scrollWidth = cardWidth * (6 / 5);
-		// scroll based on button clicked
-		if (dir === 'left') {
-			container.scrollLeft += -scrollWidth;
-		} else if (dir === 'right') {
-			container.scrollLeft += scrollWidth;
-		}
-	}
-
-	// add event listener to all scroll buttons
-	scrollBtns.forEach(scrollBtn => {
-		scrollBtn.addEventListener('click', () =>
-			scroll(scrollBtn.dataset.dir, scrollBtn.dataset.target)
-		);
-	});
-</script>
-
 <style lang='less'>
 	@import '../../styles/variables.less';
 	section#timeline {
@@ -167,45 +116,14 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 			.title-bar {
 				display: grid;
 				grid-template-columns: repeat(2, auto);
+				gap: 25px;
+				margin-bottom: 50px;
 				@media @s-nd {
-					display: block;
-					.controls {
-						display: none;
-					}
+					grid-template-columns: 1fr;
 				}
 				h2 {
 					color: var(--primaryC);
-					margin-bottom: 50px;
 					font-size: 2em;
-				}
-				.controls {
-					margin-left: auto;
-					margin-right: auto;
-					button[class*='scroll'] {
-						background-color: transparent;
-						border: none;
-						margin: 0 25px;
-						padding: 0;
-						cursor: pointer;
-						img {
-							filter: var(--primaryFilter);
-							display: block;
-							width: 55px;
-							opacity: 0.7;
-							transition: opacity 0.2s ease;
-						}
-						&.scroll[data-dir='right'] {
-							img {
-								transform: scaleX(-1);
-							}
-						}
-						&:hover,
-						&:focus {
-							img {
-								opacity: 1;
-							}
-						}
-					}
 				}
 			}
 			.timeline {

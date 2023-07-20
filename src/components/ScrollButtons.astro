@@ -1,0 +1,88 @@
+---
+export interface Props {
+	isLimited?: boolean;
+	target: string;
+}
+
+// used to ensure that scroll buttons only appear on tablet and mobile when there are less than 4 items
+const { isLimited, target } = Astro.props;
+---
+
+<div class:list={['controls', { 'd-hide': isLimited }]}>
+	<button class='scroll' data-dir='left' data-target={target}>
+		<img src='/images/components/nav_button.png' alt='scroll left' />
+	</button>
+	<button class='scroll' data-dir='right' data-target={target}>
+		<img src='/images/components/nav_button.png' alt='scroll right' />
+	</button>
+</div>
+
+<script>
+	// get all scroll buttons
+	const scrollBtns = document.querySelectorAll(
+		'.scroll'
+	) as NodeListOf<HTMLElement>;
+
+	// define scroll function
+	function scroll(dir, selector) {
+		// get target element
+		const container = document.querySelector(`.${selector}`);
+		// get computed styles
+		const properties = window.getComputedStyle(container);
+		// get card width from css variable
+		const cardWidth = parseInt(properties.getPropertyValue('--cardWidth'));
+		// set scroll width including margin
+		const scrollWidth = cardWidth * (6 / 5);
+		// scroll based on button clicked
+		if (dir === 'left') {
+			container.scrollLeft += -scrollWidth;
+		} else if (dir === 'right') {
+			container.scrollLeft += scrollWidth;
+		}
+	}
+
+	// add event listener to all scroll buttons
+	scrollBtns.forEach(scrollBtn => {
+		scrollBtn.addEventListener('click', () =>
+			scroll(scrollBtn.dataset.dir, scrollBtn.dataset.target)
+		);
+	});
+</script>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+	.controls {
+		margin-left: auto;
+		margin-right: auto;
+		display: flex;
+		flex-direction: row;
+		gap: 50px;
+		@media @s-nd {
+			margin-left: 0;
+		}
+		button[class*='scroll'] {
+			background-color: transparent;
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			img {
+				filter: var(--primaryFilter);
+				display: block;
+				width: 55px;
+				opacity: 0.7;
+				transition: opacity 0.2s ease;
+			}
+			&.scroll[data-dir='right'] {
+				img {
+					transform: scaleX(-1);
+				}
+			}
+			&:hover,
+			&:focus {
+				img {
+					opacity: 1;
+				}
+			}
+		}
+	}
+</style>
