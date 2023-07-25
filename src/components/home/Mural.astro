@@ -12,11 +12,8 @@ const { tagline, metrics } = Astro.props;
 		<div class='image-wrapper'>
 			<img
 				alt=''
-				src='/images/home/mural-1200w.png 1200w'
-				srcset='/images/home/mural-500w.png 500w,
-            /images/home/mural-850w.png 850w,
-            /images/home/mural-1200w.png 1200w,
-            /images/home/mural-1600w.png 1600w,'
+				src=''
+				srcset=''
 				sizes='(max-width: 599px) calc(100vw - 50px),
             (max-width: 1199px) calc(100vw - 100px),
             1100px'
@@ -39,6 +36,29 @@ const { tagline, metrics } = Astro.props;
 	</div>
 </section>
 
+<script>
+	window.addEventListener('load', setMuralSource);
+	window.addEventListener('resize', setMuralSource);
+	function setMuralSource() {
+		const mural = document.querySelector('#mural img') as HTMLImageElement;
+		const screenWidth = window.innerWidth;
+
+		if (screenWidth <= 599) {
+			mural.src = '/images/home/mural-mobile-600w.png 600w';
+			mural.srcset =
+				'/images/home/mural-mobile-600w.png 600w, /images/home/mural-mobile-800w.png 800w, /images/home/mural-mobile-1000w.png 1000w';
+		} else if (screenWidth <= 899) {
+			mural.src = '/images/home/mural-tablet-1000w.png 1000w';
+			mural.srcset =
+				'/images/home/mural-tablet-1000w.png 1000w, /images/home/mural-tablet-1400w.png 1400w';
+		} else {
+			mural.src = '/images/home/mural-desktop-1200w.png 1200w';
+			mural.srcset =
+				'/images/home/mural-desktop-1200w.png 1200w, /images/home/mural-desktop-1600w.png 1600w, /images/home/mural-desktop-2000w.png 2000w';
+		}
+	}
+</script>
+
 <style lang='less'>
 	@import '../../styles/variables.less';
 	section#mural {
@@ -46,7 +66,15 @@ const { tagline, metrics } = Astro.props;
 		.container {
 			.image-wrapper {
 				position: relative;
-				padding-top: 88%;
+				@media @s-d {
+					padding-top: 88%;
+				}
+				@media @s-t {
+					padding-top: 123%;
+				}
+				@media @s-m {
+					padding-top: 164%;
+				}
 				img {
 					position: absolute;
 					top: 0;
@@ -54,6 +82,11 @@ const { tagline, metrics } = Astro.props;
 					width: 100%;
 					height: 100%;
 					object-fit: contain;
+					opacity: 1;
+					transition: 0.2s ease;
+					&[src=''] {
+						opacity: 0;
+					}
 				}
 			}
 			h1 {
