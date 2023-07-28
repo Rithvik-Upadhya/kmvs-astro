@@ -67,9 +67,9 @@ const {
 			// get the parent list item
 			const parent = button.parentElement;
 			// check if button is part of desktop nav
-			const isDesktop = desktopMenu.contains(parent);
+			const isDesktopMenu = desktopMenu.contains(parent);
 			// apply separate event listeners for desktop and mobile
-			if (isDesktop) {
+			if (isDesktopMenu) {
 				// add an event listener for mouse hover
 				button.addEventListener('mouseenter', function () {
 					this.setAttribute('aria-expanded', 'true');

@@ -66,15 +66,6 @@ const { tagline, metrics } = Astro.props;
 		.container {
 			.image-wrapper {
 				position: relative;
-				@media @s-d {
-					padding-top: 88%;
-				}
-				@media @s-t {
-					padding-top: 123%;
-				}
-				@media @s-m {
-					padding-top: 164%;
-				}
 				img {
 					position: absolute;
 					top: 0;
@@ -88,6 +79,21 @@ const { tagline, metrics } = Astro.props;
 						opacity: 0;
 					}
 				}
+				@media @s-d {
+					padding-top: 88%;
+				}
+				@media @s-t {
+					padding-top: 123%;
+				}
+				@media @s-m {
+					padding-top: 190%;
+					img {
+						margin-left: calc(-50vw + 50%);
+						margin-right: calc(-50vw + 50%);
+						max-width: 100vw;
+						width: 100vw;
+					}
+				}
 			}
 			h1 {
 				color: var(--accentC1);
@@ -97,7 +103,7 @@ const { tagline, metrics } = Astro.props;
 				margin: 0 auto;
 				@media @s-nd {
 					font-size: 1.6em;
-					margin-top: 25px;
+					max-width: 450px;
 				}
 			}
 			.metrics {

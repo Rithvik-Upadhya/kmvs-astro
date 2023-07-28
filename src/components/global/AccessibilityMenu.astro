@@ -1,0 +1,189 @@
+---
+
+---
+
+<div id='AUI'>
+	<button
+		class='AUItoggle'
+		aria-expanded='false'
+		aria-label='Accessibility Menu Toggle'>
+		<div class='AUIicon'>
+			<img src='/images/components/AUI-1.png' alt='' />
+			<img src='/images/components/AUI-2.png' alt='' />
+		</div>
+	</button>
+	<div class='AUImenu' aria-label='Accessibility Menu'>
+		<p class='screen-reader-text'>Size & Contrast</p>
+		<div class='AUIcontrols'>
+			<ul class='textSizing'>
+				<li>
+					<button
+						class='sizeIncrease'
+						aria-label='Font Size Increase'>
+						<span aria-hidden='true'>A+</span>
+					</button>
+				</li>
+				<li>
+					<button class='sizeReset' aria-label='Normal Font Size'>
+						<span aria-hidden='true' style='margin: 0 2px;'>A</span>
+					</button>
+				</li>
+				<li>
+					<button
+						class='sizeDecrease'
+						aria-label='Font Size Decrease'>
+						<span aria-hidden='true'>A-</span>
+					</button>
+				</li>
+			</ul>
+			<ul class='highContrast'>
+				<li>
+					<button class='darkTheme' aria-label='High Contrast'>
+						<span aria-hidden='true'>A</span>
+					</button>
+				</li>
+				<li>
+					<button class='lightTheme' aria-label='Normal Contrast'>
+						<span aria-hidden='true'>A</span>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script>
+	// keyboard focus function //
+	document.addEventListener('DOMContentLoaded', event => {
+		// get accessibility menu and toggle
+		const accessibilityMenu = document.querySelector('#AUI');
+		const AUItoggle = accessibilityMenu.querySelector('.AUItoggle');
+
+		// add an event listener for click
+		AUItoggle.addEventListener('click', function () {
+			this.setAttribute('aria-expanded', 'true');
+			accessibilityMenu.classList.add('open');
+		});
+
+		// add an event listener for loss of focus
+		accessibilityMenu.addEventListener('focusout', function () {
+			// delay the changing of attribute to check if focus shifted within the submenu or outside
+			setTimeout(function () {
+				if (!accessibilityMenu.contains(document.activeElement)) {
+					AUItoggle.setAttribute('aria-expanded', 'false');
+					accessibilityMenu.classList.remove('open');
+				}
+			}, 0);
+		});
+	});
+</script>
+
+<style lang='less'>
+	#AUI {
+		--accessibilityC: #ffba3c;
+		--accessibilityFilter: invert(89%) sepia(17%) saturate(3753%)
+			hue-rotate(327deg) brightness(103%) contrast(101%);
+		position: fixed;
+		right: -250px;
+		transition: right 0.3s ease;
+		top: 240px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 25px;
+		z-index: 1000;
+		padding: 9px;
+		background-color: var(--accentC2);
+		border-radius: var(--bdRadius2) 0 0 var(--bdRadius2);
+		button {
+			border: none;
+		}
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		&:focus-within {
+			.AUItoggle {
+				&:focus-visible {
+					outline: 2px solid var(--accessibilityC);
+				}
+				.AUIicon {
+					img {
+						&:last-child {
+							filter: var(--accessibilityFilter);
+						}
+					}
+				}
+			}
+		}
+		&.open {
+			right: 0;
+			.AUImenu {
+				.AUIcontrols {
+					visibility: visible;
+					transition: visibility 0s ease 0s;
+				}
+			}
+		}
+		.AUItoggle {
+			background-color: transparent;
+			.AUIicon {
+				position: relative;
+				width: 40px;
+				height: 40px;
+				img {
+					position: absolute;
+					width: 100%;
+					left: 0;
+					top: 0;
+					&:first-child {
+						filter: var(--primaryFilter);
+					}
+					&:last-child {
+						filter: var(--primaryFilter);
+					}
+				}
+			}
+		}
+		.AUImenu {
+			width: 230px;
+			.AUIcontrols {
+				display: flex;
+				flex-direction: row;
+				justify-content: start;
+				gap: 15px;
+				visibility: hidden;
+				transition: visibility 0s ease 0.5s;
+				ul {
+					display: flex;
+					flex-direction: row;
+					li:first-child {
+						button {
+							border-radius: var(--bdRadius2) 0 0 var(--bdRadius2);
+						}
+					}
+					li:last-child {
+						button {
+							border-radius: 0 var(--bdRadius2) var(--bdRadius2) 0;
+						}
+					}
+					button {
+						padding: 8px 12px;
+						font-weight: 500;
+						background-color: var(--primaryC);
+						&:hover,
+						&:focus {
+							position: relative;
+							outline: 2px solid var(--accessibilityC);
+						}
+						&.darkTheme {
+							background-color: #000000;
+							color: var(--accessibilityC);
+						}
+					}
+				}
+			}
+		}
+	}
+</style>

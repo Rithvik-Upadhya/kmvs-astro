@@ -1,9 +1,17 @@
 ---
 import MainNav from './MainNav.astro';
+import AccessibilityMenu from './AccessibilityMenu.astro';
 const logo = '/images/logo.svg';
 ---
 
 <header>
+	<a
+		class='skip-link screen-reader-text'
+		href='#content'
+		role='link'
+		title='Skip to content'>
+		Skip to content
+	</a>
 	<div class='nav-wrapper desktop'>
 		<MainNav {logo} />
 	</div>
@@ -24,9 +32,26 @@ const logo = '/images/logo.svg';
 			<MainNav />
 		</div>
 	</div>
+	<AccessibilityMenu />
 </header>
 
 <script>
+	// skip link
+	const skipLink = document.querySelector('.skip-link') as HTMLElement;
+	skipLink.addEventListener('click', scrollToContent);
+	function scrollToContent(event: Event) {
+		event.preventDefault();
+		const content = document.querySelector('#content') as HTMLElement;
+		const offset = content.offsetTop;
+
+		content.focus();
+
+		window.scrollTo({
+			top: offset,
+			behavior: 'smooth',
+		});
+	}
+
 	// sticky header function //
 	let lastScrollTop = 0;
 	// set classes on header based on scroll position and direction
@@ -95,6 +120,26 @@ const logo = '/images/logo.svg';
 	header {
 		width: 100%;
 		height: var(--headerH);
+		.skip-link {
+			position: fixed;
+			width: max-content;
+			padding: 10px 15px;
+			background-color: var(--primaryC);
+			outline: 2px solid var(--accentC2);
+			color: var(--accentC2);
+			border-radius: var(--bdRadius2);
+			margin: 10px;
+			box-shadow: var(--shadow1);
+			font-weight: 500;
+			transition: 0.2s ease;
+			&:focus {
+			}
+			&:hover,
+			&:focus {
+				background-color: var(--accentC2);
+				color: var(--primaryC);
+			}
+		}
 		.nav-wrapper {
 			position: fixed;
 			top: 0;

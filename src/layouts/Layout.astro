@@ -30,8 +30,8 @@ const {
 			titleTemplate={`%s - ${name}`}
 			titleDefault={name}
 			description={tagline}
-			noindex='true'
-			nofollow='true'
+			noindex={true}
+			nofollow={true}
 			openGraph={{
 				basic: {
 					title: title,
@@ -88,64 +88,17 @@ const {
 	</head>
 	<body class={'kmvs ' + classes.join(' ')}>
 		<div class='wrapper'>
-			<a
-				class='skip-link screen-reader-text'
-				href='#content'
-				role='link'
-				title='Skip to content'>
-				Skip to content</a
-			>
 			<Header />
 			<main id='content' tabindex='-1'>
 				<slot />
 			</main>
 			<Footer />
 		</div>
-		<script>
-			const skipLink = document.querySelector(
-				'.skip-link'
-			) as HTMLElement;
-			skipLink.addEventListener('click', scrollToContent);
-			function scrollToContent(event: Event) {
-				event.preventDefault();
-				const content = document.querySelector(
-					'#content'
-				) as HTMLElement;
-				const offset = content.offsetTop;
-
-				content.focus();
-
-				window.scrollTo({
-					top: offset,
-					behavior: 'smooth',
-				});
-			}
-		</script>
 		<style lang='less'>
 			body {
 				min-height: 200vh;
 				display: flex;
 				flex-direction: column;
-				.skip-link {
-					position: fixed;
-					width: max-content;
-					padding: 10px 15px;
-					background-color: var(--primaryC);
-					outline: 2px solid var(--accentC2);
-					color: var(--accentC2);
-					border-radius: var(--bdRadius2);
-					margin: 10px;
-					box-shadow: var(--shadow1);
-					font-weight: 500;
-					transition: 0.2s ease;
-					&:focus {
-					}
-					&:hover,
-					&:focus {
-						background-color: var(--accentC2);
-						color: var(--primaryC);
-					}
-				}
 			}
 		</style>
 	</body>
