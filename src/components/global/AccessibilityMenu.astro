@@ -77,6 +77,21 @@
 				}
 			}, 0);
 		});
+
+		// safari fallback for focusout
+		document.addEventListener('click', function (event) {
+			let isClickInside = accessibilityMenu.contains(
+				event.target as Node
+			);
+
+			if (
+				!isClickInside &&
+				accessibilityMenu.classList.contains('open')
+			) {
+				AUItoggle.setAttribute('aria-expanded', 'false');
+				accessibilityMenu.classList.remove('open');
+			}
+		});
 	});
 </script>
 
@@ -106,7 +121,8 @@
 			margin: 0;
 			padding: 0;
 		}
-		&:focus-within {
+		&:focus-within,
+		&.open {
 			.AUItoggle {
 				&:focus-visible {
 					outline: 2px solid var(--accessibilityC);
