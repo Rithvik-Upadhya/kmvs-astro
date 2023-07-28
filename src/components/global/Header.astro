@@ -95,12 +95,14 @@ const logo = '/images/logo.svg';
 		mobileNavWrapper.classList.add('open');
 		openFlyoutBtn.setAttribute('aria-expanded', 'true');
 		flyout.focus();
+		document.body.style.overflow = 'hidden';
 	});
 	closeFlyoutBtn.addEventListener('click', event => {
 		event.preventDefault();
 		mobileNavWrapper.classList.remove('open');
 		openFlyoutBtn.setAttribute('aria-expanded', 'false');
 		openFlyoutBtn.focus();
+		document.body.style.overflow = 'auto';
 	});
 	// close on focus out
 	flyout.addEventListener('focusout', () => {
@@ -366,7 +368,6 @@ const logo = '/images/logo.svg';
 					height: 100vh;
 					top: 0;
 					left: 0;
-					z-index: 10000;
 					background-color: var(--primaryC);
 					padding: 100px 25px;
 					overflow-y: auto;
