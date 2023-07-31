@@ -1,0 +1,131 @@
+html.contrast {
+  --black: #000000;
+  --white: #ffffff;
+  --primaryC: var(--black);
+  --secondaryC: var(--black);
+  --accessibilityC: #ffba3c;
+  --accentC1: var(--accessibilityC);
+  --accentC2: var(--accessibilityC);
+  --accentC3: var(--accessibilityC);
+  --textC1: var(--white);
+  --textC2: var(--white);
+  --darkTint: #f9f9f925;
+  --lightTint: #f9f9f925;
+  --scrollbarBG: transparent;
+  --thumbBG: rgba(255, 255, 255, 0.361);
+  --accessibilityFilter: invert(89%) sepia(17%) saturate(3753%) hue-rotate(327deg) brightness(103%) contrast(101%);
+  --primaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
+  --secondaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
+  --accentC1Filter: var(--accessibilityFilter);
+  --accentC2Filter: var(--accessibilityFilter);
+  --accentC3Filter: var(--accessibilityFilter);
+  --fadedPrimaryFilter: invert(12%) sepia(0%) saturate(1199%) hue-rotate(190deg) brightness(98%) contrast(84%);
+  --bwImageFilter: brightness(0) invert(1);
+}
+html.contrast header a:hover,
+html.contrast header button:hover,
+html.contrast header a:focus,
+html.contrast header button:focus {
+  outline: 2px solid var(--accessibilityC);
+  outline-offset: -2px;
+}
+@media (max-width: 899px) {
+  html.contrast header .nav-wrapper #flyout nav .nav-list li.has-submenu.open .submenu-btn {
+    color: var(--black);
+  }
+  html.contrast header .nav-wrapper #flyout .flyout_cranes {
+    filter: var(--bwImageFilter);
+  }
+}
+html.contrast header .open-flyout img:first-child {
+  filter: var(--accessibilityFilter);
+}
+html.contrast header .open-flyout img:last-child {
+  filter: var(--accessibilityFilter);
+}
+html.contrast #AUI {
+  background-color: var(--black);
+  outline: 2px solid var(--lightTint);
+}
+html.contrast #AUI:focus-within,
+html.contrast #AUI:hover {
+  outline: 2px solid var(--accessibilityC);
+}
+html.contrast #AUI:focus-within .AUItoggle,
+html.contrast #AUI:hover .AUItoggle {
+  outline: none !important;
+}
+html.contrast #AUI:focus-within .lightTheme,
+html.contrast #AUI:hover .lightTheme {
+  color: var(--black);
+  background-color: var(--white) !important;
+}
+html.contrast #content section {
+  background-color: var(--black) !important;
+}
+html.contrast section#mural {
+  --accentC: var(--white);
+}
+html.contrast section#mural .image-wrapper img {
+  filter: var(--bwImageFilter);
+}
+html.contrast section#mural .flourish_1 {
+  filter: var(--bwImageFilter);
+}
+html.contrast section#featured {
+  --accentC: var(--white);
+}
+html.contrast section#featured .featured::before,
+html.contrast section#featured .featured::after {
+  filter: var(--bwImageFilter);
+}
+html.contrast section#featured .featured .featured_item:focus,
+html.contrast section#featured .featured .featured_item:hover {
+  outline: 2px solid var(--accessibilityC);
+  border-radius: var(--bdRadius);
+}
+html.contrast section#featured .featured .featured_item > img {
+  filter: var(--bwImageFilter);
+}
+html.contrast section#featured .featured .featured_item > div {
+  border: 2px solid var(--lightTint);
+}
+html.contrast section#featured .shape_divider_1 path {
+  stroke: var(--lightTint);
+  stroke-width: 2px;
+}
+html.contrast section#focusAreas .focusArea:hover,
+html.contrast section#focusAreas .focusArea:focus {
+  outline: none;
+}
+html.contrast section#focusAreas .focusArea:hover .border,
+html.contrast section#focusAreas .focusArea:focus .border {
+  filter: var(--accessibilityFilter);
+}
+html.contrast section#focusAreas .focusArea .card {
+  border: 2px solid var(--lightTint);
+}
+html.contrast section#focusAreas .focusArea .card .content {
+  border-top: 2px solid var(--lightTint);
+}
+html.contrast .controls button[class*="scroll"] img {
+  opacity: 1;
+}
+html.contrast .controls button[class*="scroll"]:hover img,
+html.contrast .controls button[class*="scroll"]:focus img {
+  filter: var(--accessibilityFilter);
+}
+html.contrast section#timeline {
+  --accentC: var(--black);
+  --accentCFilter: none;
+}
+html.contrast section#timeline::after {
+  filter: var(--accentC1Filter);
+}
+html.contrast footer a {
+  opacity: 1 !important;
+}
+html.contrast footer a:hover,
+html.contrast footer a:focus {
+  color: var(--accessibilityC) !important;
+}

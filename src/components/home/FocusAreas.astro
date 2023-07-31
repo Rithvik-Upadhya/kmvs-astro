@@ -39,6 +39,7 @@ const isLimited = focusAreasData.length < 4;
 							<div class='card'>
 								{imageData ? (
 									<Picture
+										class='featuredImage'
 										src={
 											strapi_url +
 											imageData.attributes.url
@@ -54,7 +55,6 @@ const isLimited = focusAreasData.length < 4;
 								) : (
 									<PlaceholderImage />
 								)}
-								<p class='read-more'>Read More</p>
 								<div class='content'>
 									<h3 title={name} class='lc_2'>
 										{name}
@@ -62,6 +62,10 @@ const isLimited = focusAreasData.length < 4;
 									<hr />
 									<p class='excerpt lc_4'>{excerpt}</p>
 								</div>
+								<p class='read-more'>
+									Read More
+									<img src='/images/decor/arrow.png' alt='' />
+								</p>
 							</div>
 						</a>
 					);
@@ -111,7 +115,7 @@ const isLimited = focusAreasData.length < 4;
 					grid-template-columns: 1fr;
 				}
 				h2 {
-					color: var(--primaryC);
+					color: var(--textC2);
 					font-size: 2em;
 				}
 			}
@@ -153,37 +157,22 @@ const isLimited = focusAreasData.length < 4;
 						border-radius: var(--bdRadius);
 						overflow: hidden;
 						position: relative;
-						img {
+						.featuredImage {
 							display: block;
 							width: 100%;
 							// ie. (cardWidth - 2x padding) * 2/3
 							height: calc(var(--cardWidth) * 0.67 - 36px);
-							position: absolute;
-						}
-						.read-more {
-							font-weight: 500;
-							position: absolute;
-							bottom: 20px;
-							left: 20px;
-							color: var(--accentC1);
-							z-index: 1;
-							&::after {
-								content: '❯';
-								margin-left: 10px;
-								font-size: 0.9em;
-							}
+							object-fit: cover;
 						}
 						.content {
 							padding: 20px;
-							margin-top: 66.66%;
-							color: var(--accentC1);
+							color: var(--textC1);
 							background-color: var(--primaryC);
 							transition: transform 0.3s ease;
 							height: 100%;
-							z-index: 0;
 							hr {
 								height: 2px;
-								background-color: var(--accentC1);
+								background-color: var(--textC1);
 								opacity: 0.3;
 								border: none;
 								margin: 20px 0;
@@ -191,6 +180,21 @@ const isLimited = focusAreasData.length < 4;
 							.excerpt {
 								margin-bottom: 30px;
 								transition: height 0.3s ease;
+							}
+						}
+						.read-more {
+							font-weight: 500;
+							display: flex;
+							align-items: center;
+							position: absolute;
+							bottom: 20px;
+							left: 20px;
+							color: var(--textC1);
+							img {
+								width: 25px;
+								height: 13px;
+								margin-left: 8px;
+								filter: var(--secondaryFilter);
 							}
 						}
 					}
@@ -209,6 +213,45 @@ const isLimited = focusAreasData.length < 4;
 						}
 					}
 				}
+			}
+		}
+	}
+	html[style='--fontSize: 20px;']
+		section#focusAreas
+		.container
+		.focusAreas
+		.focusArea,
+	html[style='--fontSize: 22px;']
+		section#focusAreas
+		.container
+		.focusAreas
+		.focusArea {
+		.card .content .excerpt {
+			height: calc(3 * var(--lineHeight));
+			-webkit-line-clamp: 3;
+		}
+		&:hover,
+		&:focus {
+			.card .content .excerpt {
+				height: calc(5 * var(--lineHeight));
+				-webkit-line-clamp: 5;
+			}
+		}
+	}
+	html[style='--fontSize: 24px;']
+		section#focusAreas
+		.container
+		.focusAreas
+		.focusArea {
+		.card .content .excerpt {
+			height: calc(2 * var(--lineHeight));
+			-webkit-line-clamp: 2;
+		}
+		&:hover,
+		&:focus {
+			.card .content .excerpt {
+				height: calc(4 * var(--lineHeight));
+				-webkit-line-clamp: 4;
 			}
 		}
 	}

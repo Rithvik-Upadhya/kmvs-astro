@@ -93,6 +93,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 		overflow: hidden;
 		background-color: var(--accentC1);
 		position: relative;
+		--accentC: var(--accentC1);
 		&::after {
 			position: absolute;
 			content: '';
@@ -211,7 +212,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 						> div {
 							text-align: center;
 							background-color: var(--primaryC);
-							color: var(--accentC1);
+							color: var(--accentC);
 							padding: 25px 25px;
 							height: 100%;
 							position: relative;
@@ -241,7 +242,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 					&:hover,
 					&:focus {
 						div > div {
-							transform: translateY(-105px);
+							transform: translateY(calc(var(--lineHeight) * -4));
 							.description {
 								visibility: visible;
 								opacity: 1;

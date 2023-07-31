@@ -1,0 +1,196 @@
+@import '../../src/styles/variables.less';
+
+html.contrast {
+    --black: #000000;
+    --white: #ffffff;
+    --primaryC: var(--black);
+    --secondaryC: var(--black);
+    --accessibilityC: #ffba3c;
+    --accentC1: var(--accessibilityC);
+    --accentC2: var(--accessibilityC);
+    --accentC3: var(--accessibilityC);
+    --textC1: var(--white);
+    --textC2: var(--white);
+    --darkTint: #f9f9f925;
+    --lightTint: #f9f9f925;
+    --scrollbarBG: transparent;
+    --thumbBG: rgba(255, 255, 255, 0.361);
+    --accessibilityFilter: invert(89%) sepia(17%) saturate(3753%) hue-rotate(327deg) brightness(103%) contrast(101%);
+    --primaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
+    --secondaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
+    --accentC1Filter: var(--accessibilityFilter);
+    --accentC2Filter: var(--accessibilityFilter);
+    --accentC3Filter: var(--accessibilityFilter);
+    --fadedPrimaryFilter: invert(12%) sepia(0%) saturate(1199%) hue-rotate(190deg) brightness(98%) contrast(84%);
+    --bwImageFilter: brightness(0) invert(1);
+
+    header {
+
+        a,
+        button {
+
+            &:hover,
+            &:focus {
+                outline: 2px solid var(--accessibilityC);
+                outline-offset: -2px;
+
+            }
+        }
+
+        @media @s-nd {
+            .nav-wrapper #flyout nav .nav-list li.has-submenu.open .submenu-btn {
+                color: var(--black);
+            }
+
+            .nav-wrapper #flyout .flyout_cranes {
+                filter: var(--bwImageFilter);
+            }
+        }
+
+        .open-flyout {
+            img {
+                &:first-child {
+                    filter: var(--accessibilityFilter);
+                }
+
+                &:last-child {
+                    filter: var(--accessibilityFilter);
+                }
+            }
+        }
+    }
+
+    #AUI {
+
+        background-color: var(--black);
+        outline: 2px solid var(--lightTint);
+
+        &:focus-within,
+        &:hover {
+            outline: 2px solid var(--accessibilityC);
+
+            .AUItoggle {
+                outline: none !important;
+            }
+
+            .lightTheme {
+                color: var(--black);
+                background-color: var(--white) !important;
+            }
+        }
+    }
+
+    #content section {
+        background-color: var(--black) !important;
+    }
+
+    section#mural {
+        --accentC: var(--white);
+
+        .image-wrapper {
+            img {
+                filter: var(--bwImageFilter);
+            }
+        }
+
+        .flourish_1 {
+            filter: var(--bwImageFilter);
+        }
+    }
+
+    section#featured {
+        --accentC: var(--white);
+
+        .featured {
+
+            &::before,
+            &::after {
+                filter: var(--bwImageFilter);
+            }
+
+            .featured_item {
+
+                &:focus,
+                &:hover {
+                    outline: 2px solid var(--accessibilityC);
+                    border-radius: var(--bdRadius);
+                }
+
+                >img {
+                    filter: var(--bwImageFilter);
+                }
+
+                >div {
+                    border: 2px solid var(--lightTint);
+                }
+            }
+        }
+
+        .shape_divider_1 {
+            path {
+                stroke: var(--lightTint);
+                stroke-width: 2px;
+            }
+        }
+    }
+
+    section#focusAreas {
+        .focusArea {
+
+            &:hover,
+            &:focus {
+                outline: none;
+
+                .border {
+                    filter: var(--accessibilityFilter);
+                }
+            }
+
+            .card {
+                border: 2px solid var(--lightTint);
+                // transition: border 0.3s ease;
+
+                // &:hover {
+                //     border: 2px solid var(--accessibilityC);
+                // }
+
+                .content {
+                    border-top: 2px solid var(--lightTint);
+                }
+            }
+        }
+    }
+
+    .controls button[class*="scroll"] {
+        img {
+            opacity: 1;
+        }
+
+        &:hover,
+        &:focus {
+            img {
+                filter: var(--accessibilityFilter);
+            }
+        }
+    }
+
+    section#timeline {
+        &::after {
+            filter: var(--accentC1Filter);
+        }
+
+        --accentC: var(--black);
+        --accentCFilter: none;
+    }
+
+    footer {
+        a {
+            opacity: 1 !important;
+
+            &:hover,
+            &:focus {
+                color: var(--accessibilityC) !important;
+            }
+        }
+    }
+}

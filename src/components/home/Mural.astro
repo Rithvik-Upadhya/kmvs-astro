@@ -44,11 +44,11 @@ const { tagline, metrics } = Astro.props;
 		const screenWidth = window.innerWidth;
 
 		if (screenWidth <= 599) {
-			mural.src = '/images/home/mural-mobile-600w.png 600w';
+			mural.src = '/images/home/mural-mobile-600w.png';
 			mural.srcset =
 				'/images/home/mural-mobile-600w.png 600w, /images/home/mural-mobile-800w.png 800w, /images/home/mural-mobile-1000w.png 1000w';
 		} else if (screenWidth <= 899) {
-			mural.src = '/images/home/mural-tablet-1000w.png 1000w';
+			mural.src = '/images/home/mural-tablet-1000w.png';
 			mural.srcset =
 				'/images/home/mural-tablet-1000w.png 1000w, /images/home/mural-tablet-1400w.png 1400w';
 		} else {
@@ -63,6 +63,7 @@ const { tagline, metrics } = Astro.props;
 	@import '../../styles/variables.less';
 	section#mural {
 		padding-top: 10px;
+		--accentC: var(--accentC1);
 		.container {
 			.image-wrapper {
 				position: relative;
@@ -96,7 +97,7 @@ const { tagline, metrics } = Astro.props;
 				}
 			}
 			h1 {
-				color: var(--accentC1);
+				color: var(--accentC);
 				text-align: center;
 				font-size: 2em;
 				max-width: 800px;
@@ -114,7 +115,7 @@ const { tagline, metrics } = Astro.props;
 				justify-content: space-around;
 				gap: 50px;
 				text-align: center;
-				color: var(--accentC1);
+				color: var(--accentC);
 
 				> div {
 					width: 250px;
