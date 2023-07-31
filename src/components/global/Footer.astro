@@ -218,6 +218,7 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 					img {
 						display: block;
 						width: clamp(200px, 100%, 300px);
+						height: auto;
 						margin: 0 auto;
 					}
 				}
@@ -227,6 +228,7 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 				.footer-end-links {
 					display: flex;
 					flex-direction: row;
+					flex-wrap: wrap;
 					gap: 10px;
 					align-items: center;
 					justify-content: center;

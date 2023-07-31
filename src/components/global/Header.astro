@@ -131,6 +131,7 @@ const logo = '/images/logo.svg';
 	header {
 		width: 100%;
 		height: var(--headerH);
+		--accentC: var(--accentC1);
 		.skip-link {
 			position: fixed;
 			width: max-content;
@@ -174,7 +175,7 @@ const logo = '/images/logo.svg';
 					font-size: 1.2em;
 					font-weight: 500;
 					text-decoration: none;
-					color: var(--accentC1);
+					color: var(--accentC);
 					background-color: transparent;
 					border: none;
 					cursor: pointer;
@@ -264,6 +265,7 @@ const logo = '/images/logo.svg';
 							margin: 0 30px;
 							width: 120px;
 							a {
+								display: block;
 								img {
 									display: block;
 									width: 120px;
@@ -387,7 +389,7 @@ const logo = '/images/logo.svg';
 					padding: 0;
 					cursor: pointer;
 					font-size: 30px;
-					color: var(--accentC1);
+					color: var(--accentC);
 				}
 				#flyout {
 					position: fixed;
@@ -438,7 +440,7 @@ const logo = '/images/logo.svg';
 									border-radius: var(--bdRadius)
 										var(--bdRadius) 0 0;
 									.submenu-btn {
-										background-color: var(--accentC1);
+										background-color: var(--accentC);
 										color: var(--textC2);
 										&::after {
 											transform: scaleY(-1)

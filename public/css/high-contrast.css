@@ -16,9 +16,9 @@ html.contrast {
   --accessibilityFilter: invert(89%) sepia(17%) saturate(3753%) hue-rotate(327deg) brightness(103%) contrast(101%);
   --primaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
   --secondaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
-  --accentC1Filter: var(--accessibilityFilter);
-  --accentC2Filter: var(--accessibilityFilter);
-  --accentC3Filter: var(--accessibilityFilter);
+  --accentC1Filter: var(--bwImageFilter);
+  --accentC2Filter: var(--bwImageFilter);
+  --accentC3Filter: var(--bwImageFilter);
   --fadedPrimaryFilter: invert(12%) sepia(0%) saturate(1199%) hue-rotate(190deg) brightness(98%) contrast(84%);
   --bwImageFilter: brightness(0) invert(1);
 }
@@ -28,6 +28,7 @@ html.contrast header a:focus,
 html.contrast header button:focus {
   outline: 2px solid var(--accessibilityC);
   outline-offset: -2px;
+  border-radius: var(--bdRadius2);
 }
 @media (max-width: 899px) {
   html.contrast header .nav-wrapper #flyout nav .nav-list li.has-submenu.open .submenu-btn {
@@ -36,6 +37,14 @@ html.contrast header button:focus {
   html.contrast header .nav-wrapper #flyout .flyout_cranes {
     filter: var(--bwImageFilter);
   }
+}
+@media (min-width: 900px) {
+  html.contrast header .nav-wrapper nav .nav-list > li:not(.h-logo) > .submenu-btn {
+    padding: 15px 3px;
+  }
+}
+html.contrast header .open-flyout {
+  outline-offset: 5px !important;
 }
 html.contrast header .open-flyout img:first-child {
   filter: var(--accessibilityFilter);
@@ -46,6 +55,9 @@ html.contrast header .open-flyout img:last-child {
 html.contrast #AUI {
   background-color: var(--black);
   outline: 2px solid var(--lightTint);
+}
+html.contrast #AUI .AUIicon img:last-child {
+  filter: var(--accessibilityFilter);
 }
 html.contrast #AUI:focus-within,
 html.contrast #AUI:hover {
@@ -62,6 +74,10 @@ html.contrast #AUI:hover .lightTheme {
 }
 html.contrast #content section {
   background-color: var(--black) !important;
+}
+html.contrast #content section .scroll-container:focus-visible {
+  outline: 2px solid var(--accessibilityC);
+  outline-offset: 3px;
 }
 html.contrast section#mural {
   --accentC: var(--white);
@@ -90,6 +106,9 @@ html.contrast section#featured .featured .featured_item > img {
 html.contrast section#featured .featured .featured_item > div {
   border: 2px solid var(--lightTint);
 }
+html.contrast section#featured .featured .featured_item > div > div h2 {
+  color: var(--accessibilityC) !important;
+}
 html.contrast section#featured .shape_divider_1 path {
   stroke: var(--lightTint);
   stroke-width: 2px;
@@ -108,24 +127,51 @@ html.contrast section#focusAreas .focusArea .card {
 html.contrast section#focusAreas .focusArea .card .content {
   border-top: 2px solid var(--lightTint);
 }
+html.contrast section#focusAreas .focusArea .card .content h3 {
+  color: var(--accessibilityC);
+}
 html.contrast .controls button[class*="scroll"] img {
   opacity: 1;
-}
-html.contrast .controls button[class*="scroll"]:hover img,
-html.contrast .controls button[class*="scroll"]:focus img {
   filter: var(--accessibilityFilter);
 }
-html.contrast section#timeline {
-  --accentC: var(--black);
-  --accentCFilter: none;
+html.contrast .controls button[class*="scroll"]:hover,
+html.contrast .controls button[class*="scroll"]:focus {
+  outline: 2px solid var(--accessibilityC);
+  border-radius: var(--bdRadius2);
 }
 html.contrast section#timeline::after {
   filter: var(--accentC1Filter);
 }
+html.contrast section#timeline .button {
+  color: var(--accessibilityC) !important;
+  border: 2px solid var(--accessibilityC) !important;
+}
+html.contrast section#timeline .button img {
+  filter: var(--accessibilityFilter) !important;
+}
+html.contrast section#timeline .button:hover,
+html.contrast section#timeline .button:focus {
+  outline: none !important;
+  color: var(--black) !important;
+  background-color: var(--accessibilityC) !important;
+}
+html.contrast section#timeline .button:hover img,
+html.contrast section#timeline .button:focus img {
+  filter: none !important;
+}
 html.contrast footer a {
   opacity: 1 !important;
+  color: var(--accessibilityC) !important;
 }
 html.contrast footer a:hover,
 html.contrast footer a:focus {
-  color: var(--accessibilityC) !important;
+  outline: 2px solid var(--accessibilityC);
+  outline-offset: 2px;
+  border-radius: var(--bdRadius2);
+}
+html.contrast footer .footer-nl form input:hover {
+  outline: 2px solid var(--accessibilityC);
+}
+html.contrast footer .footer-decor img {
+  filter: var(--bwImageFilter);
 }

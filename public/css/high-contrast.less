@@ -18,9 +18,9 @@ html.contrast {
     --accessibilityFilter: invert(89%) sepia(17%) saturate(3753%) hue-rotate(327deg) brightness(103%) contrast(101%);
     --primaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
     --secondaryFilter: invert(100%) sepia(0%) saturate(3503%) hue-rotate(57deg) brightness(118%) contrast(108%);
-    --accentC1Filter: var(--accessibilityFilter);
-    --accentC2Filter: var(--accessibilityFilter);
-    --accentC3Filter: var(--accessibilityFilter);
+    --accentC1Filter: var(--bwImageFilter);
+    --accentC2Filter: var(--bwImageFilter);
+    --accentC3Filter: var(--bwImageFilter);
     --fadedPrimaryFilter: invert(12%) sepia(0%) saturate(1199%) hue-rotate(190deg) brightness(98%) contrast(84%);
     --bwImageFilter: brightness(0) invert(1);
 
@@ -33,7 +33,7 @@ html.contrast {
             &:focus {
                 outline: 2px solid var(--accessibilityC);
                 outline-offset: -2px;
-
+                border-radius: var(--bdRadius2);
             }
         }
 
@@ -47,7 +47,15 @@ html.contrast {
             }
         }
 
+        @media @s-d {
+            .nav-wrapper nav .nav-list>li:not(.h-logo)>.submenu-btn {
+                padding: 15px 3px;
+            }
+        }
+
         .open-flyout {
+            outline-offset: 5px !important;
+
             img {
                 &:first-child {
                     filter: var(--accessibilityFilter);
@@ -64,6 +72,12 @@ html.contrast {
 
         background-color: var(--black);
         outline: 2px solid var(--lightTint);
+
+        .AUIicon {
+            img:last-child {
+                filter: var(--accessibilityFilter);
+            }
+        }
 
         &:focus-within,
         &:hover {
@@ -82,6 +96,13 @@ html.contrast {
 
     #content section {
         background-color: var(--black) !important;
+
+        .scroll-container {
+            &:focus-visible {
+                outline: 2px solid var(--accessibilityC);
+                outline-offset: 3px;
+            }
+        }
     }
 
     section#mural {
@@ -122,6 +143,12 @@ html.contrast {
 
                 >div {
                     border: 2px solid var(--lightTint);
+
+                    >div {
+                        h2 {
+                            color: var(--accessibilityC) !important;
+                        }
+                    }
                 }
             }
         }
@@ -148,14 +175,13 @@ html.contrast {
 
             .card {
                 border: 2px solid var(--lightTint);
-                // transition: border 0.3s ease;
-
-                // &:hover {
-                //     border: 2px solid var(--accessibilityC);
-                // }
 
                 .content {
                     border-top: 2px solid var(--lightTint);
+
+                    h3 {
+                        color: var(--accessibilityC);
+                    }
                 }
             }
         }
@@ -164,13 +190,13 @@ html.contrast {
     .controls button[class*="scroll"] {
         img {
             opacity: 1;
+            filter: var(--accessibilityFilter);
         }
 
         &:hover,
         &:focus {
-            img {
-                filter: var(--accessibilityFilter);
-            }
+            outline: 2px solid var(--accessibilityC);
+            border-radius: var(--bdRadius2);
         }
     }
 
@@ -179,17 +205,54 @@ html.contrast {
             filter: var(--accentC1Filter);
         }
 
-        --accentC: var(--black);
-        --accentCFilter: none;
+        .button {
+
+            color: var(--accessibilityC) !important;
+            border: 2px solid var(--accessibilityC) !important;
+
+            img {
+                filter: var(--accessibilityFilter) !important;
+            }
+
+            &:hover,
+            &:focus {
+                outline: none !important;
+                color: var(--black) !important;
+                background-color: var(--accessibilityC) !important;
+
+                img {
+                    filter: none !important;
+                }
+            }
+        }
     }
 
     footer {
         a {
             opacity: 1 !important;
+            color: var(--accessibilityC) !important;
 
             &:hover,
             &:focus {
-                color: var(--accessibilityC) !important;
+                outline: 2px solid var(--accessibilityC);
+                outline-offset: 2px;
+                border-radius: var(--bdRadius2);
+            }
+        }
+
+        .footer-nl {
+            form {
+                input {
+                    &:hover {
+                        outline: 2px solid var(--accessibilityC);
+                    }
+                }
+            }
+        }
+
+        .footer-decor {
+            img {
+                filter: var(--bwImageFilter);
             }
         }
     }
