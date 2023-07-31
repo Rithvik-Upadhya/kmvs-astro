@@ -72,6 +72,8 @@ const isLimited = timeline.length < 4;
 											<img
 												src='/images/decor/arrow.png'
 												alt=''
+												width='25'
+												height='13'
 											/>
 										</a>
 									)}
@@ -90,7 +92,7 @@ const isLimited = timeline.length < 4;
 	@import '../../styles/variables.less';
 	section#timeline {
 		--accentC: var(--accentC2);
-		--accentFilter: var(--accentC2Filter);
+		--accentCFilter: var(--accentC2Filter);
 		overflow: hidden;
 		background-color: var(--accentC2);
 		position: relative;
@@ -163,6 +165,7 @@ const isLimited = timeline.length < 4;
 							.featured-image {
 								display: block;
 								width: 100%;
+								height: calc(var(--cardWidth) * 0.666 - 18px);
 								border-radius: var(--bdRadius);
 							}
 							.border {

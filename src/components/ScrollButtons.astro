@@ -10,10 +10,20 @@ const { isLimited, target } = Astro.props;
 
 <div class:list={['controls', { 'd-hide': isLimited }]}>
 	<button class='scroll' data-dir='left' data-target={target}>
-		<img src='/images/components/nav_button.png' alt='scroll left' />
+		<img
+			src='/images/components/nav_button.png'
+			alt='scroll left'
+			width='55'
+			height='42'
+		/>
 	</button>
 	<button class='scroll' data-dir='right' data-target={target}>
-		<img src='/images/components/nav_button.png' alt='scroll right' />
+		<img
+			src='/images/components/nav_button.png'
+			alt='scroll right'
+			width='55'
+			height='42'
+		/>
 	</button>
 </div>
 
