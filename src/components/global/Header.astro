@@ -25,11 +25,18 @@ const logo = '/images/logo.svg';
 			class='open-flyout'
 			aria-controls={`flyout`}
 			aria-expanded='false'>
-			☰
+			<img src='/images/components/hamburger_1.png' alt='' />
+			<img src='/images/components/hamburger_2.png' alt='' />
 		</button>
 		<div id='flyout' tabindex='-1'>
 			<button class='close-flyout' aria-label='close menu'>✕</button>
 			<MainNav />
+			<img
+				class='flyout_cranes'
+				src='/images/decor/flyout_cranes_800w.png'
+				alt='illustrated cranes'
+				loading='lazy'
+			/>
 		</div>
 	</div>
 	<AccessibilityMenu />
@@ -92,6 +99,7 @@ const logo = '/images/logo.svg';
 	// open and close buttons
 	openFlyoutBtn.addEventListener('click', event => {
 		event.preventDefault();
+
 		mobileNavWrapper.classList.add('open');
 		openFlyoutBtn.setAttribute('aria-expanded', 'true');
 		flyout.focus();
@@ -205,7 +213,7 @@ const logo = '/images/logo.svg';
 			}
 		}
 		&.auto-hide.down:not(:hover):not(:focus-within) {
-			.nav-wrapper {
+			.nav-wrapper:not(.open) {
 				transform: translateY(calc(-1 * var(--headerH)));
 				transition: transform 0.5s ease 2s;
 			}
@@ -249,7 +257,7 @@ const logo = '/images/logo.svg';
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						max-width: 800px;
+						max-width: 900px;
 						width: 100%;
 						li.h-logo {
 							margin: 0 30px;
@@ -353,6 +361,24 @@ const logo = '/images/logo.svg';
 						}
 					}
 				}
+				.open-flyout {
+					position: relative;
+					width: 30px;
+					height: 25.5px;
+					img {
+						position: absolute;
+						left: 0;
+						top: 0;
+						width: 30px;
+						height: 25.5px;
+						&:first-child {
+							filter: var(--accentC1Filter);
+						}
+						&:last-child {
+							filter: var(--accentC3Filter);
+						}
+					}
+				}
 				.open-flyout,
 				.close-flyout {
 					background-color: transparent;
@@ -369,7 +395,6 @@ const logo = '/images/logo.svg';
 					top: 0;
 					left: 0;
 					background-color: var(--primaryC);
-					padding: 100px 25px;
 					overflow-y: auto;
 					overflow-x: hidden;
 					transform: translateX(110vw);
@@ -378,11 +403,11 @@ const logo = '/images/logo.svg';
 						visibility 0s ease 0.3s;
 					visibility: hidden;
 					.close-flyout {
-						position: absolute;
-						top: 30px;
-						right: 30px;
+						margin: 30px;
 					}
 					nav {
+						background-color: var(--primaryC);
+						margin: 100px 25px;
 						.nav-list {
 							li.has-submenu {
 								border-bottom: 2px solid var(--darkTint);
@@ -433,6 +458,11 @@ const logo = '/images/logo.svg';
 						}
 					}
 				}
+				.flyout_cranes {
+					width: 100%;
+					transform: translateY(10px);
+					display: none;
+				}
 				&.open {
 					#flyout {
 						visibility: visible;
@@ -440,6 +470,10 @@ const logo = '/images/logo.svg';
 						transition:
 							transform 0.2s ease-out,
 							visibility 0s ease 0s;
+
+						.flyout_cranes {
+							display: block;
+						}
 					}
 				}
 			}
