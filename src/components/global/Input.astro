@@ -9,12 +9,21 @@ export interface Props {
 	wrap?: boolean;
 	required?: boolean;
 	invert?: boolean;
+	classes?: string[];
 }
 
-const { type, id, label, options, wrap, required } = Astro.props;
+const { type, id, label, options, wrap, required, invert, classes } =
+	Astro.props;
 ---
 
-<div class:list={['form-group', { 'input-wrap': wrap }, type ? type : 'text']}>
+<div
+	class:list={[
+		'form-group',
+		{ 'input-wrap': wrap },
+		invert,
+		type ? type : 'text',
+		classes,
+	]}>
 	<label for={id}>{label}</label>
 	{
 		type === 'textarea' ? (
@@ -39,6 +48,9 @@ const { type, id, label, options, wrap, required } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
+		&.screen-reader-text {
+			position: absolute;
+		}
 		label {
 			font-weight: 500;
 			color: var(--textC1);
