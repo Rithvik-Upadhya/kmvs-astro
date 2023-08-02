@@ -179,3 +179,6 @@ html.contrast footer .footer-nl form input:hover {
 html.contrast footer .footer-decor img {
   filter: var(--bwImageFilter);
 }
+html.contrast section#title .container .border-top {
+  filter: var(--bwImageFilter);
+}
