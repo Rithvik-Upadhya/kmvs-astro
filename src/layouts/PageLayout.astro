@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Title from '../components/global/Title.astro';
+export interface Props {
+	title: string;
+	image?: string;
+	classes?: string[];
+}
+
+const { title, image, classes } = Astro.props;
+---
+
+<BaseLayout {title} {image} {classes}>
+	<Title title={'Contact Us'} />
+	<slot />
+</BaseLayout>
+
+<style lang='less' is:global>
+	#content {
+		section:last-child {
+			position: relative;
+			padding-bottom: 75px;
+			&::after {
+				position: absolute;
+				content: '';
+				background-image: url('/images/decor/separator_1.svg');
+				background-repeat: repeat-x;
+				background-size: 26px;
+				filter: var(--secondaryFilter);
+				width: 100%;
+				height: 20px;
+				bottom: 3px;
+			}
+		}
+	}
+</style>

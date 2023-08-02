@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import singleGQL from '../api/singleGQL';
 import Featured from '../components/home/Featured.astro';
 import FocusAreas from '../components/home/FocusAreas.astro';
@@ -14,12 +14,9 @@ const {
 } = homepageData;
 ---
 
-<Layout
-	title={'Kutch Mahila Vikas Sangathan'}
-	image='/favicon.png'
-	classes={['home']}>
+<BaseLayout title={''} image='/favicon.png' classes={['home']}>
 	<Mural {tagline} {metrics} />
 	<Featured {featured} />
 	<FocusAreas />
 	<Timeline title='The Genesis, and the Journey' {timeline} />
-</Layout>
+</BaseLayout>

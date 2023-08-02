@@ -4,6 +4,7 @@ html.contrast {
     --black: #000000;
     --white: #ffffff;
     --primaryC: var(--black);
+    --lightPrimaryC: #151515;
     --secondaryC: var(--black);
     --accessibilityC: #ffba3c;
     --accentC1: var(--accessibilityC);
@@ -35,6 +36,10 @@ html.contrast {
                 outline-offset: -2px;
                 border-radius: var(--bdRadius2);
             }
+        }
+
+        .nav-wrapper .h-logo a img {
+            filter: var(--bwImageFilter);
         }
 
         @media @s-nd {

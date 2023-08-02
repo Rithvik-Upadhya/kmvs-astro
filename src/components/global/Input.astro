@@ -1,0 +1,157 @@
+---
+import slugify from '../../utils/slugify';
+
+export interface Props {
+	type?: any;
+	id: string;
+	label: string;
+	options?: string[];
+	wrap?: boolean;
+	required?: boolean;
+	invert?: boolean;
+}
+
+const { type, id, label, options, wrap, required } = Astro.props;
+---
+
+<div class:list={['form-group', { 'input-wrap': wrap }, type ? type : 'text']}>
+	<label for={id}>{label}</label>
+	{
+		type === 'textarea' ? (
+			<textarea name={id} {id} cols='30' rows='5' />
+		) : type === 'select' && options ? (
+			<select name={id} {id} {required}>
+				<option value='' selected>
+					-- Select --
+				</option>
+				{options.map(option => (
+					<option value={slugify(option)}>{option}</option>
+				))}
+			</select>
+		) : (
+			<input type={type || 'text'} name={id} {id} {required} />
+		)
+	}
+</div>
+
+<style lang='less'>
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		label {
+			font-weight: 500;
+			color: var(--textC1);
+		}
+		input[type='text'],
+		input[type='email'] {
+			background-color: var(--darkTint);
+			padding: 0.5em 0.75em;
+			width: 100%;
+			height: auto;
+			border-radius: var(--bdRadius2);
+			position: relative;
+			font-size: 1em;
+			line-height: 1em;
+			color: var(--textC1);
+		}
+		input,
+		select,
+		textarea {
+			border: none;
+			outline: 2px solid transparent;
+			&:focus {
+				outline: 2px solid var(--accentC3);
+			}
+		}
+		select,
+		textarea {
+			background-color: var(--darkTint);
+			padding: 0.5em 0.75em;
+			width: 100%;
+			height: auto;
+			border-radius: var(--bdRadius2);
+			font-size: 1em;
+			line-height: 1em;
+			color: var(--textC1);
+		}
+		select {
+			-webkit-appearance: none;
+			appearance: none;
+			background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234d4d4d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E') !important;
+			background-repeat: no-repeat !important;
+			background-position: right 0.7em top 50% !important;
+			background-size:
+				0.65em auto,
+				100% !important;
+			padding-right: 2em;
+			height: 2.6em;
+		}
+		&.input-wrap {
+			position: relative;
+			width: 100%;
+			input {
+				width: 100%;
+			}
+			label {
+				position: absolute;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				margin-left: 20px;
+				font-size: 1em;
+				top: 0;
+				transition: transform 0.1s cubic-bezier(0.39, 0.575, 0.565, 1);
+				pointer-events: none;
+				z-index: 2;
+			}
+			&:focus-within label,
+			input:focus ~ label,
+			label.input-filled {
+				transform: scale(0.9) translateY(-0.78em);
+				transform-origin: bottom left;
+				transition: transform 0.1s cubic-bezier(0.39, 0.575, 0.565, 1);
+				height: -webkit-max-content;
+				height: max-content;
+				padding-left: 5px;
+				padding-right: 5px;
+				background: linear-gradient(
+					180deg,
+					rgba(255, 255, 255, 0) 45%,
+					var(--lightPrimaryC) 47%,
+					var(--lightPrimaryC) 58%,
+					rgba(255, 255, 255, 0) 60%
+				);
+			}
+		}
+		&.checkbox {
+			display: flex;
+			flex-flow: row-reverse;
+			gap: 10px;
+			justify-content: flex-end;
+		}
+	}
+</style>
+
+<script>
+	const inputWraps = document.querySelectorAll('.input-wrap');
+
+	function checkForInput(input, label) {
+		input.value.length > 0
+			? label.classList.add('input-filled')
+			: label.classList.remove('input-filled');
+	}
+
+	inputWraps.forEach(inputWrap => {
+		const input = inputWrap.querySelector('input');
+		const label = inputWrap.querySelector('label');
+
+		if (input && label) {
+			checkForInput(input, label);
+
+			input.addEventListener('input', () => {
+				checkForInput(input, label);
+			});
+		}
+	});
+</script>

@@ -1,0 +1,96 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Input from '../components/global/Input.astro';
+---
+
+<PageLayout title={'Contact Us'} image='/favicon.png' classes={['contact-us']}>
+	<section id='contactForm'>
+		<div class='container'>
+			<form name='contact' method='POST' data-netlify='true'>
+				<div class='form-row'>
+					<Input id='name' label='Name' wrap required />
+					<Input
+						type='email'
+						id='email'
+						label='Email'
+						wrap
+						required
+					/>
+					<Input id='organisation' label='Organisation' wrap />
+				</div>
+				<div class='form-row'>
+					<Input
+						type='select'
+						id='regarding'
+						label='What is this Regarding?'
+						options={[
+							'Collaboration',
+							'Feedback',
+							'Work Opportunity',
+							'Donation',
+							'General Enquiry',
+							'Other',
+						]}
+					/>
+					<Input
+						type='select'
+						id='source'
+						label='How did you hear about us?'
+						options={[
+							'Social Media',
+							'Search Engine',
+							'Friends / Family',
+							'Another Organisation',
+							'Other Source',
+						]}
+					/>
+				</div>
+				<Input type='textarea' id='query' label='Query' required />
+				<Input
+					type='checkbox'
+					id='consent'
+					label='I consent to being contacted about my query'
+				/>
+				<div class='form-group'>
+					<input type='submit' id='submit' value='Submit' />
+				</div>
+			</form>
+		</div>
+	</section>
+</PageLayout>
+
+<style lang='less'>
+	#contactForm {
+		.container {
+			form {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 50px 25px;
+				border-radius: var(--bdRadius);
+				background-color: var(--lightPrimaryC);
+				display: flex;
+				flex-direction: column;
+				gap: 25px;
+				.form-row {
+					display: grid;
+					grid-gap: 25px 50px;
+					grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				}
+				input[type='submit'] {
+					color: var(--accentC2);
+					border: 2px solid var(--accentC2);
+					background-color: transparent;
+					padding: 8px 12px;
+					border-radius: 10px;
+					font-weight: 500;
+					transition: 0.3s ease;
+					&:focus,
+					&:hover {
+						background-color: var(--accentC2);
+						color: var(--lightPrimaryC);
+					}
+				}
+			}
+		}
+	}
+</style>
