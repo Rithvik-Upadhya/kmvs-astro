@@ -1,0 +1,44 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Input from '../../components/global/Input.astro';
+---
+
+<PageLayout
+	title={'Contact Form Submitted'}
+	image='/favicon.png'
+	classes={['contact-us']}>
+	<section>
+		<div class='container'>
+			<div id='contactForm'>
+				<div class='success-message'>
+					<h2>Thank you for contacting us!</h2>
+					<p>
+						We have received your submission. We will reach out as
+						soon as possible.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</PageLayout>
+
+<style lang='less'>
+	section {
+		.container {
+			#contactForm {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 50px 25px;
+				border-radius: var(--bdRadius);
+				background-color: var(--lightPrimaryC);
+				.success-message {
+					color: var(--textC1);
+					text-align: center;
+					h2 {
+						margin-bottom: 20px;
+					}
+				}
+			}
+		}
+	}
+</style>

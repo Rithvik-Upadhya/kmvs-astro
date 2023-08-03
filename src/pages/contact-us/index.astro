@@ -1,6 +1,6 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import Input from '../components/global/Input.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Input from '../../components/global/Input.astro';
 ---
 
 <PageLayout title={'Contact Us'} image='/favicon.png' classes={['contact-us']}>
@@ -10,7 +10,7 @@ import Input from '../components/global/Input.astro';
 				<form
 					name='contact'
 					method='POST'
-					action='/contact-us?submit=success'
+					action='/contact-us/success'
 					data-netlify='true'
 					netlify-honeypot='first-name'>
 					<Input
@@ -67,41 +67,10 @@ import Input from '../components/global/Input.astro';
 						<input type='submit' id='submit' value='Submit' />
 					</div>
 				</form>
-				<div class='success-message' style='display: none;'>
-					<h2>Thank you for contacting us!</h2>
-					<p>
-						We have received your submission. We will reach out as
-						soon as possible.
-					</p>
-				</div>
 			</div>
 		</div>
 	</section>
 </PageLayout>
-
-<script>
-	window.onload = function () {
-		const urlParams = new URLSearchParams(window.location.search);
-		const submitStatus = urlParams.get('submit');
-
-		const contactForm = document.querySelector(
-			'#contactForm form'
-		) as HTMLElement;
-		const successMessage = document.querySelector(
-			'#contactForm .success-message'
-		) as HTMLElement;
-
-		if (submitStatus === 'success') {
-			// Hide the contact form and show the success message
-			contactForm.style.display = 'none';
-			successMessage.style.display = 'block';
-		} else {
-			// Show the contact form and hide the success message
-			contactForm.style.display = 'flex';
-			successMessage.style.display = 'none';
-		}
-	};
-</script>
 
 <style lang='less'>
 	section {
@@ -138,13 +107,6 @@ import Input from '../components/global/Input.astro';
 							background-color: var(--accentC2);
 							color: var(--lightPrimaryC);
 						}
-					}
-				}
-				.success-message {
-					color: var(--textC1);
-					text-align: center;
-					h2 {
-						margin-bottom: 20px;
 					}
 				}
 			}
