@@ -113,3 +113,36 @@ export const siteDetailsQuery = `
       }
     }
 `;
+export const pagesQuery = `
+    query {
+      pages {
+        data {
+          id
+          attributes {
+            title
+            sections {
+              title
+              content
+            }
+            timeline {
+              year
+              title
+              description
+              button {
+                label
+                link
+              }
+              image {
+                data {
+                  attributes {
+                    url
+                    alternativeText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }  
+    }
+`;

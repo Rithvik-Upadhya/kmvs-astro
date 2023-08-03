@@ -1,0 +1,48 @@
+---
+import singleGQL from '../api/singleGQL';
+import { pagesQuery } from '../../variables';
+import slugify from '../utils/slugify';
+import PageLayout from '../layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+	const pagesData = await singleGQL('pages', pagesQuery);
+
+	return pagesData.map(page => ({
+		params: { slug: slugify(page.attributes.title) },
+		props: page,
+	}));
+}
+
+const page = Astro.props;
+const {
+	attributes: { title, sections, timeline },
+} = page;
+---
+
+<PageLayout {title} image='/favicon.png' classes={['page']}>
+	{
+		sections.map((section, index) => {
+			const { title, content } = section;
+			return (
+				<section id={`section-${index}`}>
+					<div class='container'>
+						<h2>{title}</h2>
+						<Fragment set:html={content} />
+					</div>
+				</section>
+			);
+		})
+	}
+</PageLayout>
+
+<style lang='less'>
+	section {
+		.container {
+			padding-top: 25px;
+			padding-bottom: 25px;
+			h2 {
+				margin-bottom: 15px;
+			}
+		}
+	}
+</style>
