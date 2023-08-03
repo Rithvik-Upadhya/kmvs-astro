@@ -11,7 +11,7 @@ const { title, image, classes } = Astro.props;
 ---
 
 <BaseLayout {title} {image} {classes}>
-	<Title title={'Contact Us'} />
+	<Title {title} />
 	<slot />
 </BaseLayout>
 
