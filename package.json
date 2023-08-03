@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@astrojs/image": "^0.17.2",
+    "@astrojs/netlify": "^2.5.2",
     "@astrojs/sitemap": "^1.4.0",
-    "astro": "^2.8.0",
+    "astro": "^2.10.1",
     "astro-seo": "^0.7.5",
     "autoprefixer": "^10.4.14",
     "less": "^4.1.3",
