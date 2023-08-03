@@ -1,0 +1,36 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+	title={'Page Not Found'}
+	image='/favicon.png'
+	classes={['contact-us']}>
+	<section>
+		<div class='container'>
+			<div id='error-notice'>
+				<h2>404 Error</h2>
+				<p>We could not find the page you were looking for.</p>
+			</div>
+		</div>
+	</section>
+</PageLayout>
+
+<style lang='less'>
+	section {
+		.container {
+			#error-notice {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 50px 25px;
+				border-radius: var(--bdRadius);
+				background-color: var(--lightPrimaryC);
+				color: var(--textC1);
+				text-align: center;
+				h2 {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+</style>
