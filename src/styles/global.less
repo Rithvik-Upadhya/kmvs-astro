@@ -47,6 +47,7 @@ Basic Styling
 body {
     font-family: var(--fontFamily1);
     background-color: var(--primaryC);
+    color: var(--textC1);
     position: relative;
 
     >.wrapper {
@@ -98,6 +99,33 @@ a {
     }
 }
 
+#content {
+    ul {
+        list-style: none;
+        padding-left: 50px;
+
+        li {
+            line-height: 1.8em;
+            position: relative;
+
+            &::before {
+                position: absolute;
+                content: '';
+                left: -27px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                width: 16px;
+                height: 16px;
+                background-image: url('/images/decor/flower.png');
+                background-size: contain;
+                background-position: center;
+                filter: var(--accentC1Filter);
+            }
+        }
+    }
+}
+
 each(range(6), {
     h@{value} {
         font-family: var(--fontFamily2);
@@ -105,12 +133,13 @@ each(range(6), {
         font-style: italic;
         line-height: 1.4;
         margin: 0;
+        font-size: clamp(25px, (2.1em-0.2*@value), 42px);
     }
 });
 
 p {
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
 /*************************************

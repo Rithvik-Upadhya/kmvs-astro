@@ -225,6 +225,7 @@
 </script>
 
 <style lang='less'>
+	@import '../../styles/variables.less';
 	#AUI {
 		--accessibilityC: #ffba3c;
 		--accessibilityFilter: invert(89%) sepia(17%) saturate(3753%)
@@ -232,7 +233,6 @@
 		position: fixed;
 		right: -260px;
 		transition: right 0.3s ease;
-		top: 240px;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -241,6 +241,12 @@
 		padding: 10px;
 		background-color: var(--accentC2);
 		border-radius: var(--bdRadius2) 0 0 var(--bdRadius2);
+		@media @s-nm {
+			top: 240px;
+		}
+		@media @s-m {
+			bottom: 200px;
+		}
 		button {
 			border: none;
 			color: var(--textC1);
