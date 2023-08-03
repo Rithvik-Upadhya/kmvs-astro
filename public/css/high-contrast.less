@@ -127,6 +127,10 @@ html.contrast {
     section#featured {
         --accentC: var(--white);
 
+        &::after {
+            display: none;
+        }
+
         .featured {
 
             &::before,
@@ -167,6 +171,12 @@ html.contrast {
     }
 
     section#focusAreas {
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
         .focusArea {
 
             &:hover,
@@ -208,6 +218,10 @@ html.contrast {
     section#timeline {
         &::after {
             filter: var(--accentC1Filter);
+        }
+
+        &::before {
+            display: none;
         }
 
         .button {

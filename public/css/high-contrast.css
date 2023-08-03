@@ -95,6 +95,9 @@ html.contrast section#mural .flourish_1 {
 html.contrast section#featured {
   --accentC: var(--white);
 }
+html.contrast section#featured::after {
+  display: none;
+}
 html.contrast section#featured .featured::before,
 html.contrast section#featured .featured::after {
   filter: var(--bwImageFilter);
@@ -116,6 +119,10 @@ html.contrast section#featured .featured .featured_item > div > div h2 {
 html.contrast section#featured .shape_divider_1 path {
   stroke: var(--lightTint);
   stroke-width: 2px;
+}
+html.contrast section#focusAreas::before,
+html.contrast section#focusAreas::after {
+  display: none;
 }
 html.contrast section#focusAreas .focusArea:hover,
 html.contrast section#focusAreas .focusArea:focus {
@@ -145,6 +152,9 @@ html.contrast .controls button[class*="scroll"]:focus {
 }
 html.contrast section#timeline::after {
   filter: var(--accentC1Filter);
+}
+html.contrast section#timeline::before {
+  display: none;
 }
 html.contrast section#timeline .button {
   color: var(--accessibilityC) !important;
