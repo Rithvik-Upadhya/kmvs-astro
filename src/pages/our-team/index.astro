@@ -1,0 +1,36 @@
+---
+export const prerender = false;
+import singleGQL from '../../api/singleGQL';
+import { ourTeamQuery } from '../../../variables';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Members from './_Members.astro';
+
+const ourTeamData = await singleGQL('ourTeams', ourTeamQuery);
+
+ourTeamData.sort((a, b) => a.attributes.name.localeCompare(b.attributes.name));
+
+let { staff, board } = ourTeamData.reduce(
+	(accumulator, member) => {
+		if (member.attributes.category === 'Staff') {
+			accumulator.staff.push(member);
+		} else if (member.attributes.category === 'Board') {
+			accumulator.board.push(member);
+		}
+		return accumulator;
+	},
+	{ staff: [], board: [] }
+);
+---
+
+<PageLayout title='Our Team' classes={['our-team']}>
+	{
+		staff.length != 0 && (
+			<Members id='staff' label='Staff Members' members={staff} />
+		)
+	}
+	{
+		board.length != 0 && (
+			<Members id='board' label='Board Members' members={board} />
+		)
+	}
+</PageLayout>

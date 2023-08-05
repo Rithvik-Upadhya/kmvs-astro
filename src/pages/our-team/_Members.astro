@@ -1,0 +1,180 @@
+---
+export interface Props {
+	id: string;
+	label: string;
+	members: Array<any>;
+}
+
+const { id, label, members } = Astro.props;
+
+import { Picture } from '@astrojs/image/components';
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import cleanHTML from '../../utils/cleanHTML';
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
+---
+
+<section {id}>
+	<div class='container'>
+		<h2>{label}</h2>
+		<div class='post-grid'>
+			{
+				members.map(member => {
+					const {
+						id,
+						attributes: {
+							name,
+							profilePicture,
+							role,
+							project,
+							about,
+						},
+					} = member;
+					return (
+						<a
+							class='post bordered'
+							href='#'
+							aria-haspopup='dialog'
+							aria-controls={`modal_${id}`}
+							aria-expanded='false'
+							aria-label={`Details about ${name}`}
+							data-key={id}>
+							<div class='card'>
+								{profilePicture.data ? (
+									<Picture
+										class='featured-image'
+										src={
+											strapi_url +
+											profilePicture.data.attributes.url
+										}
+										alt={`Profile picture of ${name}`}
+										aspectRatio={3 / 2}
+										widths={[500]}
+										sizes='100%'
+										formats={['avif', 'webp']}
+									/>
+								) : (
+									<PlaceholderImage class='featured-image invert' />
+								)}
+								<div class='content'>
+									<h3>{name}</h3>
+									<hr />
+									<p class='w-500'>
+										{[project, role]
+											.filter(Boolean)
+											.join(' - ')}
+									</p>
+								</div>
+								<p class='read-more'>
+									Read More
+									<img
+										src='/images/decor/arrow.png'
+										alt=''
+										role='presentation'
+									/>
+								</p>
+							</div>
+						</a>
+					);
+				})
+			}
+		</div>
+		<div class='modals'>
+			{
+				members.map(member => {
+					const {
+						id,
+						attributes: { name, about },
+					} = member;
+					return (
+						<dialog
+							id={`modal_${id}`}
+							class='modal'
+							role='dialog'
+							aria-labelledby={`modal_title_${id}`}>
+							<h3 id={`modal_title_${id}`}>{name}</h3>
+							<div class='set-html' set:html={cleanHTML(about)} />
+							<button
+								class='close-modal button'
+								aria-label='Close the modal'
+								tabindex='0'>
+								Close
+							</button>
+						</dialog>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>
+
+<style lang='less'>
+	section {
+		--accentC: var(--secondaryC);
+		&:not(:last-child) {
+			margin-bottom: 75px;
+		}
+		h2 {
+			margin-bottom: 50px;
+		}
+		.post.bordered {
+			--accentFilter: var(--accentC2Filter);
+			--opacity: 0.4;
+		}
+		.content {
+			p {
+				margin-bottom: 10px;
+			}
+		}
+		dialog {
+			--accentC: var(--accentC2);
+			button {
+				--bgC: var(--primaryC);
+			}
+		}
+	}
+</style>
+
+<script>
+	const postLinks = document.querySelectorAll(
+		'.post'
+	) as NodeListOf<HTMLElement>;
+
+	postLinks.forEach(postLink => {
+		const key = postLink.dataset.key;
+		const modal = document.getElementById(
+			`modal_${key}`
+		) as HTMLDialogElement;
+		const closeButton = modal.querySelector(
+			'.close-modal'
+		) as HTMLButtonElement;
+
+		const openModal = event => {
+			event.preventDefault();
+			modal.showModal();
+			modal.focus();
+			postLink.setAttribute('aria-expanded', 'true');
+			document.body.style.overflow = 'hidden';
+		};
+
+		const closeModal = () => {
+			modal.close();
+			postLink.focus();
+			postLink.setAttribute('aria-expanded', 'false');
+			document.body.style.overflow = '';
+		};
+		postLink.addEventListener('click', openModal);
+		closeButton.addEventListener('click', closeModal);
+
+		modal.addEventListener('click', event => {
+			const rect = modal.getBoundingClientRect();
+			const isInDialog =
+				rect.top <= event.clientY &&
+				event.clientY <= rect.top + rect.height &&
+				rect.left <= event.clientX &&
+				event.clientX <= rect.left + rect.width;
+			if (!isInDialog) {
+				closeModal();
+			}
+		});
+	});
+</script>
