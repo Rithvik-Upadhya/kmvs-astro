@@ -2,6 +2,7 @@
 import Performance from './Performance.astro';
 import singleGQL from '../../api/singleGQL';
 import { footerQuery } from '../../../variables';
+import Input from './Input.astro';
 
 const footerData = await singleGQL('footerMenu', footerQuery);
 
@@ -32,10 +33,21 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 			<div class='footer-nl'>
 				<p class='nl-title'>Subscribe to our newsletter</p>
 				<form action='POST' action='http://localhost:3000/'>
-					<label class='screen-reader-text' for='name'>Name</label>
-					<input type='text' name='name' id='name' />
-					<label class='screen-reader-text' for='email'>Email</label>
-					<input type='email' name='email' id='email' />
+					<Input
+						id='name'
+						label='Name'
+						class='invert'
+						wrap
+						required
+					/>
+					<Input
+						type='email'
+						id='email'
+						label='Email'
+						class='invert'
+						wrap
+						required
+					/>
 					<input
 						onclick="return confirm('By submitting this form, you consent to receiving our email newsletter periodically.')"
 						type='submit'
@@ -81,178 +93,169 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 			<Performance />
 		</div>
 	</section>
-	<style lang='less'>
-		@import '../../styles/variables.less';
-		footer {
-			background-color: var(--secondaryC);
-			position: relative;
-			color: var(--textC2);
-			padding-top: 100px;
-			padding-bottom: clamp(0px, calc(100vw * 0.4), 650px);
-			z-index: 0;
-			&::before {
-				position: absolute;
-				content: '';
-				background-image: url('/images/decor/separator_2.svg');
-				background-repeat: repeat-x;
-				background-size: 26px;
-				filter: var(--accentC2Filter);
-				width: 100%;
-				height: 30px;
-				top: 4px;
-			}
-			&::after {
-				position: absolute;
-				content: '';
-				background-image: url('/images/decor/bg_pattern_1.png');
-				background-repeat: no-repeat;
-				background-position: center bottom;
-				background-size: contain;
-				filter: var(--accentC1Filter);
-				width: 100%;
-				height: clamp(0px, calc(100vw * 0.61), 850px);
-				bottom: 0;
-				z-index: -1;
-			}
-			#footer-top .container {
-				display: grid;
-				grid-template-columns: repeat(3, 1fr);
-				gap: 50px;
-				padding-bottom: 50px;
-				@media @s-t {
-					grid-template-columns: repeat(2, 1fr);
-					.footer-decor {
-						display: none;
-					}
-				}
-				@media @s-m {
-					grid-template-columns: 1fr;
-				}
-				.footer-menu,
-				.footer-nl,
+</footer>
+
+<style lang='less'>
+	@import '../../styles/variables.less';
+	footer {
+		background-color: var(--secondaryC);
+		position: relative;
+		color: var(--textC2);
+		padding-top: 100px;
+		padding-bottom: clamp(0px, calc(100vw * 0.4), 650px);
+		z-index: 0;
+		&::before {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/separator_2.svg');
+			background-repeat: repeat-x;
+			background-size: 26px;
+			filter: var(--accentC2Filter);
+			width: 100%;
+			height: 30px;
+			top: 4px;
+		}
+		&::after {
+			position: absolute;
+			content: '';
+			background-image: url('/images/decor/bg_pattern_1.png');
+			background-repeat: no-repeat;
+			background-position: center bottom;
+			background-size: contain;
+			filter: var(--accentC1Filter);
+			width: 100%;
+			height: clamp(0px, calc(100vw * 0.61), 850px);
+			bottom: 0;
+			z-index: -1;
+		}
+		#footer-top .container {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 50px;
+			padding-bottom: 50px;
+			@media @s-t {
+				grid-template-columns: repeat(2, 1fr);
 				.footer-decor {
-					text-align: center;
+					display: none;
 				}
-				.footer-menu {
-					.menu-title {
-						&::before {
-							filter: var(--accentC3Filter);
-						}
-					}
-					.menu-item {
-						margin-bottom: 10px;
-						a {
-							color: var(--textC2);
-							opacity: 0.6;
-							transition: opacity 0.2s ease;
-							&:hover,
-							&:focus {
-								opacity: 1;
-							}
-						}
-					}
-				}
-				.footer-nl {
-					.nl-title {
-						&::before {
-							filter: var(--accentC1Filter);
-						}
-					}
-					form {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						input[type='text'],
-						input[type='email'] {
-							max-width: 250px;
-							width: 250px;
-							background-color: var(--lightTint);
-							border-radius: var(--bdRadius2);
-							border: none;
-							padding: 8px 12px;
-							margin-bottom: 15px;
-							color: var(--textC2);
-							font-size: 1em;
-							&:focus {
-								outline: 2px solid var(--accentC3);
-							}
-						}
-						input[type='submit'] {
-							width: max-content;
-							background-color: var(--lightTint);
-							border-radius: var(--bdRadius2);
-							border: none;
-							padding: 8px 12px;
-							color: var(--textC2);
-							font-size: 1em;
-							&:focus {
-								outline: 2px solid var(--accentC3);
-							}
-						}
-					}
-				}
-				.menu-title,
-				.nl-title {
-					font-size: 1.25em;
-					font-family: var(--fontFamily2);
-					font-style: italic;
-					position: relative;
-					margin-top: 50px;
-					font-weight: 700;
-					margin-bottom: 25px;
+			}
+			@media @s-m {
+				grid-template-columns: 1fr;
+			}
+			.footer-menu,
+			.footer-nl,
+			.footer-decor {
+				text-align: center;
+			}
+			.footer-menu {
+				.menu-title {
 					&::before {
-						position: absolute;
-						content: '';
-						width: 30px;
-						height: 30px;
-						left: 0;
-						right: 0;
-						margin: 0 auto;
-						top: -40px;
-						background-image: url('/images/decor/flourish_1.png');
-						background-size: contain;
-						background-repeat: no-repeat;
+						filter: var(--accentC3Filter);
 					}
 				}
-				.footer-decor {
-					img {
-						display: block;
-						width: clamp(200px, 100%, 300px);
-						height: auto;
-						margin: 0 auto;
-					}
-				}
-			}
-			#footer-bottom {
-				margin-top: 25px;
-				.footer-end-links {
-					display: flex;
-					flex-direction: row;
-					flex-wrap: wrap;
-					gap: 10px;
-					align-items: center;
-					justify-content: center;
-					padding: 15px 0;
-					border-top: 2px solid var(--lightTint);
-					width: 68vw;
-					margin: 0 auto;
-					max-width: 1100px;
+				.menu-item {
+					margin-bottom: 10px;
 					a {
 						color: var(--textC2);
 						opacity: 0.6;
-						position: relative;
 						transition: opacity 0.2s ease;
 						&:hover,
 						&:focus {
 							opacity: 1;
 						}
 					}
-					span {
-						opacity: 0.6;
-						pointer-events: none;
+				}
+			}
+			.footer-nl {
+				.nl-title {
+					&::before {
+						filter: var(--accentC1Filter);
+					}
+				}
+				form {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 1.2em;
+					.form-group.invert {
+						max-width: 250px;
+						width: 250px;
+					}
+					input[type='submit'] {
+						width: max-content;
+						background-color: var(--lightTint);
+						border-radius: var(--bdRadius2);
+						border: none;
+						padding: 8px 12px;
+						color: var(--textC2);
+						font-size: 1em;
+						&:focus {
+							outline: 2px solid var(--accentC3);
+						}
 					}
 				}
 			}
+			.menu-title,
+			.nl-title {
+				font-size: 1.25em;
+				font-family: var(--fontFamily2);
+				font-style: italic;
+				position: relative;
+				margin-top: 50px;
+				font-weight: 700;
+				margin-bottom: 25px;
+				&::before {
+					position: absolute;
+					content: '';
+					width: 30px;
+					height: 30px;
+					left: 0;
+					right: 0;
+					margin: 0 auto;
+					top: -40px;
+					background-image: url('/images/decor/flourish_1.png');
+					background-size: contain;
+					background-repeat: no-repeat;
+				}
+			}
+			.footer-decor {
+				img {
+					display: block;
+					width: clamp(200px, 100%, 300px);
+					height: auto;
+					margin: 0 auto;
+				}
+			}
 		}
-	</style>
-</footer>
+		#footer-bottom {
+			margin-top: 25px;
+			.footer-end-links {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				gap: 10px;
+				align-items: center;
+				justify-content: center;
+				padding: 15px 0;
+				border-top: 2px solid var(--lightTint);
+				width: 68vw;
+				margin: 0 auto;
+				max-width: 1100px;
+				a {
+					color: var(--textC2);
+					opacity: 0.6;
+					position: relative;
+					transition: opacity 0.2s ease;
+					&:hover,
+					&:focus {
+						opacity: 1;
+					}
+				}
+				span {
+					opacity: 0.6;
+					pointer-events: none;
+				}
+			}
+		}
+	}
+</style>

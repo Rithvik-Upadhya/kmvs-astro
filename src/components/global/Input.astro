@@ -9,20 +9,27 @@ export interface Props {
 	wrap?: boolean;
 	required?: boolean;
 	invert?: boolean;
-	classes?: string[];
+	class?: string;
 }
 
-const { type, id, label, options, wrap, required, invert, classes } =
-	Astro.props;
+const {
+	type,
+	id,
+	label,
+	options,
+	wrap,
+	required,
+	invert,
+	class: className,
+} = Astro.props;
 ---
 
 <div
 	class:list={[
 		'form-group',
-		{ 'input-wrap': wrap },
-		invert,
+		{ 'input-wrap': wrap, 'invert': invert },
 		type ? type : 'text',
-		classes,
+		className,
 	]}>
 	<label for={id}>{label}</label>
 	{
@@ -66,6 +73,15 @@ const { type, id, label, options, wrap, required, invert, classes } =
 			font-size: 1em;
 			line-height: 1em;
 			color: var(--textC1);
+		}
+		&.invert {
+			label {
+				color: var(--textC2);
+			}
+			input {
+				background-color: var(--lightTint);
+				color: var(--textC2);
+			}
 		}
 		input,
 		select,
@@ -134,6 +150,19 @@ const { type, id, label, options, wrap, required, invert, classes } =
 					var(--lightPrimaryC) 58%,
 					rgba(255, 255, 255, 0) 60%
 				);
+			}
+			&.invert {
+				&:focus-within label,
+				input:focus ~ label,
+				label.input-filled {
+					background: linear-gradient(
+						180deg,
+						rgba(255, 255, 255, 0) 45%,
+						var(--secondaryC) 47%,
+						var(--secondaryC) 58%,
+						rgba(255, 255, 255, 0) 60%
+					);
+				}
 			}
 		}
 		&.checkbox {
