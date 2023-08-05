@@ -30,12 +30,14 @@ const isLimited = focusAreasData.length < 4;
 					} = focusArea;
 					const post_link = `/focus-areas/${id}`;
 					return (
-						<a class='focusArea' href={post_link}>
-							<img
-								class='border'
-								src='/images/decor/border_1.png'
-								alt=''
-							/>
+						<a class='focusArea bordered invert' href={post_link}>
+							{false && (
+								<img
+									class='border'
+									src='/images/decor/border_1.png'
+									alt=''
+								/>
+							)}
 							<div class='card'>
 								{imageData ? (
 									<Picture
@@ -120,6 +122,7 @@ const isLimited = focusAreasData.length < 4;
 				}
 			}
 			.focusAreas {
+				--cardWidth: 330px;
 				scroll-behavior: smooth;
 				display: grid;
 				grid-template-columns: repeat(
@@ -128,7 +131,6 @@ const isLimited = focusAreasData.length < 4;
 				) !important;
 				grid-template-rows: 1fr;
 				grid-auto-flow: column !important;
-				--cardWidth: 320px;
 				gap: calc(var(--cardWidth) / 10);
 				overflow-x: auto;
 				overflow-y: hidden;
@@ -142,14 +144,9 @@ const isLimited = focusAreasData.length < 4;
 					width: var(--cardWidth);
 					height: calc(var(--cardWidth) * 1.638);
 					position: relative;
-					padding: 27px;
-					.border {
-						position: absolute;
-						display: block;
-						width: 100%;
-						top: 0;
-						left: 0;
-						filter: var(--primaryFilter);
+					&.bordered::before {
+						--accentFilter: var(--primaryFilter);
+						--opacity: 0.4;
 					}
 					.card {
 						width: 100%;
@@ -157,19 +154,22 @@ const isLimited = focusAreasData.length < 4;
 						border-radius: var(--bdRadius);
 						overflow: hidden;
 						position: relative;
+						background-color: var(--primaryC);
 						.featuredImage {
 							display: block;
 							width: 100%;
 							// ie. (cardWidth - 2x padding) * 2/3
-							height: calc(var(--cardWidth) * 0.67 - 36px);
+							height: calc(var(--cardWidth) * 0.67 - 42px);
 							object-fit: cover;
 						}
 						.content {
-							padding: 20px;
+							padding: 20px 20px 60px 20px;
 							color: var(--textC1);
 							background-color: var(--primaryC);
 							transition: transform 0.3s ease;
-							height: 100%;
+							h3 {
+								font-size: 1.3em;
+							}
 							hr {
 								height: 2px;
 								background-color: var(--textC1);
@@ -178,7 +178,7 @@ const isLimited = focusAreasData.length < 4;
 								margin: 20px 0;
 							}
 							.excerpt {
-								margin-bottom: 30px;
+								margin-bottom: 10px;
 								transition: height 0.3s ease;
 							}
 						}
