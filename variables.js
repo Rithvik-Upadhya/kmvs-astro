@@ -146,3 +146,26 @@ export const pagesQuery = `
       }  
     }
 `;
+export const ourTeamQuery = `
+    query {
+      ourTeams {
+        data {
+          id
+          attributes {
+            name
+            category
+            profilePicture {
+              data {
+                attributes {
+                  url
+                }
+              }
+            }
+            role
+            project
+            about
+          }
+        }
+      }
+    }
+`;
