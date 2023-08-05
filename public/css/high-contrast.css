@@ -157,21 +157,14 @@ html.contrast section#timeline::before {
   display: none;
 }
 html.contrast section#timeline .button {
-  color: var(--accessibilityC) !important;
-  border: 2px solid var(--accessibilityC) !important;
+  --accentC: var(--accessibilityC) !important;
+  --accentFilter: var(--accessibilityFilter) !important;
+  --bgC: var(--black) !important;
+  --bgFilter: none !important;
 }
-html.contrast section#timeline .button img {
-  filter: var(--accessibilityFilter) !important;
-}
-html.contrast section#timeline .button:hover,
-html.contrast section#timeline .button:focus {
+html.contrast .button:hover,
+html.contrast .button:focus {
   outline: none !important;
-  color: var(--black) !important;
-  background-color: var(--accessibilityC) !important;
-}
-html.contrast section#timeline .button:hover img,
-html.contrast section#timeline .button:focus img {
-  filter: none !important;
 }
 html.contrast footer a {
   opacity: 1 !important;
@@ -191,4 +184,27 @@ html.contrast footer .footer-decor img {
 }
 html.contrast section#title .container .border-top {
   filter: var(--bwImageFilter);
+}
+html.contrast .post h3,
+html.contrast .post h4,
+html.contrast .post h5,
+html.contrast .post h6 {
+  color: var(--accessibilityC);
+}
+html.contrast .bordered::before {
+  transition: 0s !important;
+}
+html.contrast .bordered:hover,
+html.contrast .bordered:focus {
+  outline: none !important;
+}
+html.contrast .bordered:hover::before,
+html.contrast .bordered:focus::before {
+  --accentFilter: var(--accessibilityFilter) !important;
+}
+html.contrast .placeholder {
+  background-color: var(--lightPrimaryC) !important;
+}
+html.contrast .placeholder img {
+  filter: var(--secondaryFilter);
 }

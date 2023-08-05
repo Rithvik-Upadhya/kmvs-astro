@@ -226,23 +226,19 @@ html.contrast {
 
         .button {
 
-            color: var(--accessibilityC) !important;
-            border: 2px solid var(--accessibilityC) !important;
+            --accentC: var(--accessibilityC) !important;
+            --accentFilter: var(--accessibilityFilter) !important;
+            --bgC: var(--black) !important;
+            --bgFilter: none !important;
+        }
+    }
 
-            img {
-                filter: var(--accessibilityFilter) !important;
-            }
+    // button 
+    .button {
 
-            &:hover,
-            &:focus {
-                outline: none !important;
-                color: var(--black) !important;
-                background-color: var(--accessibilityC) !important;
-
-                img {
-                    filter: none !important;
-                }
-            }
+        &:hover,
+        &:focus {
+            outline: none !important;
         }
     }
 
@@ -282,6 +278,46 @@ html.contrast {
             .border-top {
                 filter: var(--bwImageFilter);
             }
+        }
+    }
+
+    // post card 
+
+    .post {
+
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--accessibilityC);
+        }
+    }
+
+    // border for post card
+    .bordered {
+
+        &::before {
+            transition: 0s !important;
+        }
+
+        &:hover,
+        &:focus {
+            outline: none !important;
+
+            &::before {
+                --accentFilter: var(--accessibilityFilter) !important;
+            }
+        }
+    }
+
+
+    // placeholder 
+
+    .placeholder {
+        background-color: var(--lightPrimaryC) !important;
+
+        img {
+            filter: var(--secondaryFilter);
         }
     }
 }
