@@ -12,7 +12,7 @@ const { title, timeline } = Astro.props;
 
 const strapi_url = import.meta.env.VITE_STRAPI_URL;
 
-// used to ensure that scroll buttons only appear on tablet and mobile when there are less than 4 items
+// used to ensure that scroll buttons appear only on tablet and mobile when there are less than 4 items
 const isLimited = timeline.length < 4;
 ---
 
@@ -65,15 +65,14 @@ const isLimited = timeline.length < 4;
 									<p class='description'>{description}</p>
 									{event.button && (
 										<a
-											class='button'
+											class='button arrow'
 											href={event.button.link}
 											target='_blank'>
 											{event.button.label}
 											<img
 												src='/images/decor/arrow.png'
 												alt=''
-												width='25'
-												height='13'
+												role='presentation'
 											/>
 										</a>
 									)}
@@ -193,29 +192,11 @@ const isLimited = timeline.length < 4;
 								line-height: 1.4em;
 							}
 							.button {
-								display: flex;
-								align-items: center;
 								width: max-content;
-								color: var(--textC2);
-								border: 2px solid var(--textC2);
-								padding: 10px 15px;
-								border-radius: 10px;
-								font-weight: 500;
-								transition: 0.3s ease;
-								img {
-									width: 25px;
-									height: auto;
-									margin-left: 8px;
-									filter: var(--primaryFilter);
-								}
-								&:hover,
-								&:focus {
-									background-color: var(--textC2);
-									color: var(--accentC);
-									img {
-										filter: var(--accentCFilter);
-									}
-								}
+								--accentC: var(--primaryC);
+								--bgC: var(--accentC2);
+								--accentFilter: var(--primaryFilter);
+								--bgFilter: var(--accentC2Filter);
 							}
 						}
 					}

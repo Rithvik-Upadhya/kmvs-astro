@@ -3,7 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import Input from '../../components/global/Input.astro';
 ---
 
-<PageLayout title={'Contact Us'} image='/favicon.png' classes={['contact-us']}>
+<PageLayout title={'Contact Us'} classes={['contact-us']}>
 	<section>
 		<div class='container'>
 			<div id='contactForm'>
@@ -14,7 +14,7 @@ import Input from '../../components/global/Input.astro';
 					data-netlify='true'
 					netlify-honeypot='first-name'>
 					<Input
-						classes={['screen-reader-text']}
+						class='screen-reader-text'
 						id='first-name'
 						label="Don't fill this out if you're human"
 					/>
@@ -64,7 +64,12 @@ import Input from '../../components/global/Input.astro';
 						required
 					/>
 					<div class='form-group'>
-						<input type='submit' id='submit' value='Submit' />
+						<input
+							type='submit'
+							id='submit'
+							value='Submit'
+							class='button'
+						/>
 					</div>
 				</form>
 			</div>
@@ -95,18 +100,8 @@ import Input from '../../components/global/Input.astro';
 						);
 					}
 					input[type='submit'] {
-						color: var(--accentC2);
-						border: 2px solid var(--accentC2);
-						background-color: transparent;
-						padding: 8px 12px;
-						border-radius: 10px;
-						font-weight: 500;
-						transition: 0.3s ease;
-						&:focus,
-						&:hover {
-							background-color: var(--accentC2);
-							color: var(--lightPrimaryC);
-						}
+						--bgC: var(--lightPrimaryC);
+						--accentC: var(--accentC2);
 					}
 				}
 			}
