@@ -30,14 +30,9 @@ const isLimited = focusAreasData.length < 4;
 					} = focusArea;
 					const post_link = `/focus-areas/${id}`;
 					return (
-						<a class='focusArea bordered invert' href={post_link}>
-							{false && (
-								<img
-									class='border'
-									src='/images/decor/border_1.png'
-									alt=''
-								/>
-							)}
+						<a
+							class='focusArea bordered pattern-4 invert'
+							href={post_link}>
 							<div class='card'>
 								{imageData ? (
 									<Picture
