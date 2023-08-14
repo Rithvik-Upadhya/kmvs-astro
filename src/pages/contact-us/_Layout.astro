@@ -1,0 +1,124 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { contactDetailsQuery } from '../../../variables';
+import singleGQL from '../../api/singleGQL';
+import slugify from '../../utils/slugify';
+import toTitleCase from '../../utils/toTitleCase';
+
+const contactDetailsData = await singleGQL('siteDetail', contactDetailsQuery);
+
+const {
+	attributes: { socials, contactDetails },
+} = contactDetailsData;
+
+// creates an object arrays like { phone: [...], email: [...] }
+const groupedContactDetails = contactDetails.reduce((result, item) => {
+	(result[item.type] = result[item.type] || []).push(item);
+	return result;
+}, {});
+
+// converts it into an array of arrays like [ [...], [...] ] that can be looped over without knowing the key values
+const contactDetailsArrays: Array<any> = Object.values(groupedContactDetails);
+---
+
+<PageLayout title={'Contact Us'} classes={['contact-us']}>
+	<section>
+		<div class='container'>
+			<div id='contactForm'>
+				<slot />
+				<div class='contact-details'>
+					<h2>Contact Details</h2>
+					<div class='wrapper'>
+						{
+							contactDetailsArrays.map(contactDetailsArray => (
+								<div
+									class={slugify(
+										contactDetailsArray[0].type
+									)}>
+									<p class='sub-head'>
+										{toTitleCase(
+											contactDetailsArray[0].type
+										)}
+									</p>
+
+									{contactDetailsArray.map(
+										contactDetailsObject => (
+											<p>{contactDetailsObject.detail}</p>
+										)
+									)}
+								</div>
+							))
+						}
+						<div class='socials'>
+							<p class='sub-head'>Social Media</p>
+							{
+								socials.map(social => (
+									<a
+										class='social'
+										href={social.link}
+										title={social.type}>
+										<img
+											src={`/images/icons/${slugify(
+												social.type
+											)}.svg`}
+											alt={`${social.type} icon`}
+										/>
+									</a>
+								))
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</PageLayout>
+
+<style lang='less'>
+	section {
+		.container {
+			#contactForm {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 50px 25px;
+				border-radius: var(--bdRadius);
+				background-color: var(--lightPrimaryC);
+				.contact-details {
+					margin-top: 75px;
+					h2 {
+						margin-bottom: 20px;
+					}
+					.wrapper {
+						display: grid;
+						grid-template-columns: repeat(
+							auto-fill,
+							minmax(200px, 280px)
+						);
+						gap: 40px 60px;
+						.socials {
+							a.social {
+								display: inline-block;
+								margin-right: 8px;
+
+								img {
+									width: 30px;
+									filter: none;
+								}
+
+								&:hover,
+								&:focus {
+									img {
+										filter: var(--accentC1Filter);
+									}
+								}
+							}
+						}
+					}
+					.sub-head {
+						margin-bottom: 5px;
+					}
+				}
+			}
+		}
+	}
+</style>

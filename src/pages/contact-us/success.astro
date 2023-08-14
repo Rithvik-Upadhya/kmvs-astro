@@ -1,12 +1,8 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import Input from '../../components/global/Input.astro';
+import Layout from './_Layout.astro';
 ---
 
-<PageLayout
-	title={'Contact Form Submitted'}
-	image='/favicon.png'
-	classes={['contact-us']}>
+<Layout>
 	<section>
 		<div class='container'>
 			<div id='contactForm'>
@@ -20,17 +16,12 @@ import Input from '../../components/global/Input.astro';
 			</div>
 		</div>
 	</section>
-</PageLayout>
+</Layout>
 
 <style lang='less'>
 	section {
 		.container {
 			#contactForm {
-				margin: 0 auto;
-				max-width: 700px;
-				padding: 50px 25px;
-				border-radius: var(--bdRadius);
-				background-color: var(--lightPrimaryC);
 				.success-message {
 					color: var(--textC1);
 					text-align: center;
