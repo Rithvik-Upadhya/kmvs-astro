@@ -17,7 +17,7 @@ import { SEO } from 'astro-seo';
 const siteDetails = await singleGQL('siteDetail', siteDetailsQuery);
 
 const {
-	attributes: { name, tagline },
+	attributes: { name, seoTagline },
 } = siteDetails;
 ---
 
@@ -29,7 +29,7 @@ const {
 			{title}
 			titleTemplate={`%s - ${name}`}
 			titleDefault={name}
-			description={tagline}
+			description={seoTagline}
 			noindex={true}
 			nofollow={true}
 			openGraph={{

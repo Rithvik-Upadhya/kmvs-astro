@@ -23,7 +23,7 @@ const isLimited = focusAreasData.length < 4;
 					const {
 						id,
 						attributes: {
-							name,
+							title,
 							excerpt,
 							featuredImage: { data: imageData },
 						},
@@ -53,8 +53,8 @@ const isLimited = focusAreasData.length < 4;
 									<PlaceholderImage />
 								)}
 								<div class='content'>
-									<h3 title={name} class='lc_2'>
-										{name}
+									<h3 {title} class='lc_2'>
+										{title}
 									</h3>
 									<hr />
 									<p class='excerpt lc_4'>{excerpt}</p>
