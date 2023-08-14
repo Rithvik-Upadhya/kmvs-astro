@@ -50,11 +50,10 @@ export const focusAreasQuery = `
         data {
           id
           attributes {
-            name
+            title
             featuredImage {
               data {
                 attributes {
-                  name
                   alternativeText
                   url
                 }
@@ -107,7 +106,25 @@ export const siteDetailsQuery = `
         data {
           attributes {
             name
-            tagline
+            seoTagline
+          }
+        }
+      }
+    }
+`;
+export const contactDetailsQuery = `
+    query {
+      siteDetail {
+        data {
+          attributes {
+            socials {
+              type
+              link
+            }
+            contactDetails {
+              type
+              detail
+            }
           }
         }
       }

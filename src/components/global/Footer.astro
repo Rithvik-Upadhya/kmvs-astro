@@ -1,9 +1,9 @@
 ---
 import Performance from './Performance.astro';
 import singleGQL from '../../api/singleGQL';
-import { footerQuery } from '../../../variables';
+import { footerQuery, contactDetailsQuery } from '../../../variables';
 import Input from './Input.astro';
-
+import slugify from '../../utils/slugify';
 const footerData = await singleGQL('footerMenu', footerQuery);
 
 const {
@@ -11,6 +11,12 @@ const {
 } = footerData;
 const hasQuickLinks = submenus.length > 0 && submenus[0].menuItems.length > 0;
 const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
+
+const contactDetailsData = await singleGQL('siteDetail', contactDetailsQuery);
+
+const {
+	attributes: { socials },
+} = contactDetailsData;
 ---
 
 <footer>
@@ -29,6 +35,23 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 						</>
 					)
 				}
+				<div class='socials'>
+					{
+						socials.map(social => (
+							<a
+								class='social'
+								href={social.link}
+								title={social.type}>
+								<img
+									src={`/images/icons/${slugify(
+										social.type
+									)}.svg`}
+									alt={`${social.type} icon`}
+								/>
+							</a>
+						))
+					}
+				</div>
 			</div>
 			<div class='footer-nl'>
 				<p class='nl-title'>Subscribe to our newsletter</p>
@@ -162,6 +185,26 @@ const hasEndLinks = submenus.length > 1 && submenus[1].menuItems.length > 0;
 						&:hover,
 						&:focus {
 							opacity: 1;
+						}
+					}
+				}
+				.socials {
+					margin-top: 25px;
+					a.social {
+						display: inline-block;
+						margin-right: 8px;
+
+						img {
+							width: 30px;
+							filter: var(--primaryFilter);
+							opacity: 0.6;
+						}
+
+						&:hover,
+						&:focus {
+							img {
+								opacity: 1;
+							}
 						}
 					}
 				}
