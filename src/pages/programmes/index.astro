@@ -1,0 +1,174 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Input from '../../components/global/Input.astro';
+import singleGQL from '../../api/singleGQL';
+import { Picture } from '@astrojs/image/components';
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
+
+import { programmesQuery, focusAreasListQuery } from '../../../variables';
+import slugify from '../../utils/slugify';
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
+
+const programmesData = await singleGQL('programmes', programmesQuery);
+const focusAreasData = await singleGQL('focusAreas', focusAreasListQuery);
+
+const focusAreaOptions = focusAreasData.map(item => item.attributes.title);
+const focusAreaValues = focusAreasData.map(item => `fa-${item.id}`);
+---
+
+<PageLayout title='Programmes' classes={['programmes']}>
+	<section id='programmes'>
+		<div class='container'>
+			<div class='search'>
+				<Input
+					id='keywordInput'
+					label='Keyword Search'
+					icon='/images/icons/search.svg'
+					wrap
+				/>
+				<Input
+					id='tax1Input'
+					label='Filter by Focus Areas'
+					type='select'
+					options={focusAreaOptions}
+					values={focusAreaValues}
+					selectDefault='Select Focus Area'
+					hideLabel={true}
+				/>
+			</div>
+			<div class='post-grid'>
+				{
+					programmesData.map(programme => {
+						const {
+							id,
+							attributes: {
+								name,
+								featuredImage: { data: imageData },
+								excerpt,
+								focusAreas: { data: focusAreasData },
+							},
+						} = programme;
+						const focusAreaIDs = focusAreasData.map(item =>
+							slugify(`fa-${item.id}`)
+						);
+						return (
+							<a
+								class='post bordered pattern-4'
+								href={`/programmes/${slugify(name)}`}
+								aria-label={`Details about ${name}`}
+								data-id={id}
+								data-tax1={focusAreaIDs.join(' ')}>
+								<div class='card'>
+									{imageData ? (
+										<Picture
+											class='featured-image'
+											src={
+												strapi_url +
+												imageData.attributes.url
+											}
+											alt={
+												imageData.attributes
+													.alternativeText || ''
+											}
+											aspectRatio={3 / 2}
+											widths={[500]}
+											sizes='100%'
+											formats={['avif', 'webp']}
+										/>
+									) : (
+										<PlaceholderImage class='featured-image invert' />
+									)}
+									<div class='content'>
+										<h3>{name}</h3>
+										<p class='excerpt lc_5'>{excerpt}</p>
+									</div>
+									<p class='read-more'>
+										Read More
+										<img
+											src='/images/decor/arrow.png'
+											alt=''
+											role='presentation'
+										/>
+									</p>
+								</div>
+							</a>
+						);
+					})
+				}
+			</div>
+		</div>
+	</section>
+</PageLayout>
+
+<script>
+	const keywordInput = document.getElementById('keywordInput');
+	const tax1Input = document.getElementById('tax1Input');
+	let queries = {
+		keywordInput: '',
+		tax1Input: '',
+	};
+	const posts = document.querySelectorAll(
+		'.post-grid .post'
+	) as NodeListOf<HTMLElement>;
+
+	const search = e => {
+		queries[e.target.id] = e.target.value.trim().toLowerCase();
+		console.log(queries);
+		posts.forEach(post => {
+			const title = post
+				.querySelector('h3')
+				.innerText.trim()
+				.toLowerCase();
+			const excerptEl = post.querySelector('.excerpt') as HTMLElement;
+			const excerpt = excerptEl.innerText.trim().toLowerCase();
+			const tax1List = post.dataset.tax1;
+			if (
+				(queries.keywordInput.length < 2 ||
+					title.includes(queries.keywordInput) ||
+					excerpt.includes(queries.keywordInput)) &&
+				(queries.tax1Input === '' ||
+					tax1List.includes(queries.tax1Input))
+			) {
+				post.style.display = 'block';
+			} else {
+				post.style.display = 'none';
+			}
+		});
+	};
+	keywordInput.addEventListener('keyup', search);
+	tax1Input.addEventListener('change', search);
+</script>
+
+<style lang='less' is:global>
+	.search {
+		margin-bottom: 75px;
+		.form-group {
+			max-width: 300px;
+			label[for='keyword'] {
+				font-weight: 400;
+			}
+		}
+	}
+</style>
+
+<style lang='less'>
+	@import '../../styles/variables.less';
+	.search {
+		max-width: 600px;
+		width: 100%;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 25px;
+		@media @s-m {
+			grid-template-columns: 1fr;
+			align-items: middle;
+		}
+	}
+	.post-grid {
+		.post {
+			--accentFilter: var(--accentC3Filter);
+			--opacity: 0.3;
+		}
+	}
+</style>
