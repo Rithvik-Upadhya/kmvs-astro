@@ -23,7 +23,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 						id,
 						attributes: {
 							name,
-							profilePicture,
+							profilePicture: { data: imageData },
 							role,
 							project,
 							about,
@@ -39,12 +39,12 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 							aria-label={`Details about ${name}`}
 							data-key={id}>
 							<div class='card'>
-								{profilePicture.data ? (
+								{imageData ? (
 									<Picture
 										class='featured-image'
 										src={
 											strapi_url +
-											profilePicture.data.attributes.url
+											imageData.attributes.url
 										}
 										alt={`Profile picture of ${name}`}
 										aspectRatio={3 / 2}
