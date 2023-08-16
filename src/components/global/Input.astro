@@ -6,10 +6,14 @@ export interface Props {
 	id: string;
 	label: string;
 	options?: string[];
+	values?: string[];
 	wrap?: boolean;
 	required?: boolean;
 	invert?: boolean;
 	class?: string;
+	icon?: string;
+	selectDefault?: string;
+	hideLabel?: boolean;
 }
 
 const {
@@ -17,10 +21,14 @@ const {
 	id,
 	label,
 	options,
+	values,
 	wrap,
 	required,
 	invert,
 	class: className,
+	icon,
+	selectDefault,
+	hideLabel,
 } = Astro.props;
 ---
 
@@ -31,17 +39,27 @@ const {
 		type ? type : 'text',
 		className,
 	]}>
-	<label for={id}>{label}</label>
+	<label for={id} class:list={[{ 'screen-reader-text': hideLabel }]}
+		>{
+			icon ? (
+				<img src={icon} alt='' class='icon' role='presentation' />
+			) : (
+				''
+			)
+		}{label}</label
+	>
 	{
 		type === 'textarea' ? (
 			<textarea name={id} {id} cols='30' rows='5' />
 		) : type === 'select' && options ? (
 			<select name={id} {id} {required}>
 				<option value='' selected>
-					-- Select --
+					-- {selectDefault || 'Select'} --
 				</option>
-				{options.map(option => (
-					<option value={slugify(option)}>{option}</option>
+				{options.map((option, i) => (
+					<option value={slugify(values ? values[i] : option)}>
+						{option}
+					</option>
 				))}
 			</select>
 		) : (
@@ -55,12 +73,24 @@ const {
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
+		&.text,
+		&.email,
+		&.select {
+			max-width: 350px;
+			width: 100%;
+			margin: 0 auto;
+		}
 		&.screen-reader-text {
 			position: absolute;
 		}
 		label {
 			font-weight: 500;
 			color: var(--textC1);
+			.icon {
+				width: 1em;
+				height: 1em;
+				margin-right: 0.5em;
+			}
 		}
 		input[type='text'],
 		input[type='email'] {
