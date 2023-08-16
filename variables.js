@@ -186,3 +186,44 @@ export const ourTeamQuery = `
       }
     }
 `;
+export const programmesQuery = `
+    query {
+      programmes {
+        data {
+          id
+          attributes {
+            name
+            featuredImage {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+            excerpt
+            focusAreas {
+              data {
+                id
+                attributes {
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+`;
+export const focusAreasListQuery = `
+    query {
+        focusAreas {
+            data {
+                id
+                attributes {
+                    title
+                }
+            }
+        }
+    }
+`;
