@@ -17,7 +17,7 @@ const isLimited = focusAreasData.length < 4;
 			<h2>Focus Areas</h2>
 			<ScrollButtons {isLimited} target='focusAreas' />
 		</div>
-		<div class='focusAreas scroll-container'>
+		<div class='focusAreas post-grid scroll-container'>
 			{
 				focusAreasData.map(focusArea => {
 					const {
@@ -31,12 +31,12 @@ const isLimited = focusAreasData.length < 4;
 					const post_link = `/focus-areas/${id}`;
 					return (
 						<a
-							class='focusArea bordered pattern-4 invert'
+							class='post bordered pattern-4 invert'
 							href={post_link}>
 							<div class='card'>
 								{imageData ? (
 									<Picture
-										class='featuredImage'
+										class='featured-image'
 										src={
 											strapi_url +
 											imageData.attributes.url
@@ -53,11 +53,8 @@ const isLimited = focusAreasData.length < 4;
 									<PlaceholderImage />
 								)}
 								<div class='content'>
-									<h3 {title} class='lc_2'>
-										{title}
-									</h3>
-									<hr />
-									<p class='excerpt lc_4'>{excerpt}</p>
+									<h3 {title}>{title}</h3>
+									<p class='excerpt lc_5'>{excerpt}</p>
 								</div>
 								<p class='read-more'>
 									Read More
@@ -118,6 +115,7 @@ const isLimited = focusAreasData.length < 4;
 			}
 			.focusAreas {
 				--cardWidth: 330px;
+				--padding: 32px;
 				scroll-behavior: smooth;
 				display: grid;
 				grid-template-columns: repeat(
@@ -134,120 +132,124 @@ const isLimited = focusAreasData.length < 4;
 				padding-bottom: 25px;
 				width: calc(100% + 300px);
 				transform: translateX(-150px);
-				.focusArea {
-					display: block;
-					width: var(--cardWidth);
-					height: calc(var(--cardWidth) * 1.638);
-					position: relative;
-					&.bordered::before {
-						--accentFilter: var(--primaryFilter);
-						--opacity: 0.4;
-					}
-					.card {
-						width: 100%;
-						height: 100%;
-						border-radius: var(--bdRadius);
-						overflow: hidden;
-						position: relative;
-						background-color: var(--primaryC);
-						.featuredImage {
-							display: block;
-							width: 100%;
-							// ie. (cardWidth - 2x padding) * 2/3
-							height: calc(var(--cardWidth) * 0.67 - 42px);
-							object-fit: cover;
-						}
-						.content {
-							padding: 20px 20px 60px 20px;
-							color: var(--textC1);
-							background-color: var(--primaryC);
-							transition: transform 0.3s ease;
-							h3 {
-								font-size: 1.3em;
-							}
-							hr {
-								height: 2px;
-								background-color: var(--textC1);
-								opacity: 0.3;
-								border: none;
-								margin: 20px 0;
-							}
-							.excerpt {
-								margin-bottom: 10px;
-								transition: height 0.3s ease;
-							}
-						}
-						.read-more {
-							font-weight: 500;
-							display: flex;
-							align-items: center;
-							position: absolute;
-							bottom: 20px;
-							left: 20px;
-							color: var(--textC1);
-							img {
-								width: 25px;
-								height: 13px;
-								margin-left: 8px;
-								filter: var(--secondaryFilter);
-							}
-						}
-					}
-					&:hover,
-					&:focus {
-						.card {
-							.content {
-								transform: translateY(
-									calc(-2 * var(--lineHeight))
-								);
-								.excerpt {
-									height: calc(6 * var(--lineHeight));
-									-webkit-line-clamp: 6;
-								}
-							}
-						}
-					}
+				.post {
+					--accentFilter: var(--primaryFilter);
+					--opacity: 0.4;
 				}
+				// .focusArea {
+				// 	display: block;
+				// 	width: var(--cardWidth);
+				// 	height: calc(var(--cardWidth) * 1.638);
+				// 	position: relative;
+				// 	&.bordered::before {
+				// 		--accentFilter: var(--primaryFilter);
+				// 		--opacity: 0.4;
+				// 	}
+				// 	.card {
+				// 		width: 100%;
+				// 		height: 100%;
+				// 		border-radius: var(--bdRadius);
+				// 		overflow: hidden;
+				// 		position: relative;
+				// 		background-color: var(--primaryC);
+				// 		.featuredImage {
+				// 			display: block;
+				// 			width: 100%;
+				// 			// ie. (cardWidth - 2x padding) * 2/3
+				// 			height: calc(var(--cardWidth) * 0.67 - 42px);
+				// 			object-fit: cover;
+				// 		}
+				// 		.content {
+				// 			padding: 20px 20px 60px 20px;
+				// 			color: var(--textC1);
+				// 			background-color: var(--primaryC);
+				// 			transition: transform 0.3s ease;
+				// 			h3 {
+				// 				font-size: 1.3em;
+				// 			}
+				// 			hr {
+				// 				height: 2px;
+				// 				background-color: var(--textC1);
+				// 				opacity: 0.3;
+				// 				border: none;
+				// 				margin: 20px 0;
+				// 			}
+				// 			.excerpt {
+				// 				margin-bottom: 10px;
+				// 				transition: height 0.3s ease;
+				// 			}
+				// 		}
+				// 		.read-more {
+				// 			font-weight: 500;
+				// 			display: flex;
+				// 			align-items: center;
+				// 			position: absolute;
+				// 			bottom: 20px;
+				// 			left: 20px;
+				// 			color: var(--textC1);
+				// 			img {
+				// 				width: 25px;
+				// 				height: 13px;
+				// 				margin-left: 8px;
+				// 				filter: var(--secondaryFilter);
+				// 			}
+				// 		}
+				// 	}
+				// 	&:hover,
+				// 	&:focus {
+				// 		.card {
+				// 			.content {
+				// 				transform: translateY(
+				// 					calc(-2 * var(--lineHeight))
+				// 				);
+				// 				.excerpt {
+				// 					height: calc(6 * var(--lineHeight));
+				// 					-webkit-line-clamp: 6;
+				// 				}
+				// 			}
+				// 		}
+				// 	}
+				// }
 			}
 		}
 	}
-	html[style='--fontSize: 20px;']
-		section#focusAreas
-		.container
-		.focusAreas
-		.focusArea,
-	html[style='--fontSize: 22px;']
-		section#focusAreas
-		.container
-		.focusAreas
-		.focusArea {
-		.card .content .excerpt {
-			height: calc(3 * var(--lineHeight));
-			-webkit-line-clamp: 3;
-		}
-		&:hover,
-		&:focus {
-			.card .content .excerpt {
-				height: calc(5 * var(--lineHeight));
-				-webkit-line-clamp: 5;
-			}
-		}
-	}
-	html[style='--fontSize: 24px;']
-		section#focusAreas
-		.container
-		.focusAreas
-		.focusArea {
-		.card .content .excerpt {
-			height: calc(2 * var(--lineHeight));
-			-webkit-line-clamp: 2;
-		}
-		&:hover,
-		&:focus {
-			.card .content .excerpt {
-				height: calc(4 * var(--lineHeight));
-				-webkit-line-clamp: 4;
-			}
-		}
-	}
+	// html[style='--fontSize: 20px;']
+	// 	section#focusAreas
+	// 	.container
+	// 	.focusAreas
+	// 	.focusArea,
+	// html[style='--fontSize: 22px;']
+	// 	section#focusAreas
+	// 	.container
+	// 	.focusAreas
+	// 	.focusArea {
+	// 	.card .content .excerpt {
+	// 		height: calc(3 * var(--lineHeight));
+	// 		-webkit-line-clamp: 3;
+	// 	}
+	// 	&:hover,
+	// 	&:focus {
+	// 		.card .content .excerpt {
+	// 			height: calc(5 * var(--lineHeight));
+	// 			-webkit-line-clamp: 5;
+	// 		}
+	// 	}
+	// }
+	// html[style='--fontSize: 24px;']
+	// 	section#focusAreas
+	// 	.container
+	// 	.focusAreas
+	// 	.focusArea {
+	// 	.card .content .excerpt {
+	// 		height: calc(2 * var(--lineHeight));
+	// 		-webkit-line-clamp: 2;
+	// 	}
+	// 	&:hover,
+	// 	&:focus {
+	// 		.card .content .excerpt {
+	// 			height: calc(4 * var(--lineHeight));
+	// 			-webkit-line-clamp: 4;
+	// 		}
+	// 	}
+	// }
 </style>
