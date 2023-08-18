@@ -215,5 +215,12 @@ html.contrast .placeholder {
   background-color: var(--lightPrimaryC) !important;
 }
 html.contrast .placeholder img {
-  filter: var(--secondaryFilter);
+  filter: var(--secondaryFilter) !important;
+}
+html.contrast .accordion .button::after {
+  filter: var(--accessibilityFilter) !important;
+}
+html.contrast .accordion .button:hover,
+html.contrast .accordion .button:focus {
+  outline: 2px solid var(--accessibilityC) !important;
 }

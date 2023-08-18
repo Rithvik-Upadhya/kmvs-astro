@@ -5,11 +5,14 @@ import singleGQL from '../../api/singleGQL';
 import { Picture } from '@astrojs/image/components';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 
-import { programmesQuery, focusAreasListQuery } from '../../../variables';
+import {
+	programmesCollectionQuery,
+	focusAreasListQuery,
+} from '../../../variables';
 import slugify from '../../utils/slugify';
 const strapi_url = import.meta.env.VITE_STRAPI_URL;
 
-const programmesData = await singleGQL('programmes', programmesQuery);
+const programmesData = await singleGQL('programmes', programmesCollectionQuery);
 const focusAreasData = await singleGQL('focusAreas', focusAreasListQuery);
 
 const focusAreaOptions = focusAreasData.map(item => item.attributes.title);

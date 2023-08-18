@@ -333,7 +333,22 @@ html.contrast {
         background-color: var(--lightPrimaryC) !important;
 
         img {
-            filter: var(--secondaryFilter);
+            filter: var(--secondaryFilter) !important;
+        }
+    }
+
+    // accordion
+
+    .accordion {
+        .button {
+            &::after {
+                filter: var(--accessibilityFilter) !important;
+            }
+
+            &:hover,
+            &:focus {
+                outline: 2px solid var(--accessibilityC) !important;
+            }
         }
     }
 }

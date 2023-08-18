@@ -1,0 +1,174 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import cleanHTML from '../utils/cleanHTML';
+import { Picture } from '@astrojs/image/components';
+import PlaceholderImage from '../components/PlaceholderImage.astro';
+
+export interface Props {
+	title: string;
+	image?: any;
+	classes?: string[];
+	tags?: Array<any>;
+	description?: string;
+}
+
+const { title, image, classes, tags, description } = Astro.props;
+
+const strapi_url = import.meta.env.VITE_STRAPI_URL;
+---
+
+<BaseLayout
+	{title}
+	image={image ? image.attributes.url : '/android-chrome-512x512.png'}
+	{classes}>
+	<section id='title'>
+		<div class='container'>
+			<div class='overview'>
+				<div class='content'>
+					<p class='collection'>Programme</p>
+					<h1>{title}</h1>
+					{
+						tags.map(tag => (
+							<div class='tag'>
+								<span>{tag.attributes.title}</span>
+							</div>
+						))
+					}
+					<Fragment
+						class='description'
+						set:html={cleanHTML(description)}
+					/>
+				</div>
+				<div class='image'>
+					{
+						image ? (
+							<Picture
+								class='featured-image'
+								src={strapi_url + image.attributes.url}
+								alt={image.attributes.alternativeText || ''}
+								aspectRatio={3 / 2}
+								widths={[1000]}
+								sizes='100%'
+								formats={['avif', 'webp']}
+							/>
+						) : (
+							<PlaceholderImage class='featured-image invert' />
+						)
+					}
+				</div>
+			</div>
+			<div class='border-bottom'></div>
+		</div>
+	</section>
+	<slot />
+</BaseLayout>
+
+<style lang='less' is:global>
+	#content {
+		section:last-child {
+			position: relative;
+			padding-bottom: 75px;
+			&::after {
+				position: absolute;
+				content: '';
+				background-image: url('/images/decor/separator_1.svg');
+				background-repeat: repeat-x;
+				background-size: 26px;
+				filter: var(--secondaryFilter);
+				width: 100%;
+				height: 20px;
+				bottom: 3px;
+			}
+		}
+	}
+</style>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+	#title {
+		.container {
+			padding-bottom: 75px;
+			.overview {
+				display: grid;
+				grid-gap: 50px;
+				padding-bottom: 25px;
+				padding-top: 25px;
+				@media @s-d {
+					grid-template-columns: minmax(420px, 1fr) minmax(
+							320px,
+							420px
+						);
+				}
+				@media @s-nd {
+					grid-template-columns: 1fr;
+				}
+				.content {
+					.collection {
+						text-transform: uppercase;
+						margin-bottom: 30px;
+						font-size: 0.9em;
+					}
+					h1 {
+						margin-bottom: 15px;
+					}
+					.tag {
+						position: relative;
+						width: max-content;
+						padding: 8px 15px;
+						margin-bottom: 20px;
+						&::before {
+							position: absolute;
+							content: '';
+							background-color: var(--accentC1);
+							opacity: 0.1;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							border-radius: var(--bdRadius);
+							z-index: 0;
+						}
+						span {
+							position: relative;
+							z-index: 1;
+						}
+					}
+				}
+				.image {
+					@media @s-d {
+						padding-top: 55px;
+					}
+					.featured-image {
+						width: 100%;
+						border-radius: var(--bdRadius);
+						overflow: hidden;
+						box-shadow: var(--shadow1);
+						@media @s-t {
+							display: block;
+							width: 500px;
+						}
+					}
+				}
+			}
+			.border-bottom {
+				width: 100%;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100%;
+				height: 50px;
+				filter: var(--accentC1Filter);
+				transform: translateY(25px);
+
+				@media @s-d {
+					background-image: url('/images/decor/title-separator-2000w.png');
+				}
+				@media @s-t {
+					background-image: url('/images/decor/title-separator-1400w.png');
+				}
+				@media @s-m {
+					background-image: url('/images/decor/title-separator-1000w.png');
+				}
+			}
+		}
+	}
+</style>
