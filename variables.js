@@ -186,7 +186,7 @@ export const ourTeamQuery = `
       }
     }
 `;
-export const programmesQuery = `
+export const programmesCollectionQuery = `
     query {
       programmes {
         data {
@@ -225,5 +225,63 @@ export const focusAreasListQuery = `
                 }
             }
         }
+    }
+`;
+export const programmesQuery = `
+    query {
+      programmes {
+        data {
+          id
+          attributes {
+            name
+            featuredImage {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+            gallery {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                  caption
+                }
+              }
+            }
+            description
+            sections {
+              title
+              content
+            }
+            focusAreas {
+              data {
+                attributes {
+                  title
+                }
+              }
+            }
+            resources {
+              data {
+                attributes {
+                  name
+                  featuredImage {
+                    data {
+                      attributes {
+                        url 
+                        alternativeText
+                      }
+                    }
+                  }
+                  excerpt
+                }
+              }
+            }
+            
+          }
+        }
+      }
     }
 `;
