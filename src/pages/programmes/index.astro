@@ -2,7 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import Input from '../../components/global/Input.astro';
 import singleGQL from '../../api/singleGQL';
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 
 import {
@@ -63,7 +63,7 @@ const focusAreaValues = focusAreasData.map(item => `fa-${item.id}`);
 								data-tax1={focusAreaIDs.join(' ')}>
 								<div class='card'>
 									{imageData ? (
-										<Picture
+										<Image
 											class='featured-image'
 											src={
 												strapi_url +
@@ -73,10 +73,9 @@ const focusAreaValues = focusAreasData.map(item => `fa-${item.id}`);
 												imageData.attributes
 													.alternativeText || ''
 											}
-											aspectRatio={3 / 2}
-											widths={[500]}
-											sizes='100%'
-											formats={['avif', 'webp']}
+											height={400}
+											width={600}
+											format='webp'
 										/>
 									) : (
 										<PlaceholderImage class='featured-image invert' />

@@ -1,5 +1,5 @@
 ---
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import PlaceholderImage from '../PlaceholderImage.astro';
 import ScrollButtons from '../ScrollButtons.astro';
 
@@ -41,7 +41,7 @@ const isLimited = timeline.length < 4;
 										alt=''
 									/>
 									{imageData ? (
-										<Picture
+										<Image
 											class='featured-image'
 											src={
 												strapi_url +
@@ -51,9 +51,9 @@ const isLimited = timeline.length < 4;
 												imageData.attributes
 													.alternativeText || ''
 											}
-											widths={[375]}
-											aspectRatio={3 / 2}
-											formats={['webp', 'avif']}
+											width={375}
+											height={250}
+											format='webp'
 										/>
 									) : (
 										<PlaceholderImage class='featured-image' />
@@ -165,6 +165,7 @@ const isLimited = timeline.length < 4;
 								display: block;
 								width: 100%;
 								height: calc(var(--cardWidth) * 0.666 - 18px);
+								object-fit: cover;
 								border-radius: var(--bdRadius);
 							}
 							.border {

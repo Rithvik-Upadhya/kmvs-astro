@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import cleanHTML from '../utils/cleanHTML';
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import PlaceholderImage from '../components/PlaceholderImage.astro';
 
 export interface Props {
@@ -42,14 +42,13 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 				<div class='image'>
 					{
 						image ? (
-							<Picture
+							<Image
 								class='featured-image'
 								src={strapi_url + image.attributes.url}
 								alt={image.attributes.alternativeText || ''}
-								aspectRatio={3 / 2}
-								widths={[1000]}
-								sizes='100%'
-								formats={['avif', 'webp']}
+								width={1050}
+								height={700}
+								format='webp'
 							/>
 						) : (
 							<PlaceholderImage class='featured-image invert' />
@@ -140,6 +139,7 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 					}
 					.featured-image {
 						width: 100%;
+						height: auto;
 						border-radius: var(--bdRadius);
 						overflow: hidden;
 						box-shadow: var(--shadow1);

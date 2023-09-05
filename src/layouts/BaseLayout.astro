@@ -13,6 +13,7 @@ import Footer from '../components/global/Footer.astro';
 import { siteDetailsQuery } from '../../variables';
 import singleGQL from '../api/singleGQL';
 import { SEO } from 'astro-seo';
+import { ViewTransitions } from 'astro:transitions';
 
 const siteDetails = await singleGQL('siteDetail', siteDetailsQuery);
 
@@ -89,6 +90,7 @@ const {
 			defer
 			data-domain='kmvs.org.in'
 			src='https://analytics.kmvs.org.in/js/script.js'></script>
+		<ViewTransitions />
 	</head>
 	<body class={'kmvs ' + classes.join(' ')}>
 		<div class='wrapper'>

@@ -1,6 +1,6 @@
 ---
 import singleGQL from '../../api/singleGQL';
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import { focusAreasQuery } from '../../../variables';
 import PlaceholderImage from '../PlaceholderImage.astro';
 import ScrollButtons from '../ScrollButtons.astro';
@@ -35,7 +35,7 @@ const isLimited = focusAreasData.length < 4;
 							href={post_link}>
 							<div class='card'>
 								{imageData ? (
-									<Picture
+									<Image
 										class='featured-image'
 										src={
 											strapi_url +
@@ -45,9 +45,9 @@ const isLimited = focusAreasData.length < 4;
 											imageData.attributes
 												.alternativeText || ''
 										}
-										widths={[375]}
-										aspectRatio={3 / 2}
-										formats={['webp', 'avif']}
+										width={375}
+										height={250}
+										format='webp'
 									/>
 								) : (
 									<PlaceholderImage />

@@ -7,7 +7,7 @@ export interface Props {
 
 const { id, label, members } = Astro.props;
 
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import cleanHTML from '../../utils/cleanHTML';
 const strapi_url = import.meta.env.VITE_STRAPI_URL;
@@ -40,17 +40,16 @@ const strapi_url = import.meta.env.VITE_STRAPI_URL;
 							data-key={id}>
 							<div class='card'>
 								{imageData ? (
-									<Picture
+									<Image
 										class='featured-image'
 										src={
 											strapi_url +
 											imageData.attributes.url
 										}
 										alt={`Profile picture of ${name}`}
-										aspectRatio={3 / 2}
-										widths={[500]}
-										sizes='100%'
-										formats={['avif', 'webp']}
+										width={600}
+										height={400}
+										format='webp'
 									/>
 								) : (
 									<PlaceholderImage class='featured-image invert' />

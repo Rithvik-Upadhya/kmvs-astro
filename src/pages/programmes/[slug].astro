@@ -4,7 +4,7 @@ import { programmesQuery } from '../../../variables';
 import slugify from '../../utils/slugify';
 import cleanHTML from '../../utils/cleanHTML';
 import PostLayout from '../../layouts/PostLayout.astro';
-import { Picture } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
 	const programmesData = await singleGQL('programmes', programmesQuery);
@@ -71,11 +71,12 @@ const {
 						<h2>Image Gallery</h2>
 						<div class='scroll-container'>
 							{galleryData.map(image => (
-								<Picture
+								<Image
 									src={strapi_url + image.attributes.url}
 									alt={image.attributes.alternativeText || ''}
-									widths={[600, 1000]}
-									aspectRatio={'3:2'}
+									width={900}
+									height={600}
+									format='webp'
 								/>
 							))}
 						</div>
@@ -200,6 +201,7 @@ const {
 					transform: translateX(-150px);
 					img {
 						height: 240px;
+						width: auto;
 						border-radius: var(--bdRadius);
 					}
 				}
@@ -219,6 +221,7 @@ const {
 				margin: 0;
 				img {
 					width: 100%;
+					height: auto;
 				}
 				figcaption {
 					text-align: center;

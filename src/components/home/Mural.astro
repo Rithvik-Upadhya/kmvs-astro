@@ -45,6 +45,7 @@ const { tagline, metrics } = Astro.props;
 <script>
 	window.addEventListener('load', setMuralSource);
 	window.addEventListener('resize', setMuralSource);
+	document.addEventListener('astro:page-load', setMuralSource);
 	function setMuralSource() {
 		const mural = document.querySelector('#mural img') as HTMLImageElement;
 		const screenWidth = window.innerWidth;
