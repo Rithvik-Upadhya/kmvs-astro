@@ -73,7 +73,7 @@ const {
 							{galleryData.map(image => (
 								<Picture
 									src={strapi_url + image.attributes.url}
-									alt={image.attributes.alternativeText}
+									alt={image.attributes.alternativeText || ''}
 									widths={[600, 1000]}
 									aspectRatio={'3:2'}
 								/>

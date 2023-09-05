@@ -119,6 +119,7 @@ const {
 			border: none;
 			outline: 2px solid transparent;
 			&:focus {
+				outline-offset: 0;
 				outline: 2px solid var(--accentC3);
 			}
 		}
@@ -166,7 +167,7 @@ const {
 			&:focus-within label,
 			input:focus ~ label,
 			label.input-filled {
-				transform: scale(0.9) translateY(-0.8em);
+				transform: scale(0.9) translateY(-0.76em);
 				transform-origin: bottom left;
 				transition: transform 0.1s cubic-bezier(0.39, 0.575, 0.565, 1);
 				height: -webkit-max-content;
@@ -176,8 +177,8 @@ const {
 				background: linear-gradient(
 					180deg,
 					rgba(255, 255, 255, 0) 40%,
-					var(--lightPrimaryC) 41%,
-					var(--lightPrimaryC) 65%,
+					var(--primaryC) 41%,
+					var(--primaryC) 65%,
 					rgba(255, 255, 255, 0) 66%
 				);
 			}
