@@ -56,8 +56,11 @@ const {
 </nav>
 
 <script>
-	// accessibility functions //
-	document.addEventListener('DOMContentLoaded', event => {
+	document.addEventListener('astro:page-load', setupMainNav);
+	document.addEventListener('DOMContentLoaded', setupMainNav);
+
+	function setupMainNav() {
+		// accessibility functions //
 		// get all the submenu buttons
 		const submenuButtons = document.querySelectorAll('.submenu-btn');
 		const desktopMenu = document.querySelector('.nav-wrapper.desktop');
@@ -108,5 +111,5 @@ const {
 				});
 			}
 		});
-	});
+	}
 </script>

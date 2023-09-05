@@ -4,7 +4,7 @@
 
 <p class='js-perf'></p>
 <script>
-	const perf = () => {
+	function setupPerformanceMetric() {
 		const $perf = document.querySelector('.js-perf');
 
 		if ($perf) {
@@ -16,8 +16,8 @@
 				$perf.innerHTML += `Page loaded in ${loadTime}s.`;
 			});
 		}
-	};
-	perf();
+	}
+	setupPerformanceMetric();
 </script>
 <style lang='less'>
 	.js-perf {

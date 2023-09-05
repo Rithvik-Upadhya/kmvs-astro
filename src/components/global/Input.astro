@@ -206,24 +206,28 @@ const {
 </style>
 
 <script>
-	const inputWraps = document.querySelectorAll('.input-wrap');
+	document.addEventListener('astro:page-load', setupStickyLabel);
+	document.addEventListener('DOMContentLoaded', setupStickyLabel);
 
-	function checkForInput(input, label) {
-		input.value.length > 0
-			? label.classList.add('input-filled')
-			: label.classList.remove('input-filled');
-	}
-
-	inputWraps.forEach(inputWrap => {
-		const input = inputWrap.querySelector('input');
-		const label = inputWrap.querySelector('label');
-
-		if (input && label) {
-			checkForInput(input, label);
-
-			input.addEventListener('input', () => {
-				checkForInput(input, label);
-			});
+	function setupStickyLabel() {
+		function checkForInput(input, label) {
+			input.value.length > 0
+				? label.classList.add('input-filled')
+				: label.classList.remove('input-filled');
 		}
-	});
+		const inputWraps = document.querySelectorAll('.input-wrap');
+
+		inputWraps.forEach(inputWrap => {
+			const input = inputWrap.querySelector('input');
+			const label = inputWrap.querySelector('label');
+
+			if (input && label) {
+				checkForInput(input, label);
+
+				input.addEventListener('input', () => {
+					checkForInput(input, label);
+				});
+			}
+		});
+	}
 </script>

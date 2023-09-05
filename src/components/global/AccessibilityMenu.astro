@@ -65,7 +65,10 @@
 
 <script>
 	// keyboard focus function //
-	document.addEventListener('DOMContentLoaded', event => {
+	document.addEventListener('astro:page-load', setupAccessibilityMenu);
+	document.addEventListener('DOMContentLoaded', setupAccessibilityMenu);
+
+	function setupAccessibilityMenu() {
 		// get accessibility menu and toggle
 		const accessibilityMenu = document.querySelector('#AUI');
 		const AUItoggle = accessibilityMenu.querySelector('.AUItoggle');
@@ -103,11 +106,15 @@
 				accessibilityMenu.classList.remove('open');
 			}
 		});
-	});
+	}
+	setupAccessibilityMenu();
 </script>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
+	document.addEventListener('astro:page-load', setupAccessibilityCookies);
+	document.addEventListener('DOMContentLoaded', setupAccessibilityCookies);
+
+	function setupAccessibilityCookies() {
 		function getCookie(name) {
 			var match = document.cookie.match(new RegExp(name + '=([^;]+)'));
 			return match ? match[1] : null;
@@ -221,7 +228,7 @@
 			).getPropertyValue('--fontSize');
 			document.documentElement.style.setProperty('--fontSize', fontSize);
 		}
-	});
+	}
 </script>
 
 <style lang='less'>

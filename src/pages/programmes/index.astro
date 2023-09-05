@@ -103,42 +103,46 @@ const focusAreaValues = focusAreasData.map(item => `fa-${item.id}`);
 </PageLayout>
 
 <script>
-	const keywordInput = document.getElementById('keywordInput');
-	const tax1Input = document.getElementById('tax1Input');
-	let queries = {
-		keywordInput: '',
-		tax1Input: '',
-	};
-	const posts = document.querySelectorAll(
-		'.post-grid .post'
-	) as NodeListOf<HTMLElement>;
+	document.addEventListener('astro:page-load', setupSearch);
+	function setupSearch() {
+		const keywordInput = document.getElementById('keywordInput');
+		const tax1Input = document.getElementById('tax1Input');
+		let queries = {
+			keywordInput: '',
+			tax1Input: '',
+		};
+		const posts = document.querySelectorAll(
+			'.post-grid .post'
+		) as NodeListOf<HTMLElement>;
 
-	const search = e => {
-		queries[e.target.id] = e.target.value.trim().toLowerCase();
-		console.log(queries);
-		posts.forEach(post => {
-			const title = post
-				.querySelector('h3')
-				.innerText.trim()
-				.toLowerCase();
-			const excerptEl = post.querySelector('.excerpt') as HTMLElement;
-			const excerpt = excerptEl.innerText.trim().toLowerCase();
-			const tax1List = post.dataset.tax1;
-			if (
-				(queries.keywordInput.length < 2 ||
-					title.includes(queries.keywordInput) ||
-					excerpt.includes(queries.keywordInput)) &&
-				(queries.tax1Input === '' ||
-					tax1List.includes(queries.tax1Input))
-			) {
-				post.style.display = 'block';
-			} else {
-				post.style.display = 'none';
-			}
-		});
-	};
-	keywordInput.addEventListener('keyup', search);
-	tax1Input.addEventListener('change', search);
+		const search = e => {
+			queries[e.target.id] = e.target.value.trim().toLowerCase();
+			console.log(queries);
+			posts.forEach(post => {
+				const title = post
+					.querySelector('h3')
+					.innerText.trim()
+					.toLowerCase();
+				const excerptEl = post.querySelector('.excerpt') as HTMLElement;
+				const excerpt = excerptEl.innerText.trim().toLowerCase();
+				const tax1List = post.dataset.tax1;
+				if (
+					(queries.keywordInput.length < 2 ||
+						title.includes(queries.keywordInput) ||
+						excerpt.includes(queries.keywordInput)) &&
+					(queries.tax1Input === '' ||
+						tax1List.includes(queries.tax1Input))
+				) {
+					post.style.display = 'block';
+				} else {
+					post.style.display = 'none';
+				}
+			});
+		};
+		keywordInput.addEventListener('keyup', search);
+		tax1Input.addEventListener('change', search);
+	}
+	setupSearch();
 </script>
 
 <style lang='less' is:global>

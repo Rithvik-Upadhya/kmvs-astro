@@ -44,53 +44,29 @@ const logo = '/images/logo.svg';
 </header>
 
 <script>
-	// skip link
-	const skipLink = document.querySelector('.skip-link') as HTMLElement;
-	skipLink.addEventListener('click', scrollToContent);
-	function scrollToContent(event: Event) {
-		event.preventDefault();
-		const content = document.querySelector('#content') as HTMLElement;
-		const offset = content.offsetTop;
+	document.addEventListener('astro:page-load', setupHeader);
+	document.addEventListener('DOMContentLoaded', setupHeader);
+	function setupHeader() {
+		// skip link
+		const skipLink = document.querySelector('.skip-link') as HTMLElement;
+		skipLink.addEventListener('click', scrollToContent);
+		function scrollToContent(event: Event) {
+			event.preventDefault();
+			const content = document.querySelector('#content') as HTMLElement;
+			const offset = content.offsetTop;
 
-		content.focus();
+			content.focus();
 
-		window.scrollTo({
-			top: offset,
-			behavior: 'smooth',
-		});
-	}
-
-	// sticky header function //
-	let lastScrollTop = 0;
-	// set classes on header based on scroll position and direction
-	window.addEventListener('scroll', () => {
-		let scrollTop = window.scrollY;
-		const header = document.querySelector('header');
-
-		scrollTop > 0
-			? header.classList.add('scrolling')
-			: header.classList.remove('scrolling');
-
-		scrollTop > 300
-			? header.classList.add('auto-hide')
-			: header.classList.remove('auto-hide');
-
-		if (scrollTop > lastScrollTop && scrollTop > 300) {
-			header.classList.remove('up');
-			header.classList.add('down');
-		} else if (scrollTop < lastScrollTop && scrollTop > 300) {
-			header.classList.remove('down');
-			header.classList.add('up');
-		} else {
-			header.classList.remove('up');
-			header.classList.remove('down');
+			window.scrollTo({
+				top: offset,
+				behavior: 'smooth',
+			});
 		}
-		lastScrollTop = scrollTop;
-	});
 
-	document.addEventListener(
-		'DOMContentLoaded',
-		function () {
+		// sticky header function //
+		let lastScrollTop = 0;
+		// set classes on header based on scroll position and direction
+		window.addEventListener('scroll', () => {
 			let scrollTop = window.scrollY;
 			const header = document.querySelector('header');
 
@@ -101,45 +77,75 @@ const logo = '/images/logo.svg';
 			scrollTop > 300
 				? header.classList.add('auto-hide')
 				: header.classList.remove('auto-hide');
-		},
-		false
-	);
 
-	// mobile menu open and close //
-	const mobileNavWrapper = document.querySelector(
-			'.nav-wrapper.mobile'
-		) as HTMLElement,
-		flyout = mobileNavWrapper.querySelector('#flyout') as HTMLElement,
-		openFlyoutBtn = mobileNavWrapper.querySelector(
-			'.open-flyout'
-		) as HTMLElement,
-		closeFlyoutBtn = flyout.querySelector('.close-flyout') as HTMLElement;
-	// open and close buttons
-	openFlyoutBtn.addEventListener('click', event => {
-		event.preventDefault();
-
-		mobileNavWrapper.classList.add('open');
-		openFlyoutBtn.setAttribute('aria-expanded', 'true');
-		flyout.focus();
-		document.body.style.overflow = 'hidden';
-	});
-	closeFlyoutBtn.addEventListener('click', event => {
-		event.preventDefault();
-		mobileNavWrapper.classList.remove('open');
-		openFlyoutBtn.setAttribute('aria-expanded', 'false');
-		openFlyoutBtn.focus();
-		document.body.style.overflow = 'auto';
-	});
-	// close on focus out
-	flyout.addEventListener('focusout', () => {
-		// delay the changing of attribute to check if focus shifted within the submenu or outside
-		setTimeout(function () {
-			if (!flyout.contains(document.activeElement)) {
-				openFlyoutBtn.setAttribute('aria-expanded', 'false');
-				mobileNavWrapper.classList.remove('open');
+			if (scrollTop > lastScrollTop && scrollTop > 300) {
+				header.classList.remove('up');
+				header.classList.add('down');
+			} else if (scrollTop < lastScrollTop && scrollTop > 300) {
+				header.classList.remove('down');
+				header.classList.add('up');
+			} else {
+				header.classList.remove('up');
+				header.classList.remove('down');
 			}
-		}, 0);
-	});
+			lastScrollTop = scrollTop;
+		});
+
+		document.addEventListener(
+			'DOMContentLoaded',
+			function () {
+				let scrollTop = window.scrollY;
+				const header = document.querySelector('header');
+
+				scrollTop > 0
+					? header.classList.add('scrolling')
+					: header.classList.remove('scrolling');
+
+				scrollTop > 300
+					? header.classList.add('auto-hide')
+					: header.classList.remove('auto-hide');
+			},
+			false
+		);
+
+		// mobile menu open and close //
+		const mobileNavWrapper = document.querySelector(
+				'.nav-wrapper.mobile'
+			) as HTMLElement,
+			flyout = mobileNavWrapper.querySelector('#flyout') as HTMLElement,
+			openFlyoutBtn = mobileNavWrapper.querySelector(
+				'.open-flyout'
+			) as HTMLElement,
+			closeFlyoutBtn = flyout.querySelector(
+				'.close-flyout'
+			) as HTMLElement;
+		// open and close buttons
+		openFlyoutBtn.addEventListener('click', event => {
+			event.preventDefault();
+
+			mobileNavWrapper.classList.add('open');
+			openFlyoutBtn.setAttribute('aria-expanded', 'true');
+			flyout.focus();
+			document.body.style.overflow = 'hidden';
+		});
+		closeFlyoutBtn.addEventListener('click', event => {
+			event.preventDefault();
+			mobileNavWrapper.classList.remove('open');
+			openFlyoutBtn.setAttribute('aria-expanded', 'false');
+			openFlyoutBtn.focus();
+			document.body.style.overflow = 'auto';
+		});
+		// close on focus out
+		flyout.addEventListener('focusout', () => {
+			// delay the changing of attribute to check if focus shifted within the submenu or outside
+			setTimeout(function () {
+				if (!flyout.contains(document.activeElement)) {
+					openFlyoutBtn.setAttribute('aria-expanded', 'false');
+					mobileNavWrapper.classList.remove('open');
+				}
+			}, 0);
+		});
+	}
 </script>
 
 <style lang='less' is:global>
